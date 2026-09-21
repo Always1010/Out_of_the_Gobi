@@ -14,9 +14,9 @@
 
 ## 人物传记地图
 
-打开 [biography/dist/index.html](biography/dist/index.html)，先看整体地理旅程，再进入七幕人生、具体场景与同行人物。页面可离线阅读，每个场景附原书章节、PDF物理页与短引文。
+打开 [biography/dist/index.html](biography/dist/index.html)，从认识单伟建开始，一步一步读原书经历，再进入投资与写作的书外续篇。地图、人物与34个原书场景在相关处按需展开，页面可离线阅读，来源和影像均有出处。
 
-设计方案见 [biography/DESIGN.md](biography/DESIGN.md)，重建与校验方式见 [biography/README.md](biography/README.md)。
+当前带读方案见 [biography/GUIDED_READING.md](biography/GUIDED_READING.md)，重建与校验方式见 [biography/README.md](biography/README.md)。
 
 ## 重建阅读器
 
