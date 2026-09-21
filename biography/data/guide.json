@@ -1,0 +1,751 @@
+{
+  "version": 2,
+  "title": "一步一步，读懂单伟建",
+  "reviewed_at": "2026-09-22",
+  "steps": [
+    {
+      "id": "meet",
+      "part": "orientation",
+      "label": "先认识这个人",
+      "title": "单伟建是怎样走到这里的？",
+      "date": "从失学少年，到投资人与作者",
+      "place": "北京 → 戈壁 → 美国 → 香港",
+      "map": "pacific",
+      "route": [
+        "beijing",
+        "wulate",
+        "beijing",
+        "sanfrancisco",
+        "philadelphia",
+        "hongkong"
+      ],
+      "stops": [
+        "beijing",
+        "wulate",
+        "sanfrancisco",
+        "philadelphia",
+        "hongkong"
+      ],
+      "stage": null,
+      "paragraphs": [
+        "理解单伟建，可以先记住四个身份：失学的少年、戈壁的劳动者、重新求学的学生与教授，以及后来进入金融业的投资人。每一次转换，都要面对不同的问题。",
+        "《走出戈壁》主要讲的是前三段经历，以及1993年转向投资银行工作的那个路口。它也在后记中写到2005年重返戈壁：已经走得很远的他，重新见到仍留在当地的故人。",
+        "我们先顺着这本书读他怎样获得学习、离开和选择的机会，再补读后来的投资与写作经历。一路留意两件事：他自己做了什么，又有哪些人和条件让改变成为可能。"
+      ],
+      "takeaway": "先看人生中的处境如何改变，再看每次选择。",
+      "bridge": "要理解他为什么如此渴望读书，先回到那次突然中断的教育。",
+      "events": [
+        "early-books-from-fire",
+        "return-to-asia",
+        "return-old-neighbours"
+      ],
+      "people": [],
+      "photo": null,
+      "source_ids": [],
+      "source_note": ""
+    },
+    {
+      "id": "school",
+      "part": "book",
+      "label": "读书的愿望从哪里来",
+      "title": "学校停了，他仍然想读书",
+      "date": "1966年前后",
+      "place": "北京",
+      "map": "china",
+      "route": [],
+      "stops": [
+        "beijing"
+      ],
+      "stage": "childhood",
+      "paragraphs": [
+        "小时候的单伟建爱读科普书和小说，也喜欢动手。在少年科技馆，他从简单的矿石收音机学起，试着把元件焊接起来。听见自己做的收音机发声，学习给他的快乐非常具体。",
+        "小学毕业后，他准备参加升学考试，考试却被取消，入学也没有了确定的日子。大院里开始焚书，他趁人不注意把书捡回家。正规的学校教育中断了，阅读在偶然的缝隙中继续。",
+        "这段经历留下的不只是“爱读书”的习惯。多年后进入美国大学，他还要补上从少年时代起缺失的数学训练。教育中断的后果，远比停课的那几年长。"
+      ],
+      "takeaway": "失学使“重新获得完整的教育”成为一个长期愿望。",
+      "bridge": "1969年，他离开北京。接下来的六年里，首先要解决的却是怎样活下去。",
+      "events": [
+        "early-radio-workshop",
+        "early-books-from-fire",
+        "early-family-hunger",
+        "early-village-question",
+        "berkeley-math"
+      ],
+      "people": [
+        "parents"
+      ],
+      "photo": "childhood",
+      "source_ids": [],
+      "source_note": ""
+    },
+    {
+      "id": "gobi",
+      "part": "book",
+      "label": "先理解他的处境",
+      "title": "十五岁，到戈壁重新学会生活",
+      "date": "1969—1971年",
+      "place": "北京 → 乌拉特前旗、乌梁素海",
+      "map": "china",
+      "route": [
+        "beijing",
+        "wulate",
+        "wuliang"
+      ],
+      "stops": [
+        "beijing",
+        "wulate",
+        "wuliang"
+      ],
+      "stage": "survival",
+      "paragraphs": [
+        "1969年9月5日，十五岁的单伟建带着父母准备的行李离开北京。漫长的火车和卡车旅程后，迎接他的是荒漠中的草棚。宣传中的生活，与他真正面对的饥饿和寒冷相距很远。",
+        "在冰封的乌梁素海，他和刘小彤尝试改变打芦苇的分工，提高了效率。但分工不能解决所有问题：母亲寄来的手套、朋友借出的鞋帽，也关系到他能不能熬过严冬。",
+        "另一次劳动中，他与同伴连续挖渠三十一小时，完工后却得知渠段因地势问题被废弃。能吃苦，与劳动是否有用，原来是两回事。他开始想离开，同时仍不得不在这里生活。"
+      ],
+      "takeaway": "这六年的起点，是生存与缺少选择；理解这一点，才能理解后来离开的分量。",
+      "bridge": "当离开暂时没有可能，他还能为自己做些什么？",
+      "events": [
+        "early-beijing-to-gobi",
+        "early-potatoes-letter-home",
+        "early-reed-division-of-labor",
+        "gobi-canal-31-hours",
+        "gobi-winter-borrowed-warmth"
+      ],
+      "people": [
+        "li-baoquan",
+        "liu-xiaotong",
+        "li-rongtian",
+        "cui-xianchao"
+      ],
+      "photo": "survival",
+      "source_ids": [],
+      "source_note": ""
+    },
+    {
+      "id": "keep-learning",
+      "part": "book",
+      "label": "在困境里保留可能",
+      "title": "一盏灯、一本书，和身边的人",
+      "date": "1971—1973年",
+      "place": "戈壁的营房、工具棚与猪班",
+      "map": "china",
+      "route": [],
+      "stops": [
+        "wulate",
+        "wuliang"
+      ],
+      "stage": "possibility",
+      "paragraphs": [
+        "单伟建没有等到回学校才开始学习。他在工具棚里搭起桌凳，遮住煤油灯读书；从制砖劳动想到机器；读《赤脚医生手册》，又在于医生推荐下接受卫生员训练。知识开始与眼前能做的事相连。",
+        "被下放养猪的易空，是其中一位重要的老师。这位航空专家与他谈见闻、借阅书籍，也提醒他少凭意气行事。人仍在戈壁，想象中的世界却渐渐变大。",
+        "他也逐渐发现，与人相处是生活的一部分。遭遇批判后，他每天拿出时间串门，学习做排球裁判。读书、动手与结交朋友，并没有立刻带来出路，却让他在机会来临时多了一些准备。"
+      ],
+      "takeaway": "他保留可能的方式很具体：持续学习，也向身边的人学习。",
+      "bridge": "有了准备和同伴的支持，是否就能离开？两次招生让他发现，事情远没有那么简单。",
+      "events": [
+        "gobi-barefoot-training",
+        "gobi-child-in-clinic",
+        "gobi-brick-machine",
+        "gobi-yi-kong",
+        "gobi-reading-and-making-friends"
+      ],
+      "people": [
+        "yi-kong",
+        "doctor-yu",
+        "gao-xiaorong",
+        "li-rongtian"
+      ],
+      "photo": "possibility",
+      "source_ids": [],
+      "source_note": ""
+    },
+    {
+      "id": "leave-gobi",
+      "part": "book",
+      "label": "转折怎样真正发生",
+      "title": "得票第二，为什么仍然走不了？",
+      "date": "1974—1975年",
+      "place": "戈壁 → 北京",
+      "map": "china",
+      "route": [
+        "wulate",
+        "beijing"
+      ],
+      "stops": [
+        "wulate",
+        "beijing"
+      ],
+      "stage": "possibility",
+      "paragraphs": [
+        "1974年招生，他在推荐投票中得票第二，最终名单却没有他。此前，他与朋友曾写信反映兵团的问题；作者后来把这次落选与信件被转回兵团联系起来。群众支持、学校需要和组织批准，并不是同一件事。",
+        "次年，他再次得票第二，仍经历候补、体检和审批的反复。战友与于医生在不同环节相助，他自己的阅读和写作积累也终于派上用场：招生考试的一篇五页作文，让学校看到了他的准备。",
+        "1975年9月14日，正式批准终于传来。他当晚就走，火车开动后才放下心。离开时竟忘记带上朝夕相伴的铁锹。这次转折包含努力、他人的帮助和特定的机会，任何一项都不足以独自解释结果。"
+      ],
+      "takeaway": "离开戈壁，是多年准备与有限机会终于相接的一刻。",
+      "bridge": "回到北京，他得到的不只是一个新地址，而是能稳定读书的生活。",
+      "events": [
+        "gobi-letter-on-horseback",
+        "gobi-1974-rejected",
+        "gobi-1975-alternate",
+        "gobi-exam-ready",
+        "gobi-leaving-same-day"
+      ],
+      "people": [
+        "doctor-yu",
+        "li-rongtian",
+        "li-baoquan"
+      ],
+      "photo": null,
+      "source_ids": [],
+      "source_note": ""
+    },
+    {
+      "id": "beijing",
+      "part": "book",
+      "label": "重新得到一间课堂",
+      "title": "回来了，还想把失去的教育补回来",
+      "date": "1975—1980年",
+      "place": "北京",
+      "map": "china",
+      "route": [],
+      "stops": [
+        "beijing"
+      ],
+      "stage": "classroom",
+      "paragraphs": [
+        "六年后回到北京，电灯、热水和足够的饭食已让他满足。在外贸学院，他重新练习英语听说，纠正自学时留下的问题。被送回兵团的噩梦却反复出现，过去没有随着离开立刻消失。",
+        "这一时期，他认识并与石滨结婚。石滨经历过唐山地震中的家庭丧失，两个人从贫困的条件中建立自己的家庭。此后的远行，也将不断牵动她的工作、照护和生活。",
+        "后来，联合国翻译工作的机会与赴美访问学习的机会同时出现。前者待遇优厚，还可以夫妻同行；他仍选择必须独自赴美的学习项目，因为想继续接受正规教育、获得学位。"
+      ],
+      "takeaway": "当选择开始出现时，他首先想争取的是继续学习的机会。",
+      "bridge": "但到了美国，访问学者的身份，并不自动通向他想要的学位。",
+      "events": [
+        "return-to-beijing",
+        "marry-shibin",
+        "choose-study-over-un",
+        "tiananmen-1976"
+      ],
+      "people": [
+        "shibin"
+      ],
+      "photo": "classroom",
+      "source_ids": [],
+      "source_note": ""
+    },
+    {
+      "id": "first-america",
+      "part": "book",
+      "label": "愿望遇到现实门槛",
+      "title": "想拿学位，学费从哪里来？",
+      "date": "1980—1982年",
+      "place": "旧金山",
+      "map": "pacific",
+      "route": [
+        "beijing",
+        "sanfrancisco"
+      ],
+      "stops": [
+        "beijing",
+        "sanfrancisco"
+      ],
+      "stage": "pacific",
+      "paragraphs": [
+        "1980年8月28日，单伟建第一次来到美国。到了旧金山大学，他才发现旁听课程不能获得学位。教授们帮他寻找合适的修课方案，但学费仍没有着落。他决定先继续学下去。",
+        "第一学期之后，一笔匿名捐款解决了学费。后来才知道，捐助者是卡苏夫妇。资助生活费结束后，卡洪夫妇又提供住处和工作机会，让他有条件完成课程。",
+        "他在1981年圣诞节前读完MBA课程，次年返京。这个学位是自己的学习成果，也包含许多人具体的付出。从这里看“个人奋斗”，就能看到它背后的人。"
+      ],
+      "takeaway": "通往学位的路，既需要学习能力，也需要实际的资源和援手。",
+      "bridge": "拿到第一个研究生学位之后，他决定继续读博士。少年时代的教育缺口，又一次出现在面前。",
+      "events": [
+        "usf-degree-obstacle",
+        "anonymous-donor-mba"
+      ],
+      "people": [
+        "casous",
+        "calhouns"
+      ],
+      "photo": null,
+      "source_ids": [],
+      "source_note": ""
+    },
+    {
+      "id": "berkeley",
+      "part": "book",
+      "label": "怎样补上缺失的部分",
+      "title": "一本线性代数，读了七遍",
+      "date": "1982—1985年",
+      "place": "柏克莱",
+      "map": "usa",
+      "route": [],
+      "stops": [
+        "berkeley"
+      ],
+      "stage": "pacific",
+      "paragraphs": [
+        "1982年，带着全额奖学金，他到加州大学柏克莱分校读博士。录取并没有消除学业困难：小学以后长期缺少正规数学训练，使他在课程面前感到吃力。",
+        "他把线性代数课本读了七遍，也听取耶伦的建议，调整修课顺序。改变学习方法与投入时间，同样重要。耶伦又介绍他担任提斯的助教；在回答学生问题的过程中，他逐渐学会教学。",
+        "之后，他开始研究大型制药企业与生物技术初创企业的合作，走访公司、建立数据库。他不再只是追赶遗漏的课程，而是学习提出自己的问题、形成研究。"
+      ],
+      "takeaway": "从补课到研究，关键变化是开始形成自己的问题与方法。",
+      "bridge": "课堂以外，还有一段同样重要、却容易在学历履历里消失的经历：一家人的分离与团聚。",
+      "events": [
+        "berkeley-math",
+        "teacher-researcher"
+      ],
+      "people": [
+        "yellen",
+        "teece"
+      ],
+      "photo": "pacific",
+      "source_ids": [],
+      "source_note": ""
+    },
+    {
+      "id": "family",
+      "part": "book",
+      "label": "把家庭放回这段人生",
+      "title": "他在求学，石滨也在跨越障碍",
+      "date": "1983—1985年",
+      "place": "北京 ↔ 旧金山湾区",
+      "map": "pacific",
+      "route": [
+        "beijing",
+        "berkeley"
+      ],
+      "stops": [
+        "beijing",
+        "berkeley"
+      ],
+      "stage": "pacific",
+      "paragraphs": [
+        "1983年4月13日，儿子出生，单伟建在太平洋另一边得知消息。石滨在北京一面工作，一面照顾病母和婴儿。留学既是他的机会，也是两个人共同承担的分离。",
+        "1984年6月30日，石滨终于来到美国，孩子却仍留在北京。第二年暑假，她又为儿子的出国手续奔走。直到1985年八月底，一家三口才在湾区相聚。",
+        "学生公寓并不宽裕，但一家人终于能共同生活。之后从西海岸到华盛顿、再到费城与香港，每一次职业迁移都包含家庭的选择与安排。"
+      ],
+      "takeaway": "理解他的远行，需要同时看见石滨的工作、照护和行动。",
+      "bridge": "学位即将完成，他终于可以在不同职业之间作选择。但自由选择并不意味着从此没有阻碍。",
+      "events": [
+        "family-reunion",
+        "phd-world-bank"
+      ],
+      "people": [
+        "shibin",
+        "parents"
+      ],
+      "photo": null,
+      "source_ids": [],
+      "source_note": ""
+    },
+    {
+      "id": "choose",
+      "part": "book",
+      "label": "从等待安排，到主动选择",
+      "title": "当选择变多，他为什么又离开？",
+      "date": "1986—1993年",
+      "place": "柏克莱 → 华盛顿 → 费城 → 香港",
+      "map": "pacific",
+      "route": [
+        "berkeley",
+        "washington",
+        "philadelphia",
+        "hongkong"
+      ],
+      "stops": [
+        "berkeley",
+        "washington",
+        "philadelphia",
+        "hongkong"
+      ],
+      "stage": "choices",
+      "paragraphs": [
+        "1986年12月完成博士后，他先到世界银行工作，随后接受沃顿商学院的教职。从等待审批才能离开戈壁，到在不同机构的聘请之间选择，这是一个显著的改变。",
+        "教授的生活仍有波折。1988年，全家因签证材料被错填而面临离境危机。同事、校友、律师与旧上司相助，问题才逐渐解决。即使已经走到这里，个人仍会受到制度与身份的限制。",
+        "任教六年后，研究已不能完全满足他。他希望参与正在发生的经济变化，1993年接受投资银行的工作，全家迁居香港。《走出戈壁》的正文就在这个新职业开始的地方收束。"
+      ],
+      "takeaway": "他逐渐有了主动选择的空间，也开始把研究经济转向参与经济活动。",
+      "bridge": "进入投资经历之前，先把原书的最后一段读完：2005年，他回到了戈壁。",
+      "events": [
+        "phd-world-bank",
+        "wharton-choice",
+        "visa-crisis",
+        "return-to-asia"
+      ],
+      "people": [
+        "shibin",
+        "teece"
+      ],
+      "photo": "choices",
+      "source_ids": [],
+      "source_note": ""
+    },
+    {
+      "id": "return",
+      "part": "book",
+      "label": "读到这里，再看“走出”的意义",
+      "title": "他走出去了，其他人呢？",
+      "date": "2005年7月",
+      "place": "香港 → 北京 → 内蒙古",
+      "map": "china",
+      "route": [
+        "hongkong",
+        "beijing",
+        "baotou",
+        "wulate",
+        "wuliang"
+      ],
+      "stops": [
+        "hongkong",
+        "beijing",
+        "baotou",
+        "wuliang"
+      ],
+      "stage": "return",
+      "paragraphs": [
+        "离开三十年后，单伟建利用一次工作调研重返戈壁。有些地方出现了新楼房与新的生活，旧营房和土地却已很难辨认。",
+        "李永芝仍一眼认出了他；她与王双喜留在当地养猪谋生。他又偶遇二狗，坐上对方的摩托车，去找当年打芦苇的驻地。共同经历过相似的青春，后来的人生却走向了不同的地方。",
+        "原书在这样的重逢中结束。回头看，读懂单伟建，不只是记住他后来得到了什么，也要记住他离开的处境、帮助过他的人，以及没有获得同样机会的故人。"
+      ],
+      "takeaway": "个人经历的意义，也在与他人命运的对照之中。",
+      "bridge": "原书主线读到这里。接下来切换到书外资料，回到1993年的职业转向，继续了解投资人与作者这两个身份。",
+      "events": [
+        "return-old-neighbours",
+        "return-reed-ruins"
+      ],
+      "people": [
+        "old-neighbours",
+        "ergou"
+      ],
+      "photo": "return",
+      "source_ids": [],
+      "source_note": ""
+    },
+    {
+      "id": "beyond-banker",
+      "part": "extension",
+      "date": "1993—1998；1998 年转入私募股权",
+      "place": "香港及亚洲",
+      "stage": null,
+      "events": [],
+      "people": [],
+      "photo": null,
+      "source_ids": [
+        "pag-bio"
+      ],
+      "source_note": "任职年份依据 PAG 官方履历。不能据此推断他从 1993 年第一天就持有最终头衔，也不据此编造转职动机。",
+      "label": "书外续篇 · 身份的变化",
+      "title": "从解释经济，到参与商业决策",
+      "paragraphs": [
+        "先把时间拨回1993年。《走出戈壁》留下的职业路口，随后通向了投资银行和私募股权。PAG官方履历记载，单伟建于1993至1998年间在J.P. Morgan工作并兼任中国首席代表，1998年转入新桥资本。",
+        "这两类工作有所不同：投资银行可以帮助企业完成融资与交易；私募股权投资者则用资金持有企业股权，并可能参与治理。对读者而言，先分清角色，后面的银行收购故事就更容易理解。",
+        "回看前面的求学经历，我们可以提出一个问题：原先用于研究企业的知识，进入真实交易之后，要怎样面对不同参与者的利益与责任？这是接下来阅读的角度，而不是已被证明的个人成功公式。"
+      ],
+      "takeaway": "先看他在交易中扮演什么角色，再看交易产生什么结果。",
+      "bridge": "其中一段重要经历发生在韩国。它可以帮助我们认识单伟建作为谈判参与者的一面。",
+      "route": [
+        "philadelphia",
+        "hongkong"
+      ],
+      "stops": [
+        "philadelphia",
+        "hongkong"
+      ],
+      "map": "pacific"
+    },
+    {
+      "id": "beyond-korea",
+      "part": "extension",
+      "date": "1998—2005",
+      "place": "韩国·首尔",
+      "stage": null,
+      "events": [],
+      "people": [],
+      "photo": null,
+      "source_ids": [
+        "usc-talk",
+        "fsc-terms",
+        "sc-history",
+        "wiley-games"
+      ],
+      "source_note": "区分协议达成与完成收购。大学介绍确认其主要参与角色；书中谈判过程属于当事人叙述，不能把机构转型归为一人之功。",
+      "label": "书外续篇 · 韩国第一银行",
+      "title": "一笔收购，为什么需要多年？",
+      "paragraphs": [
+        "亚洲金融危机之后，新桥参与收购韩国第一银行，单伟建在其中担任主要角色。监管记录显示，1998年先有备忘录，1999年签署投资条款；银行官方沿革把新桥完成收购记在2000年1月20日。",
+        "因此，阅读这段经历时，不能把宣布交易、谈成条件和真正接手混为一谈。2005年4月15日，渣打接手这家银行，构成这段机构历史的另一个节点。",
+        "单伟建后来在《Money Games》中讲述了谈判与重整的过程。这是重要的当事人视角；银行的变化还涉及政府、管理层、员工与其他参与者。可以带着“各方怎样建立合作”这个问题继续读，而不仅仅寻找某个人的秘诀。"
+      ],
+      "takeaway": "交易是一个过程；看见各方的作用，才能理解谈判者的工作。",
+      "bridge": "随后把目光转向深圳：这次我们关注的，是收购完成以后怎样参与一家机构的变化。",
+      "route": [],
+      "stops": [
+        "seoul"
+      ],
+      "map": "china"
+    },
+    {
+      "id": "beyond-shenzhen",
+      "part": "extension",
+      "date": "2004—2010",
+      "place": "中国·深圳",
+      "stage": null,
+      "events": [],
+      "people": [],
+      "photo": null,
+      "source_ids": [
+        "pingan-2009",
+        "pingan-2010",
+        "usc-talk",
+        "wiley-machine"
+      ],
+      "source_note": "日期与持股身份来自交易当事机构公告；经营改善是多人和机构共同作用的结果。出版社宣传中的“唯一”“最成功”等说法不纳入正文。",
+      "label": "书外续篇 · 深圳发展银行",
+      "title": "收购之后，才是新的开始",
+      "paragraphs": [
+        "2004年，新桥成为深圳发展银行的战略投资者和最大股东，单伟建是这笔交易的重要参与者。2010年5月7日，新桥所持股份完成向中国平安的过户。这里的年份来自交易当事机构公告。",
+        "后来出版的《Money Machine》，是他对这段经历的回顾。它提供了参与者怎样理解交易与经营变化的视角；同期公告则能帮助我们确定发生了什么、何时发生。两种材料回答的问题不同，可以对照着读。",
+        "从人生经历看，这一阶段让“投资人”变得更具体：不仅要促成交易，还要面对收购之后的治理与组织问题。理解这些问题，需要把团队和制度一起放进画面。"
+      ],
+      "takeaway": "把“完成一笔交易”与“让机构持续运作”分开看，才能看见后续责任。",
+      "bridge": "2010年起，他的角色再次变化：工作不再只围绕一笔交易，还围绕一个投资机构。",
+      "route": [],
+      "stops": [
+        "shenzhen"
+      ],
+      "map": "china"
+    },
+    {
+      "id": "beyond-pag",
+      "part": "extension",
+      "date": "2010 年起",
+      "place": "香港及亚太地区",
+      "stage": null,
+      "events": [],
+      "people": [],
+      "photo": null,
+      "source_ids": [
+        "pag-bio"
+      ],
+      "source_note": "不把 PAG 描述为单伟建一人从零创办，也不将 2010 年私募业务设立与 2011 年品牌重启混为一谈。最后半句为依据角色变化作出的编辑概括。",
+      "label": "书外续篇 · 组织与团队",
+      "title": "从做交易，到建设一个机构",
+      "paragraphs": [
+        "PAG官方历史记载，单伟建在2010年创立其私募股权业务。同年，这项业务与另外两项投资业务联合，次年以PAG品牌重新推出。这里包含既有团队与业务的汇合，并非一个人从零开始的故事。",
+        "截至2026年9月22日核查，PAG官网将他列为执行董事长和联合创始人。与单笔交易相比，这个角色让我们把目光移向组织：怎样与他人合作，怎样让经验成为团队可以延续的能力？",
+        "这也是阅读人物履历时值得停一下的地方。职务名称可以很短，但它无法独自说明工作的内容，更不能替代对其他共同建设者的认识。"
+      ],
+      "takeaway": "一个人的经历进入机构之后，要和团队的历史一起理解。",
+      "bridge": "后来，他又选择用书来讲述过去。我们可以直接听听，他怎样理解自己的经历。",
+      "route": [],
+      "stops": [
+        "hongkong"
+      ],
+      "map": "china"
+    },
+    {
+      "id": "beyond-author",
+      "part": "extension",
+      "date": "2019—2023",
+      "place": "面向中美及跨文化读者",
+      "stage": null,
+      "events": [],
+      "people": [],
+      "photo": null,
+      "source_ids": [
+        "wiley-gobi",
+        "wiley-games",
+        "wiley-machine",
+        "cuhk-2022",
+        "usc-talk"
+      ],
+      "source_note": "出版日期按具体版次：Money Games 首版为 2020 年 10 月，2023 年有修订版；PAG 简历写 2021，可能混用版本，不以之覆盖出版社书目。Out of the Gobi 不同地区书目月份有差异，正文仅写 2019。本人价值观标为分享时的自述。",
+      "label": "书外续篇 · 回望与表达",
+      "title": "把人生写成书，也把问题留给读者",
+      "paragraphs": [
+        "2019年出版的《Out of the Gobi》讲述青春、求学与中美经历。《Money Games》首版出版于2020年，转向韩国第一银行；2023年的《Money Machine》则回顾深圳发展银行交易。这几本书提供了进入他不同身份的入口。",
+        "在香港中文大学2022年发布的分享记录中，他谈到运气、判断与持续学习。把这些话放回前面的故事里，会比单独摘一句格言更有意思：学习怎样发挥作用？他人的帮助和时代的机会，又出现在哪里？",
+        "回忆录也有讲述者自己的视角。读完他的解释之后，还可以对照同期公告与其他参与者的记录，继续问：哪些事实可以核实，哪些是他回望人生时赋予的意义？"
+      ],
+      "takeaway": "既听当事人如何理解自己，也保留追问与对照其他资料的空间。",
+      "bridge": "最后，把这段人生收束为几个可以带回自己生活的问题。",
+      "route": [],
+      "stops": [
+        "hongkong"
+      ],
+      "map": "china"
+    },
+    {
+      "id": "reflect",
+      "part": "reflection",
+      "label": "回看这一路",
+      "title": "读完以后，可以留下什么？",
+      "date": "从经历，回到问题",
+      "place": "北京、戈壁、美国与亚洲",
+      "stage": null,
+      "map": "pacific",
+      "route": [],
+      "stops": [
+        "beijing",
+        "wulate",
+        "sanfrancisco",
+        "hongkong"
+      ],
+      "paragraphs": [
+        "第一，准备可以很具体。工具棚里的阅读、反复学习数学、调整修课顺序，都比“坚持就会成功”更值得细看：面对自己缺少的东西，还能改变什么方法？",
+        "第二，重要选择总有共同承担者。石滨在分离中的照护与奔走，卡苏夫妇的资助，战友和导师的帮助，都提醒我们去问：谁让一段个人经历成为可能，又是谁承担了它的代价？",
+        "第三，结果不能解释一切。招生里的阻力、职业中的身份限制，以及2005年仍留在戈壁的故人，让这段人生保留了不能被一句励志结论抹平的部分。",
+        "这些是从材料出发的阅读理解，不是作者给出的统一答案。若想继续发掘，可以回到最触动你的一个场景，读它前后的原文，再形成自己的判断。"
+      ],
+      "takeaway": "看见行动，也看见关系、条件与未被讲完的人生。",
+      "bridge": "主线到这里结束。下面可以回读原书，或沿着一本著作、一次公开分享继续探索。",
+      "events": [
+        "gobi-reading-and-making-friends",
+        "berkeley-math",
+        "family-reunion",
+        "return-old-neighbours"
+      ],
+      "people": [],
+      "photo": null,
+      "source_ids": [],
+      "source_note": ""
+    }
+  ],
+  "places": [
+    {
+      "id": "seoul",
+      "name": "首尔",
+      "lon": 126.98,
+      "lat": 37.57,
+      "precision": "城市级",
+      "note": "韩国第一银行总部城市；此处表示交易涉及的机构所在地，不推断作者某日行程。"
+    },
+    {
+      "id": "shenzhen",
+      "name": "深圳",
+      "lon": 114.06,
+      "lat": 22.55,
+      "precision": "城市级",
+      "note": "深圳发展银行所在地；此处表示业务关联，不推断精确行程。"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pag-bio",
+      "title": "About PAG — Weijian Shan / Our history",
+      "publisher": "PAG",
+      "url": "https://www.pag.com/en/about/",
+      "published_at": null,
+      "accessed_at": "2026-09-22",
+      "supports": "1993—1998 J.P. Morgan；1998—2010 新桥/TPG；2010 创立 PAG 私募业务、三项业务联合；2011 品牌重新推出。",
+      "kind": "本人所在机构官方履历与机构历史"
+    },
+    {
+      "id": "usc-talk",
+      "title": "Weijian Shan on his journey from the Gobi Desert to a becoming a successful financier",
+      "publisher": "USC US-China Institute",
+      "url": "https://china.usc.edu/weijian-shan-his-journey-gobi-desert-becoming-successful-financier",
+      "published_at": "2019-10-30",
+      "accessed_at": "2026-09-22",
+      "supports": "公开演讲与回忆录；介绍其领导韩国第一银行及深圳发展银行收购的角色。",
+      "kind": "大学举办的本人演讲介绍；人物简介仍可能使用主办方取得的本人履历"
+    },
+    {
+      "id": "fsc-terms",
+      "title": "Terms of Investment Signed for the Sale of Korea First Bank",
+      "publisher": "Financial Services Commission, Korea",
+      "url": "https://www.fsc.go.kr/eng/pr010101/21640",
+      "published_at": "1999-09-17",
+      "accessed_at": "2026-09-22",
+      "supports": "1998-12-31 备忘录；1999-09-17 投资条款协议，尚待最终合同。",
+      "kind": "监管机构同期公告"
+    },
+    {
+      "id": "sc-history",
+      "title": "Standard Chartered Korea — History",
+      "publisher": "Standard Chartered Korea",
+      "url": "https://www.standardchartered.co.kr/np/en/cms/cm/bi/EnHistory1.jsp",
+      "published_at": null,
+      "accessed_at": "2026-09-22",
+      "supports": "2000-01-20 新桥收购；2005-04-15 渣打收购。",
+      "kind": "承继银行官方历史"
+    },
+    {
+      "id": "pingan-2009",
+      "title": "Ping An to Become SDB’s Strategic Investor",
+      "publisher": "Ping An",
+      "url": "https://www.pingan.com/about/en/news_106532.jsp",
+      "published_at": "2009-06-22",
+      "accessed_at": "2026-09-22",
+      "supports": "2004 年新桥成为深发展战略投资者及最大股东；公告列有单伟建作为 TPG 合伙人的评论。",
+      "kind": "交易当事机构同期公告"
+    },
+    {
+      "id": "pingan-2010",
+      "title": "深发展第一大股东平稳变更 平安集团完成受让新桥5.2亿股深发展股份",
+      "publisher": "平安银行（原深发展公告）",
+      "url": "https://bank.pingan.com/about/news/2012120197.shtml",
+      "published_at": "2010-05-10",
+      "event_date": "2010-05-07",
+      "accessed_at": "2026-09-22",
+      "supports": "正文记载 2010-05-07 完成新桥股份过户；网页发布时间 05-10。",
+      "kind": "交易完成公告"
+    },
+    {
+      "id": "wiley-gobi",
+      "title": "Out of the Gobi: My Story of China and America",
+      "publisher": "Wiley-VCH / John Wiley & Sons",
+      "url": "https://www.wiley-vch.de/de?isbn=9781119529491&option=com_eshop&title=Out+of+the+Gobi&view=product",
+      "published_at": "2019",
+      "accessed_at": "2026-09-22",
+      "supports": "2019 出版、书名与回忆录主题。",
+      "kind": "出版社书目"
+    },
+    {
+      "id": "wiley-games",
+      "title": "Money Games: The Inside Story of How American Dealmakers Saved Korea's Most Iconic Bank",
+      "publisher": "Wiley",
+      "url": "https://uat.store.wiley.com/en-us/money-games-the-inside-story-of-how-american-dealmakers-saved-korea%27s-most-iconic-bank-p-9781119736981",
+      "published_at": "2020-10",
+      "accessed_at": "2026-09-22",
+      "supports": "ISBN 9781119736981，首版 2020-10；书由交易当事人单伟建叙述新桥收购和重整韩国第一银行。",
+      "kind": "出版社书目；可访问的官方 UAT 商店镜像，主站产品 URL 抓取 403"
+    },
+    {
+      "id": "wiley-machine",
+      "title": "Money Machine: A Trailblazing American Venture in China",
+      "publisher": "Wiley-VCH / John Wiley & Sons",
+      "url": "https://www.wiley-vch.de/en/areas-interest/finance-economics-law/finance-investments-13fi/institutional-corporate-finance-13fi1/money-machine-978-1-394-16120-1",
+      "published_at": "2023-02",
+      "accessed_at": "2026-09-22",
+      "supports": "首版 2023-02；本人记述新桥收购及重整深圳发展银行的经历。",
+      "kind": "出版社书目"
+    },
+    {
+      "id": "cuhk-2022",
+      "title": "Up Close and Personal with the Private Equity Legend Dr. Weijian Shan",
+      "publisher": "CUHK Business School",
+      "url": "https://www.bschool.cuhk.edu.hk/school-news/up-close-and-personal-with-the-private-equity-legend-dr-weijian-shan/",
+      "published_at": "2022-01-10",
+      "event_date": "2022-01-03",
+      "accessed_at": "2026-09-22",
+      "supports": "在 Money Games 中文版活动中，本人谈到 luck and good judgement、live to learn and experience；仅转述观点，不采信宣传性赞誉。",
+      "kind": "大学发布的本人分享记录"
+    }
+  ],
+  "reading_links": [
+    {
+      "label": "听他讲述：从戈壁到美国（USC 演讲）",
+      "url": "https://china.usc.edu/weijian-shan-his-journey-gobi-desert-becoming-successful-financier",
+      "why": "大学公开活动，适合将页面中的概括与本人的讲述相互对照。"
+    },
+    {
+      "label": "读下一本：Money Games",
+      "url": "https://uat.store.wiley.com/en-us/money-games-the-inside-story-of-how-american-dealmakers-saved-korea%27s-most-iconic-bank-p-9781119736981",
+      "why": "想继续了解韩国交易，可读当事人自己的完整叙述。"
+    },
+    {
+      "label": "再往后：Money Machine",
+      "url": "https://www.wiley-vch.de/en/areas-interest/finance-economics-law/finance-investments-13fi/institutional-corporate-finance-13fi1/money-machine-978-1-394-16120-1",
+      "why": "想深入深圳发展银行经历，可读此书；应与同期机构资料对照。"
+    }
+  ]
+}
