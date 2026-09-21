@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#142c3c">
+  <title>走出戈壁 · 单伟建的人生地图</title>
+  <style>/* STYLE */</style>
+</head>
+<body>
+  <a class="skip" href="#reading">跳到叙事正文</a>
+  <header class="masthead">
+    <button class="brand" data-home><span class="book-name">走出戈壁</span><span class="brand-sub">单伟建的人生地图</span></button>
+    <nav class="utilities" aria-label="阅读工具"><button data-people>同行的人</button><button data-about>关于这张地图</button><a href="../../book_reader/site/dist/index.html" target="_blank" rel="noopener">全书阅读 ↗</a></nav>
+  </header>
+  <nav id="act-nav" class="act-nav" aria-label="人生的七幕"></nav>
+  <main class="layout">
+    <section class="map-panel" aria-label="地理旅程">
+      <div class="map-heading"><div><span class="eyebrow">地点如何改变人生</span><h2 id="map-title">跨越太平洋的旅程</h2></div><div class="map-switch" aria-label="地图范围"><button data-view="pacific">全程</button><button data-view="china">中国</button><button data-view="usa">美国</button></div></div>
+      <div class="map-canvas"><svg id="map" viewBox="0 0 960 590" role="img" aria-labelledby="map-a11y-title map-a11y-desc"><title id="map-a11y-title">单伟建人生经历的地理示意</title><desc id="map-a11y-desc">真实海陆轮廓与地点之间的迁移联系。下方地点按钮提供地图的文字入口。</desc></svg></div>
+      <div class="map-foot"><span><i></i>人生迁移</span><span>地点为地域示意 · 连线非实际交通路线</span></div>
+      <div id="place-list" class="place-list" aria-label="本幕地点"></div>
+      <div id="map-context" class="map-context"></div>
+      <div class="thread-entry"><span class="eyebrow">换一条线索重读</span><div id="thread-links"></div><p>同一个问题，在人生的不同阶段会有怎样的回答？</p></div>
+    </section>
+    <article id="reading" class="reading" tabindex="-1" aria-label="人生故事"></article>
+  </main>
+  <footer class="footer">依据《走出戈壁》整理 · 原书正文至1993年，后记至2005年 <button data-about>资料与编排说明</button></footer>
+  <dialog id="detail" aria-labelledby="detail-title"><div class="dialog-toolbar"><span>走出戈壁 / 深入阅读</span><button id="close-detail" aria-label="关闭深入阅读">关闭 ×</button></div><div id="detail-body"></div></dialog>
+  <noscript><p>此页面需要启用 JavaScript 才能展开交互。完整文字可在同目录项目中的 book_reader 阅读器阅读。</p></noscript>
+  <script id="story-data" type="application/json">/* DATA */</script>
+  <script id="land-data" type="application/json">/* LAND */</script>
+  <script>/* SCRIPT */</script>
+</body>
+</html>
