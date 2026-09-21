@@ -5,7 +5,6 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import shutil
 import statistics
 import subprocess
 import tempfile
@@ -15,7 +14,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 BOOK = ROOT / "book_reader"
 PDF = ROOT / "走出戈壁-单伟健.pdf"
-PILOT = ROOT / "pilot20" / "ocr" / "paddle_small"
 OCR_DIR = BOOK / "ocr" / "paddle_small"
 TEXT_DIR = BOOK / "ocr" / "pages"
 INDEX_PATH = BOOK / "ocr" / "pages.json"
@@ -36,15 +34,6 @@ def parse_pages(spec: str) -> list[int]:
     if invalid:
         raise ValueError(f"Page outside 1-{PAGES}: {invalid}")
     return sorted(pages)
-
-
-def import_pilot(page: int) -> bool:
-    source = PILOT / f"page-{page:03d}.json"
-    target = OCR_DIR / source.name
-    if page <= 20 and source.exists() and not target.exists():
-        shutil.copy2(source, target)
-        return True
-    return False
 
 
 def write_text_and_index() -> None:
@@ -85,8 +74,6 @@ def main() -> None:
     TEXT_DIR.mkdir(parents=True, exist_ok=True)
 
     requested = parse_pages(args.pages)
-    for page in requested:
-        import_pilot(page)
     missing = [
         page
         for page in requested
