@@ -8,6 +8,10 @@ import re
 import shutil
 from pathlib import Path
 
+from opencc import OpenCC
+
+from assemble_transcript import to_mainland_simplified
+
 
 ROOT = Path(__file__).resolve().parents[1]
 TEXT = ROOT / "text"
@@ -21,7 +25,7 @@ def plain_text(markdown: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def content_html(markdown: str, title: str) -> str:
+def content_html(markdown: str, title: str, captions: dict[str, list[str]]) -> str:
     chunks: list[str] = []
     paragraph: list[str] = []
 
@@ -44,12 +48,21 @@ def content_html(markdown: str, title: str) -> str:
             flush()
             pdf_page = int(image.group(1))
             image_name = f"page-{image.group(1)}.jpg"
+            page_captions = captions.get(str(pdf_page), [])
+            caption_text = f"原书图片 · PDF 第 {pdf_page} 页"
+            if page_captions:
+                caption_text += " · " + "；".join(page_captions)
+            caption_html = "".join(
+                f'<span class="plate-caption">{html.escape(value)}</span>'
+                for value in page_captions
+            )
             chunks.append(
                 '<figure class="plate">'
                 f'<button class="plate-button" type="button" data-image="images/{image_name}" '
-                f'data-caption="原书图片 · PDF 第 {pdf_page} 页">'
+                f'data-caption="{html.escape(caption_text, quote=True)}">'
                 f'<img src="images/{image_name}" alt="原书图片，PDF 第 {pdf_page} 页" loading="lazy"></button>'
-                f'<figcaption>原书图片 · PDF 第 {pdf_page} 页 · 点击放大</figcaption></figure>'
+                f'<figcaption><span class="plate-source">原书图片 · PDF 第 {pdf_page} 页 · 点击放大</span>'
+                f'{caption_html}</figcaption></figure>'
             )
         elif not line or line == "---":
             flush()
@@ -68,22 +81,33 @@ def write_text(path: Path, value: str) -> None:
 
 def main() -> None:
     chapters = json.loads((TEXT / "chapters.json").read_text(encoding="utf-8"))
+    image_entries = json.loads((ROOT / "images" / "images.json").read_text(encoding="utf-8"))["pages"]
+    image_pages = {str(entry["pdf_page"]) for entry in image_entries}
+    raw_captions = json.loads((ROOT / "images" / "captions.json").read_text(encoding="utf-8"))["pages"]
+    if not set(raw_captions) <= image_pages:
+        raise ValueError("A caption points to a page that is not in the image manifest")
+    converter = OpenCC("tw2sp")
+    captions = {
+        page: [to_mainland_simplified(value, converter) for value in values]
+        for page, values in raw_captions.items()
+    }
     entries = []
     for index, chapter in enumerate(chapters, start=1):
         source = TEXT / "simplified-continuous" / f"{index:02d}-{chapter['id']}.md"
         markdown = source.read_text(encoding="utf-8")
+        image_pages = re.findall(r"<!-- Image plate: .*?page-(\d{3})\.jpg -->", markdown)
+        caption_search = " ".join(value for page in image_pages for value in captions.get(str(int(page)), []))
         entries.append({
             "id": f"section-{index:02d}",
             "number": index,
             "title": chapter["title_simplified"],
             "label": f"第 {chapter['number']} 章" if "number" in chapter else ("后记" if chapter["id"] == "afterword" else "卷首"),
             "pdfPage": chapter["pdf_page_start"],
-            "html": content_html(markdown, chapter["title_simplified"]),
-            "searchText": plain_text(markdown),
+            "html": content_html(markdown, chapter["title_simplified"], captions),
+            "searchText": f"{plain_text(markdown)} {caption_search}".strip(),
         })
 
     DIST.mkdir(parents=True, exist_ok=True)
-    image_entries = json.loads((ROOT / "images" / "images.json").read_text(encoding="utf-8"))["pages"]
     target_images = DIST / "images"
     if target_images.exists():
         shutil.rmtree(target_images)
@@ -142,7 +166,7 @@ STYLES = '''
 #toc { padding-top:12px; } .toc-item { width:100%; display:block; padding:8px 7px; text-align:left; border:0; background:none; color:var(--ink); font:15px/1.35 inherit; cursor:pointer; border-radius:4px; }.toc-item:hover,.toc-item.active { background:#e9efe9; color:var(--pine); }.toc-item .toc-num { display:inline-block; width:31px; color:var(--muted); font-size:12px; }
 #reader { max-width:820px; width:100%; margin:0 auto; padding:41px 54px 88px; }.reader-meta { display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:13px; margin-bottom:25px; }.reader-meta a { color:var(--pine); text-decoration:none; }.reader-meta a:hover { text-decoration:underline; }
 #chapter h1 { margin:0 0 8px; color:var(--pine); font-size:34px; letter-spacing:.08em; font-weight:600; } .chapter-kicker { color:var(--accent); font-size:14px; letter-spacing:.15em; margin-bottom:18px; } #chapter p { margin:0 0 1em; font-size:var(--body-size); line-height:2.05; text-align:justify; text-indent:2em; letter-spacing:.025em; } .scene-break { color:var(--accent); text-align:center; letter-spacing:.45em; margin:2em 0; font-size:15px; }
-.plate { margin:2.6em auto; text-align:center; }.plate-button { max-width:100%; padding:0; border:0; background:transparent; cursor:zoom-in; }.plate img { display:block; max-width:100%; max-height:760px; margin:auto; box-shadow:0 7px 26px #0003; }.plate figcaption { margin-top:10px; font-size:13px; color:var(--muted); }.chapter-nav { display:flex; justify-content:space-between; gap:16px; border-top:1px solid var(--edge); padding-top:27px; margin-top:56px; }.chapter-nav button { padding:9px 14px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:15px inherit; cursor:pointer; }.chapter-nav button:hover:not(:disabled) { background:#edf2ed; }.chapter-nav button:disabled { opacity:.35; cursor:default; }
+.plate { margin:2.6em auto; text-align:center; }.plate-button { max-width:100%; padding:0; border:0; background:transparent; cursor:zoom-in; }.plate img { display:block; max-width:100%; max-height:760px; margin:auto; box-shadow:0 7px 26px #0003; }.plate figcaption { max-width:700px; margin:10px auto 0; font-size:13px; color:var(--muted); line-height:1.7; }.plate-source { display:block; text-align:center; }.plate-caption { display:block; margin-top:7px; text-align:left; }.chapter-nav { display:flex; justify-content:space-between; gap:16px; border-top:1px solid var(--edge); padding-top:27px; margin-top:56px; }.chapter-nav button { padding:9px 14px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:15px inherit; cursor:pointer; }.chapter-nav button:hover:not(:disabled) { background:#edf2ed; }.chapter-nav button:disabled { opacity:.35; cursor:default; }
 .search-results { position:fixed; z-index:10; top:57px; right:96px; width:min(490px,calc(100vw - 30px)); max-height:55vh; overflow:auto; padding:8px; border:1px solid var(--edge); border-radius:0 0 8px 8px; background:var(--paper); box-shadow:0 10px 26px #0003; }.result { width:100%; display:block; text-align:left; padding:11px; border:0; background:transparent; border-bottom:1px solid var(--edge); font:14px/1.55 inherit; cursor:pointer; }.result strong { color:var(--pine); display:block; margin-bottom:3px; }.result:hover { background:#edf2ed; }.visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
 dialog { width:min(1000px,94vw); max-height:94vh; padding:18px; border:0; background:var(--paper); color:var(--ink); box-shadow:0 15px 50px #0008; } dialog::backdrop { background:#000b; } dialog img { display:block; max-width:100%; max-height:80vh; margin:auto; } dialog p { text-align:center; color:var(--muted); } #close-image { float:right; border:0; background:transparent; font-size:29px; cursor:pointer; color:var(--ink); }
 body.dark { --ink:#e5e4dc; --muted:#a7aaa1; --paper:#1c211e; --edge:#3e4740; --pine:#254f45; } body.dark .toc-item:hover,body.dark .toc-item.active,body.dark .chapter-nav button:hover:not(:disabled),body.dark .result:hover { background:#2c3830; } body.dark .search input { background:#eff0eb; color:#20251f; }
