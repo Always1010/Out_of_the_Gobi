@@ -18,6 +18,11 @@ IMAGES = BOOK / "images" / "images.json"
 TRADITIONAL = BOOK / "text" / "traditional"
 SIMPLIFIED = BOOK / "text" / "simplified"
 PAGES = 420
+# Text on these full-page photo or photo-plate scans is a caption, page number,
+# or decorative matter.  It belongs to the preserved image asset, not prose.
+INLINE_IMAGE_TEXT_REMOVALS = {
+    9: ("作者與耶倫，師徒聚首。",),
+}
 
 
 def load_page(page: int) -> tuple[list[str], list[float], list[list[list[float]]]]:
@@ -35,6 +40,13 @@ def repair_star_break(value: str) -> str:
     if re.fullmatch(r"[★大XK]+", value.strip()):
         return "★★★"
     return value
+
+
+def to_mainland_simplified(value: str, converter: OpenCC) -> str:
+    """Apply the small set of Mainland usage choices OpenCC leaves unchanged."""
+    return converter.convert(value).translate(str.maketrans({
+        "牠": "它", "衞": "卫", "敍": "叙", "擡": "抬",
+    }))
 
 
 def chapter_start(chapter: dict) -> int | None:
@@ -87,12 +99,22 @@ def page_paragraphs(page: int) -> list[str]:
     return [repair_star_break("".join(paragraph)) for paragraph in paragraphs if paragraph]
 
 
+def reading_paragraphs(page: int, image_kind: str | None = None) -> list[str]:
+    """Return prose only, keeping images and their captions as image assets."""
+    if image_kind and image_kind != "inline_portrait":
+        return []
+    values = page_paragraphs(page)
+    for phrase in INLINE_IMAGE_TEXT_REMOVALS.get(page, ()):
+        values = [value.replace(phrase, "") for value in values]
+    return [value for value in values if value]
+
+
 def main() -> None:
     missing = [page for page in range(1, PAGES + 1) if not (RAW / f"page-{page:03d}.json").exists()]
     if missing:
         raise RuntimeError(f"OCR is incomplete; {len(missing)} pages are missing, first: {missing[:10]}")
     chapters = json.loads(CHAPTERS.read_text(encoding="utf-8"))
-    image_pages = {item["pdf_page"] for item in json.loads(IMAGES.read_text(encoding="utf-8"))["pages"]}
+    image_records = {item["pdf_page"]: item for item in json.loads(IMAGES.read_text(encoding="utf-8"))["pages"]}
     for directory in (TRADITIONAL, SIMPLIFIED):
         if directory.exists():
             shutil.rmtree(directory)
@@ -107,27 +129,28 @@ def main() -> None:
     resolved.sort(key=lambda item: item["pdf_page_start"])
     CHAPTERS.write_text(json.dumps(resolved, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    converter = OpenCC("t2s")
+    # tw2sp additionally converts Taiwan glyph variants such as 簷 → 檐.
+    converter = OpenCC("tw2sp")
     book_traditional = []
     book_simplified = []
     for index, chapter in enumerate(resolved):
         start = chapter["pdf_page_start"]
         end = resolved[index + 1]["pdf_page_start"] - 1 if index + 1 < len(resolved) else PAGES
         title_traditional = chapter["title_traditional"]
-        title_simplified = converter.convert(title_traditional)
+        title_simplified = to_mainland_simplified(title_traditional, converter)
         traditional = [f"# {title_traditional}", ""]
         simplified = [f"# {title_simplified}", ""]
         for page in range(start, end + 1):
             traditional.append(f"<!-- PDF {page} -->")
             simplified.append(f"<!-- PDF {page} -->")
-            if page in image_pages:
+            image = image_records.get(page)
+            for paragraph in reading_paragraphs(page, image["kind"] if image else None):
+                traditional.extend([paragraph, ""])
+                simplified.extend([to_mainland_simplified(paragraph, converter), ""])
+            if image:
                 marker = f"<!-- Image plate: images/pages/page-{page:03d}.jpg -->"
                 traditional.extend([marker, ""])
                 simplified.extend([marker, ""])
-                continue
-            for paragraph in page_paragraphs(page):
-                traditional.extend([paragraph, ""])
-                simplified.extend([converter.convert(paragraph), ""])
         base = f"{index + 1:02d}-{chapter['id']}"
         (TRADITIONAL / f"{base}.md").write_text("\n".join(traditional).rstrip() + "\n", encoding="utf-8")
         (SIMPLIFIED / f"{base}.md").write_text("\n".join(simplified).rstrip() + "\n", encoding="utf-8")
