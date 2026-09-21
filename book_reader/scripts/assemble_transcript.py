@@ -30,6 +30,13 @@ def normalized(value: str) -> str:
     return re.sub(r"[\s：:，,。\.]+", "", value)
 
 
+def repair_star_break(value: str) -> str:
+    """Normalize OCR variants of the book's three-star scene separator."""
+    if re.fullmatch(r"[★大XK]+", value.strip()):
+        return "★★★"
+    return value
+
+
 def chapter_start(chapter: dict) -> int | None:
     if chapter.get("fixed_pdf_page_start"):
         return int(chapter["fixed_pdf_page_start"])
@@ -77,7 +84,7 @@ def page_paragraphs(page: int) -> list[str]:
             paragraphs.append([])
         paragraphs[-1].append(line)
         previous_y = y
-    return ["".join(paragraph) for paragraph in paragraphs if paragraph]
+    return [repair_star_break("".join(paragraph)) for paragraph in paragraphs if paragraph]
 
 
 def main() -> None:
