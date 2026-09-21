@@ -101,7 +101,9 @@
         "gobi-brick-machine",
         "gobi-barefoot-training",
         "gobi-reading-and-making-friends",
-        "gobi-winter-borrowed-warmth"
+        "gobi-winter-borrowed-warmth",
+        "early-potatoes-letter-home",
+        "gobi-child-in-clinic"
       ],
       "people": [
         "liu-xiaotong",
@@ -599,7 +601,9 @@
       "kind": "history",
       "label": "一位被派去养猪的航空专家，怎样打开他的世界？",
       "date": "",
-      "events": [],
+      "events": [
+        "gobi-yi-kong"
+      ],
       "people": [],
       "source_ids": [],
       "source_refs": [
@@ -2896,14 +2900,15 @@
       "paragraphs": [
         "2010年，单伟建创立PAG的私募股权业务，与原有的不动产、其他投资业务汇合，2011年以PAG品牌重新推出。官网沿革记载，不动产业务来自Jon-Paul Toppino共同创办的Secured Capital Japan，另一项业务源自Chris Gradel共同创办的Pacific Alliance。",
         "因此，PAG的形成包含多支团队的历史。单伟建是联合创始人，而不是独自从零建立所有业务。截至2026年9月核查，官网将其列为执行董事长。",
-        "2017年的盈德交易把机构工作落到一个可见的场景：卖方希望保留更好报价的可能，买方需要承诺的稳定性。双方的顾虑最终通过有条件、有期限的条款安排协调。"
+        "他在2022年《暗涌》访谈中回忆，盈德卖方希望保留更高报价的机会，买方则需要承诺的稳定性。2017年的要约文件记录了双方通过竞争报价、修订期限和承诺恢复条件形成的安排。"
       ],
       "events": [],
       "people": [],
       "source_ids": [
         "pag-bio",
         "hkex-yingde-offer-2017",
-        "yingde-history-official"
+        "yingde-history-official",
+        "waves-2022-shan"
       ],
       "source_refs": [],
       "number": "12",
@@ -2932,7 +2937,8 @@
       "source_ids": [
         "wiley-gobi",
         "wiley-games",
-        "wiley-machine"
+        "wiley-machine",
+        "usf-scholarship-official"
       ],
       "source_refs": [
         {
@@ -3010,7 +3016,7 @@
       "paragraphs": [
         "他在 2022 年《暗涌》采访中回忆，收购盈德时，卖方担心错过更高报价，买方担心已有承诺随时失效。",
         "2017 年要约文件记录了折中安排：符合条件的竞价高出至少 5% 时，相关承诺可以暂停；PAG 则可在规定期限内修改报价，满足条件后恢复承诺。完整条款还规定了截止时间和后续竞价。",
-        "盈德官网确认，PAG 于 2017 年入主并完成私有化。这个节点适合用两方诉求和一张条款示意说明谈判：共同找到可接受的安排，需要把抽象的信任变成具体规则。"
+        "盈德官网确认，PAG于2017年入主并完成私有化。这组条款让双方都保留一定选择，也规定了选择的边界：理解对方的顾虑，最终需要落实为可执行的规则。"
       ],
       "events": [],
       "people": [],
@@ -3132,14 +3138,14 @@
         {
           "id": "admission-peers",
           "label": "张英建与陈德才",
-          "relation": "稀缺机会的另一面"
+          "relation": "机会的另一面"
         }
       ]
     },
     {
       "hub": "h5",
       "x": 1235,
-      "y": 565,
+      "y": 590,
       "history": {
         "id": "history-education-change",
         "label": "1975 入学 ≠ 1977 高考",
@@ -3161,7 +3167,7 @@
     {
       "hub": "h6",
       "x": 880,
-      "y": 565,
+      "y": 590,
       "history": {
         "id": "history-exchanges",
         "label": "留学交流重新打开",
@@ -3183,7 +3189,7 @@
     {
       "hub": "h7",
       "x": 525,
-      "y": 565,
+      "y": 590,
       "history": {
         "id": "history-reassessment",
         "label": "1989—1992 · 判断的改变",
@@ -3205,7 +3211,7 @@
     {
       "hub": "h8",
       "x": 170,
-      "y": 565,
+      "y": 590,
       "history": {
         "id": "history-stayed-behind",
         "label": "同一时代，不同结局",

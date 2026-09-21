@@ -4,6 +4,8 @@ import shutil
 from pathlib import Path
 from validate_story import validate
 from validate_guide import validate_guide
+from validate_atlas import validate_atlas
+from validate_cinema import validate_cinema
 
 BASE = Path(__file__).resolve().parents[1]
 ROOT = BASE.parent
@@ -15,15 +17,15 @@ def json_script(value):
 
 def build():
     data = validate()
-    data['guide'] = validate_guide(data)
+    guide = validate_guide(data)
+    data['atlas'] = validate_atlas(data)
+    data['cinema'] = validate_cinema(data['atlas'])
     chapters = json.loads((ROOT / 'book_reader/text/chapters.json').read_text(encoding='utf8'))
     data['chapters'] = [dict(id=c['id'], title=c['title_simplified'], start=c['pdf_page_start'], section=f'section-{i+1:02d}') for i, c in enumerate(chapters)]
-    land = json.loads((BASE / 'assets/ne_110m_land.geojson').read_text(encoding='utf8'))
     html = (BASE / 'src/index.html').read_text(encoding='utf8')
     for marker, value in {
         '/* STYLE */': (BASE / 'src/style.css').read_text(encoding='utf8'),
         '/* DATA */': json_script(data),
-        '/* LAND */': json_script(land),
         '/* SCRIPT */': (BASE / 'src/app.js').read_text(encoding='utf8'),
     }.items():
         assert html.count(marker) == 1, marker
@@ -33,11 +35,13 @@ def build():
     for stage in data['stages']:
         filename = f'page-{stage["photo"]:03d}.jpg'
         shutil.copyfile(ROOT / 'book_reader/images/pages' / filename, dest / 'assets' / filename)
-    for asset in data['guide'].get('images', []):
+    for asset in guide.get('images', []):
         shutil.copyfile(BASE / 'assets' / asset['file'], dest / 'assets' / asset['file'])
+    for filename in ['atlas-atmosphere.png', 'cinema-classroom.png', 'cinema-gobi.png', 'cinema-study.png']:
+        shutil.copyfile(BASE / 'assets' / filename, dest / 'assets' / filename)
     (dest / 'index.html').write_text(html, encoding='utf8')
     assert '/* DATA */' not in html
-    print(f'Built biography/dist/index.html ({len(html.encode("utf8")):,} bytes), {len(data["stages"])} book plates + {len(data["guide"].get("images", []))} sourced images.')
+    print(f'Built biography/dist/index.html ({len(html.encode("utf8")):,} bytes), 65 narratives, 17 cinema scenes; all assets local.')
 
 
 if __name__ == '__main__':

@@ -50,7 +50,7 @@ def validate_atlas(story=None):
     visible = []
     for c in data['clusters']:
         visible += [c['hub'], c['history']['id']] + [b['id'] for b in c['branches']]
-        assert 150 <= c['x'] <= 1260 and c['y'] in (165, 565)
+        assert 150 <= c['x'] <= 1260 and c['y'] in (165, 590)
         assert len(c['branches']) == 2
     for c in data['extension_map']:
         visible += [c['hub']] + [b['id'] for b in c['branches']]
