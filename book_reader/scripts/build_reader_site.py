@@ -134,7 +134,10 @@ INDEX = '''<!doctype html>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#section-01">走出戈壁 <span>单伟建</span></a>
+    <div class="book-controls">
+      <button id="toc-toggle" class="toc-toggle" type="button" aria-controls="toc-panel" aria-expanded="true">收起目录</button>
+      <a class="brand" href="#section-01">走出戈壁 <span>单伟建</span></a>
+    </div>
     <div class="tools">
       <label class="search"><span class="visually-hidden">搜索全书</span><input id="search" type="search" placeholder="搜索全书" autocomplete="off"></label>
       <button id="font-down" type="button" title="缩小字体">A−</button>
@@ -144,7 +147,7 @@ INDEX = '''<!doctype html>
   </header>
   <div id="search-results" class="search-results" hidden></div>
   <div class="layout">
-    <aside class="toc-panel"><div class="toc-head">目录 <span id="chapter-count"></span></div><nav id="toc" aria-label="章节目录"></nav></aside>
+    <aside id="toc-panel" class="toc-panel"><div class="toc-head">目录 <span id="chapter-count"></span></div><nav id="toc" aria-label="章节目录"></nav></aside>
     <main id="reader" tabindex="-1">
       <div class="reader-meta"><span id="location">载入中</span><a id="source-link" target="_blank" rel="noopener">查看原始 PDF 页</a></div>
       <article id="chapter"></article>
@@ -160,9 +163,11 @@ STYLES = '''
 :root { --ink:#20251f; --muted:#6c7068; --paper:#fbfaf5; --edge:#e3e1d6; --pine:#1f4b42; --accent:#b26b36; --body-size:19px; }
 * { box-sizing:border-box; } body { margin:0; color:var(--ink); background:var(--paper); font-family:"Noto Serif CJK SC","Songti SC","STSong","SimSun",serif; }
 .topbar { height:64px; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:0 32px; color:#fff; background:var(--pine); position:sticky; top:0; z-index:5; box-shadow:0 2px 12px #0002; }
+.book-controls { display:flex; align-items:center; gap:18px; min-width:0; }.toc-toggle { flex:none; border:1px solid #ffffff80; background:transparent; color:#fff; border-radius:5px; padding:6px 10px; font:14px/1.3 inherit; cursor:pointer; white-space:nowrap; }.toc-toggle:hover,.toc-toggle:focus-visible { background:#ffffff24; }
 .brand { color:inherit; text-decoration:none; font-size:21px; letter-spacing:.12em; white-space:nowrap; }.brand span { font-size:13px; letter-spacing:.05em; opacity:.7; margin-left:8px; }
 .tools { display:flex; align-items:center; gap:7px; }.tools button { border:1px solid #ffffff55; background:transparent; color:white; border-radius:5px; height:31px; cursor:pointer; }.search input { width:180px; height:31px; padding:4px 10px; border:0; border-radius:5px; font:14px inherit; }
 .layout { max-width:1360px; margin:auto; display:grid; grid-template-columns:265px minmax(0, 1fr); }.toc-panel { border-right:1px solid var(--edge); min-height:calc(100vh - 64px); padding:34px 23px; position:sticky; top:64px; height:calc(100vh - 64px); overflow:auto; }.toc-head { color:var(--pine); font-weight:bold; letter-spacing:.13em; padding-bottom:13px; border-bottom:1px solid var(--edge); }.toc-head span { float:right; color:var(--muted); font-size:12px; letter-spacing:0; }
+body.toc-collapsed .layout { grid-template-columns:minmax(0,1fr); } body.toc-collapsed .toc-panel { display:none; }
 #toc { padding-top:12px; } .toc-item { width:100%; display:block; padding:8px 7px; text-align:left; border:0; background:none; color:var(--ink); font:15px/1.35 inherit; cursor:pointer; border-radius:4px; }.toc-item:hover,.toc-item.active { background:#e9efe9; color:var(--pine); }.toc-item .toc-num { display:inline-block; width:31px; color:var(--muted); font-size:12px; }
 #reader { max-width:820px; width:100%; margin:0 auto; padding:41px 54px 88px; }.reader-meta { display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:13px; margin-bottom:25px; }.reader-meta a { color:var(--pine); text-decoration:none; }.reader-meta a:hover { text-decoration:underline; }
 #chapter h1 { margin:0 0 8px; color:var(--pine); font-size:34px; letter-spacing:.08em; font-weight:600; } .chapter-kicker { color:var(--accent); font-size:14px; letter-spacing:.15em; margin-bottom:18px; } #chapter p { margin:0 0 1em; font-size:var(--body-size); line-height:2.05; text-align:justify; text-indent:2em; letter-spacing:.025em; } .scene-break { color:var(--accent); text-align:center; letter-spacing:.45em; margin:2em 0; font-size:15px; }
@@ -170,7 +175,8 @@ STYLES = '''
 .search-results { position:fixed; z-index:10; top:57px; right:96px; width:min(490px,calc(100vw - 30px)); max-height:55vh; overflow:auto; padding:8px; border:1px solid var(--edge); border-radius:0 0 8px 8px; background:var(--paper); box-shadow:0 10px 26px #0003; }.result { width:100%; display:block; text-align:left; padding:11px; border:0; background:transparent; border-bottom:1px solid var(--edge); font:14px/1.55 inherit; cursor:pointer; }.result strong { color:var(--pine); display:block; margin-bottom:3px; }.result:hover { background:#edf2ed; }.visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
 dialog { width:min(1000px,94vw); max-height:94vh; padding:18px; border:0; background:var(--paper); color:var(--ink); box-shadow:0 15px 50px #0008; } dialog::backdrop { background:#000b; } dialog img { display:block; max-width:100%; max-height:80vh; margin:auto; } dialog p { text-align:center; color:var(--muted); } #close-image { float:right; border:0; background:transparent; font-size:29px; cursor:pointer; color:var(--ink); }
 body.dark { --ink:#e5e4dc; --muted:#a7aaa1; --paper:#1c211e; --edge:#3e4740; --pine:#254f45; } body.dark .toc-item:hover,body.dark .toc-item.active,body.dark .chapter-nav button:hover:not(:disabled),body.dark .result:hover { background:#2c3830; } body.dark .search input { background:#eff0eb; color:#20251f; }
-@media (max-width:850px) { .topbar { height:auto; min-height:58px; padding:10px 15px; align-items:flex-start; }.tools { flex-wrap:wrap; justify-content:flex-end; }.search input { width:132px; }.layout { display:block; }.toc-panel { position:static; height:auto; min-height:auto; border-right:0; border-bottom:1px solid var(--edge); padding:12px 17px; }.toc-head { display:none; } #toc { padding:0; white-space:nowrap; overflow:auto; }.toc-item { display:inline-block; width:auto; padding:7px 11px; }.toc-num { width:auto!important; margin-right:4px; }.toc-item .toc-label { display:inline; } #reader { padding:30px 20px 68px; }.reader-meta { margin-bottom:21px; }.reader-meta a { white-space:nowrap; } #chapter h1 { font-size:28px; } #chapter p { font-size:var(--body-size); line-height:1.92; }.search-results { top:58px; right:15px; } }
+@media (max-width:850px) { .topbar { height:auto; min-height:58px; padding:10px 15px; }.tools { flex-wrap:wrap; justify-content:flex-end; }.search input { width:132px; }.layout { display:block; }.toc-panel { position:fixed; top:var(--header-height,58px); left:0; right:0; height:auto; max-height:min(70vh,620px); min-height:0; overflow:auto; z-index:4; border-right:0; border-bottom:1px solid var(--edge); padding:16px 20px; background:var(--paper); box-shadow:0 10px 25px #0002; }.toc-head { display:block; } #toc { padding-top:8px; }.toc-item { width:100%; padding:9px 7px; }.toc-num { width:31px; }.toc-item .toc-label { display:inline; } #reader { padding:30px 20px 68px; }.reader-meta { margin-bottom:21px; }.reader-meta a { white-space:nowrap; } #chapter h1 { font-size:28px; } #chapter p { font-size:var(--body-size); line-height:1.92; }.search-results { top:var(--header-height,58px); right:15px; } }
+@media (max-width:540px) { .topbar { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; }.book-controls { justify-content:space-between; }.brand { font-size:18px; }.brand span { display:none; }.tools { width:100%; }.search { flex:1; }.search input { width:100%; } }
 '''
 
 
@@ -182,11 +188,20 @@ APP = '''
   const escapeHtml = (value) => String(value).replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[char]);
   const toc = $('#toc'), chapterEl = $('#chapter'), reader = $('#reader');
   const settingsKey = 'gobi-reader-settings', positionKey = 'gobi-reader-position';
-  let settings = { size: 19, dark: false };
+  let settings = { size: 19, dark: false, tocOpen: window.matchMedia('(min-width:851px)').matches };
   try { settings = { ...settings, ...JSON.parse(localStorage.getItem(settingsKey)) }; } catch (_) {}
   function saveSettings() { localStorage.setItem(settingsKey, JSON.stringify(settings)); }
-  function applySettings() { document.documentElement.style.setProperty('--body-size', settings.size + 'px'); document.body.classList.toggle('dark', settings.dark); }
+  function applySettings() {
+    document.documentElement.style.setProperty('--body-size', settings.size + 'px');
+    document.body.classList.toggle('dark', settings.dark);
+    document.body.classList.toggle('toc-collapsed', !settings.tocOpen);
+    $('#toc-toggle').setAttribute('aria-expanded', String(settings.tocOpen));
+    $('#toc-toggle').textContent = settings.tocOpen ? '收起目录' : '展开目录';
+  }
+  function updateHeaderHeight() { document.documentElement.style.setProperty('--header-height', $('.topbar').offsetHeight + 'px'); }
   applySettings();
+  updateHeaderHeight();
+  window.addEventListener('resize', updateHeaderHeight);
   $('#chapter-count').textContent = book.chapters.length + ' 节';
   toc.innerHTML = book.chapters.map(c => `<button class="toc-item" data-id="${c.id}"><span class="toc-num">${String(c.number).padStart(2,'0')}</span><span class="toc-label">${c.title}</span></button>`).join('');
   function getChapter(id) { return book.chapters.find(c => c.id === id) || book.chapters[0]; }
@@ -195,7 +210,11 @@ APP = '''
     chapterEl.innerHTML = `${c.number === 1 ? bookOpening : ''}<div class="chapter-kicker">${c.label} · PDF 第 ${c.pdfPage} 页起</div><h1>${c.title}</h1>${c.html}`;
     $('#location').textContent = `${c.title} · PDF 第 ${c.pdfPage} 页起`;
     $('#source-link').href = `../../../走出戈壁-单伟健.pdf#page=${c.pdfPage}`;
-    document.querySelectorAll('.toc-item').forEach(el => el.classList.toggle('active', el.dataset.id === c.id));
+    document.querySelectorAll('.toc-item').forEach(el => {
+      const active = el.dataset.id === c.id;
+      el.classList.toggle('active', active);
+      if (active) el.setAttribute('aria-current', 'page'); else el.removeAttribute('aria-current');
+    });
     const i = book.chapters.indexOf(c); $('#prev').disabled = i === 0; $('#next').disabled = i === book.chapters.length - 1;
     $('#prev').onclick = () => navigate(book.chapters[i - 1].id); $('#next').onclick = () => navigate(book.chapters[i + 1].id);
     if (reset) window.scrollTo({ top: 0, behavior: 'instant' });
@@ -204,7 +223,23 @@ APP = '''
   function navigate(id) { location.hash = id; }
   function currentId() { return location.hash.slice(1); }
   function route() { render(currentId() || book.chapters[0].id); }
-  window.addEventListener('hashchange', route); toc.addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (b) navigate(b.dataset.id); });
+  window.addEventListener('hashchange', route); toc.addEventListener('click', e => {
+    const b = e.target.closest('[data-id]');
+    if (!b) return;
+    navigate(b.dataset.id);
+    if (window.matchMedia('(max-width:850px)').matches) { settings.tocOpen = false; applySettings(); saveSettings(); }
+  });
+  $('#toc-toggle').onclick = () => { settings.tocOpen = !settings.tocOpen; applySettings(); saveSettings(); };
+  document.addEventListener('click', e => {
+    if (window.matchMedia('(max-width:850px)').matches && settings.tocOpen && !e.target.closest('#toc-panel, #toc-toggle')) {
+      settings.tocOpen = false; applySettings(); saveSettings();
+    }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && settings.tocOpen && window.matchMedia('(max-width:850px)').matches && !$('#image-dialog').open) {
+      settings.tocOpen = false; applySettings(); saveSettings(); $('#toc-toggle').focus();
+    }
+  });
   document.addEventListener('click', e => { const button = e.target.closest('.plate-button'); if (!button) return; $('#dialog-image').src = button.dataset.image; $('#dialog-image').alt = button.dataset.caption; $('#dialog-caption').textContent = button.dataset.caption; $('#image-dialog').showModal(); });
   $('#close-image').onclick = () => $('#image-dialog').close();
   $('#font-down').onclick = () => { settings.size = Math.max(15, settings.size - 1); applySettings(); saveSettings(); };
