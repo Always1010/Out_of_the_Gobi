@@ -1,0 +1,323 @@
+{
+  "title": "走出戈壁，走进时代 · 沉浸放映",
+  "source": "仅据 biography/data/atlas.json 与已核对的原书研究；无新增书外事实",
+  "chapters": [
+    {
+      "id": "book",
+      "title": "原书：时代中的人生",
+      "scene_ids": [
+        "cinema-h1",
+        "cinema-h2",
+        "cinema-h3-labor",
+        "cinema-h3-machine",
+        "cinema-h4-gates",
+        "cinema-h4-departure",
+        "cinema-h5",
+        "cinema-h6-learning",
+        "cinema-h6-family",
+        "cinema-h7-rules",
+        "cinema-h7-reassessment",
+        "cinema-h8"
+      ]
+    },
+    {
+      "id": "beyond",
+      "title": "书外续篇：从1993年接起",
+      "scene_ids": [
+        "cinema-beyond-banker",
+        "cinema-beyond-korea",
+        "cinema-beyond-shenzhen",
+        "cinema-beyond-pag",
+        "cinema-beyond-author"
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "node": "h1",
+      "id": "cinema-h1",
+      "title": "一个名字，两代人的愿望",
+      "era": "1950年代，父母从战争与贫困中走来，期待和平建设，也期待孩子获得自己未曾拥有的教育。饥荒又把短缺带进家庭。",
+      "life": "父亲爱读古书，母亲把饭留给家人。“伟建”承载着他们的希望。到1969年送行前，父亲却感叹：没想到自己的孩子还是不能上学。",
+      "meaning": "家庭给了他知识与照料，能否持续上学，却超出了父母的控制。",
+      "duration_seconds": 40,
+      "image": {
+        "file": "page-033.jpg",
+        "kind": "original",
+        "alt": "童年家庭照片",
+        "caption": "原书真实照片 · PDF 第 33 页，保留原图注"
+      }
+    },
+    {
+      "node": "h2",
+      "id": "cinema-h2",
+      "title": "一条成长道路被截断",
+      "era": "1966年，升学考试取消，学校陷入运动。知识、职业能力与个人出身，被放进另一套评价秩序。",
+      "life": "他正在准备中学考试，入学却从延期变成遥遥无期。院中焚书时，他捡回小说；1969年，十五岁的他被送往内蒙古，无法决定何时重返课堂。",
+      "meaning": "失去的不只是几门课程，更是一条可以预期的成长道路。",
+      "duration_seconds": 40,
+      "image": {
+        "file": "cinema-classroom.png",
+        "kind": "illustration",
+        "alt": "1960年代北京课堂氛围",
+        "caption": "AI 历史氛围插画 · 非史料照片，非作者实际场所复原"
+      }
+    },
+    {
+      "node": "h3",
+      "id": "cinema-h3-labor",
+      "title": "辛苦，为什么没有换来成果？",
+      "era": "戈壁生活由生产任务、劳动组织和资源条件共同塑造。饥饿与严寒之外，还要面对劳动是否有效的问题。",
+      "life": "打芦苇时，他与刘小彤重新分工，看见同样的人手能做出不同产量。另一次连续挖渠三十一小时，工程却因地势问题失效。",
+      "meaning": "付出的力气与实际成果并不总能对应；判断任务本身，也是一种能力。",
+      "duration_seconds": 45,
+      "image": {
+        "file": "cinema-gobi.png",
+        "kind": "illustration",
+        "alt": "1970年前后乌梁素海劳动氛围",
+        "caption": "AI 历史氛围插画 · 非史料照片，非作者实际场所复原"
+      }
+    },
+    {
+      "node": "h3",
+      "id": "cinema-h3-machine",
+      "title": "图纸之后，还有谁要作决定？",
+      "era": "机械改进需要发动机、零件、经费和批准。懂得技术的人，并不掌握调动这些资源的权力。",
+      "life": "他从压面机想到机械制砖。李荣田画出草图，两人又去十四团参观运行中的机器。回到连队后，多次催问仍无下文，方案最终搁置。",
+      "meaning": "技术可行，还需要组织愿意投入并承担责任。这一次，机器没有造出来。",
+      "duration_seconds": 45,
+      "image": {
+        "file": "cinema-gobi.png",
+        "kind": "illustration",
+        "alt": "戈壁劳动与资源条件的氛围",
+        "caption": "AI 历史氛围插画 · 非史料照片，非作者实际场所复原"
+      }
+    },
+    {
+      "node": "h4",
+      "id": "cinema-h4-gates",
+      "title": "高票，为什么仍不等于录取？",
+      "era": "1974—1975年的大学招生采用推荐与多层审批。群众票只是入口，身体条件、学校要求和上级决定仍能改变结果。",
+      "life": "他两次得票第二。1974年落选；1975年仍未进最初名单，战友争取才换来候补。张英建发现少算一票，却担心影响自己的机会，没有当场纠正。",
+      "meaning": "一个人能否离开，由多道关口共同决定；朋友的帮助也有处境与边界。",
+      "sequence": [
+        "推荐",
+        "候补与体检",
+        "学校考查",
+        "师部批准",
+        "当晚离开"
+      ],
+      "duration_seconds": 50,
+      "image": {
+        "file": "cinema-gobi.png",
+        "kind": "illustration",
+        "alt": "戈壁生活的历史氛围",
+        "caption": "AI 历史氛围插画 · 非史料照片，非作者实际场所复原"
+      }
+    },
+    {
+      "node": "h4",
+      "id": "cinema-h4-departure",
+      "title": "机会怎样终于接上了准备？",
+      "era": "同一套规则给不同人带来不同结果。学校需要年轻、具备读写基础、能够学习外语的学生。",
+      "life": "于医生改了他的体检表；陈德才因肺部阴影落选，他的候补顺序前移。朗读与作文得到李国忠认可后，仍需等待批准。9月14日获批，他当晚离开。",
+      "meaning": "长期自学在考查中发挥作用；他也受益于援手，以及别人未能通过的关口。",
+      "sequence": [
+        "推荐",
+        "候补与体检",
+        "学校考查",
+        "师部批准",
+        "当晚离开"
+      ],
+      "duration_seconds": 50,
+      "image": {
+        "file": "atlas-atmosphere.png",
+        "kind": "illustration",
+        "alt": "书页、戈壁与煤油灯的叙事意象",
+        "caption": "AI 历史氛围插画 · 非史料照片，非作者实际场所复原"
+      }
+    },
+    {
+      "node": "h5",
+      "id": "cinema-h5",
+      "title": "教育重新打开，选择也有代价",
+      "era": "1975年推荐入学与1977年恢复高考，是不同的制度入口。考试和按成绩分班的恢复，又改变了在校学习。",
+      "life": "他学习英语，毕业后任教，与石滨结婚。联合国翻译工作允许夫妻同行，赴美学习却需独自出发；他选择继续读书，家庭开始承担远行的代价。",
+      "meaning": "机会增多，并没有消除取舍；从等待入学到主动求学，选择开始属于自己。",
+      "duration_seconds": 45,
+      "image": {
+        "file": "page-318.jpg",
+        "kind": "original",
+        "alt": "石滨与单伟建的原书照片",
+        "caption": "原书真实照片 · PDF 第 318 页，保留原图注"
+      }
+    },
+    {
+      "node": "h6",
+      "id": "cinema-h6-learning",
+      "title": "被录取，不等于补齐了缺口",
+      "era": "访问学者身份不自动通向学位；进入研究生训练，还需学费、数学基础和新的学习方法。",
+      "life": "教授帮他安排课程，卡苏夫妇的资助解决学费。到伯克利后，他反复读线性代数，听取耶伦建议调整课程，再跟随提斯学习提出研究问题。",
+      "meaning": "求学既是补知识，也是改变方法；一张录取通知无法替代这些过程。",
+      "duration_seconds": 45,
+      "image": {
+        "file": "cinema-study.png",
+        "kind": "illustration",
+        "alt": "1980年代美国大学求学氛围",
+        "caption": "AI 历史氛围插画 · 非史料照片，非作者实际场所复原"
+      }
+    },
+    {
+      "node": "h6",
+      "id": "cinema-h6-family",
+      "title": "一个人的学位，全家的距离",
+      "era": "早期跨国求学受到出境、携眷和手续限制。专业训练的时间，同时也是家庭分离的时间。",
+      "life": "石滨在北京工作，照料母亲和婴儿；1984年赴美后，又为孩子的手续奔走。一家三口直到1985年才团聚。次年，他完成博士学位。",
+      "meaning": "学位背后不只有个人努力，也有家人分担的劳动、等待与错过。",
+      "duration_seconds": 40,
+      "image": {
+        "file": "page-318.jpg",
+        "kind": "original",
+        "alt": "石滨与单伟建的原书照片",
+        "caption": "原书真实照片 · PDF 第 318 页，保留原图注"
+      }
+    },
+    {
+      "node": "h7",
+      "id": "cinema-h7-rules",
+      "title": "遇到分歧，规则可以怎样调整？",
+      "era": "《中国经济评论》要成为学术讨论的平台，既需要研究标准，也需要处理名家与编辑之间的分歧。",
+      "life": "邹至庄提交个人经历文章，他最初拒稿。应对方要求，克莱因与弗里德曼参与外审；最终另设“回顾”栏目，让文章发表，也保留论文的标准。",
+      "meaning": "接受对决定的质疑，再重新安排程序，是另一种解决问题的方式。",
+      "duration_seconds": 40,
+      "image": {
+        "file": "page-394.jpg",
+        "kind": "original",
+        "alt": "原书所刊沃顿任教等时期的照片",
+        "caption": "原书真实照片 · PDF 第 394 页，保留原图注"
+      }
+    },
+    {
+      "node": "h7",
+      "id": "cinema-h7-reassessment",
+      "title": "判断曾落空，为什么仍然回去？",
+      "era": "1989年的事件使改革前景充满疑问。后来实地培训的观察与1992年的政策信号，又成为重新判断的依据。",
+      "life": "身在美国的他曾判断军队不会开枪，随即被消息否定。到上海主持管理培训后，他看见学习市场经济的意愿。1993年，他结束学术职业，全家迁港。",
+      "meaning": "选择来自不断修正的认识，也包含妻子离职、孩子适应与职业转向的代价。",
+      "duration_seconds": 50,
+      "image": {
+        "file": "cinema-study.png",
+        "kind": "illustration",
+        "alt": "跨洋学习与研究的氛围",
+        "caption": "AI 历史氛围插画 · 非史料照片，非作者实际场所复原"
+      }
+    },
+    {
+      "node": "h8",
+      "id": "cinema-h8",
+      "title": "他走远了，留下的人呢？",
+      "era": "2005年的戈壁已有新楼与旅游设施，旧营房和砖窑却成废墟。变化落在不同人身上，并不均等。",
+      "life": "李永芝和王双喜仍在当地生活。二狗讲起入狱、求职受阻和返回戈壁的经历，又骑车带他寻找旧驻地。谈起共同的过去，两人没有距离。",
+      "meaning": "个人成就无法替共同经历的损失作结；离开者与留下者，都应留在画面里。",
+      "duration_seconds": 45,
+      "image": {
+        "file": "page-414.jpg",
+        "kind": "original",
+        "alt": "2005年重返戈壁的原书照片",
+        "caption": "原书真实照片 · PDF 第 414 页，保留原图注"
+      }
+    },
+    {
+      "node": "beyond-banker",
+      "id": "cinema-beyond-banker",
+      "title": "镜头拨回：从学者到投资人",
+      "era": "书外续篇从1993年的职业路口接起。投资银行协助融资与交易，私募股权则持有企业股权，并可能参与治理。",
+      "life": "1993—1998年，他在J.P. Morgan工作；1998年转入新桥资本。研究企业的人，开始在真实交易中面对资金、控制权和不同参与者的利益。",
+      "meaning": "先看他承担什么角色，才容易理解接下来的银行交易。",
+      "duration_seconds": 40,
+      "image": {
+        "file": "shan-portrait.jpg",
+        "kind": "original",
+        "alt": "单伟建，作者官网肖像",
+        "caption": "作者官网图片 · 肖像拍摄年份未注明"
+      }
+    },
+    {
+      "node": "beyond-korea",
+      "id": "cinema-beyond-korea",
+      "title": "买一家银行，也是在分配风险",
+      "era": "亚洲金融危机后的银行重组，需要处理旧贷款风险，并约定谁承担损失、谁分享改善后的收益。",
+      "life": "他是新桥收购韩国第一银行的主要参与者之一。1998年备忘录、1999年主要条款、2000年完成收购，是不同阶段；2005年渣打接手。",
+      "meaning": "交易不只是一个价格。风险怎样安排，决定各方为何能够走到一起。",
+      "duration_seconds": 45,
+      "image": {
+        "file": "money-games.jpg",
+        "kind": "original",
+        "alt": "作者官网所示 Money Games 书封",
+        "caption": "作者官网图片 · 著作封面"
+      }
+    },
+    {
+      "node": "beyond-shenzhen",
+      "id": "cinema-beyond-shenzhen",
+      "title": "成交之后，责任才继续展开",
+      "era": "战略投资把股东、监管者和管理团队联系起来。交易完成，与机构持续运作，是两类不同的问题。",
+      "life": "2004年，新桥成为深圳发展银行的战略投资者和最大股东，单伟建是重要参与者。2010年，其所持股份完成向平安过户；他后来以《Money Machine》回顾过程。",
+      "meaning": "复盘投资，要看交易后的治理与组织；机构变化不能只归于一个人。",
+      "duration_seconds": 40,
+      "image": {
+        "file": "money-machine.jpg",
+        "kind": "original",
+        "alt": "作者官网所示 Money Machine 书封",
+        "caption": "作者官网图片 · 著作封面"
+      }
+    },
+    {
+      "node": "beyond-pag",
+      "id": "cinema-beyond-pag",
+      "title": "经验怎样进入一个机构？",
+      "era": "PAG的形成包含多支团队和业务的历史。投资需要组织协作，也需要把不同利益写进可执行的安排。",
+      "life": "2010年，他创立PAG私募股权业务，与既有业务汇合，2011年以PAG品牌重新推出。后来的盈德交易，呈现了卖方保留选择与买方寻求承诺之间的协调。",
+      "meaning": "个人经验进入机构后，要通过团队与具体规则才能持续发挥作用。",
+      "duration_seconds": 40,
+      "image": {
+        "file": "shan-portrait.jpg",
+        "kind": "original",
+        "alt": "单伟建，作者官网肖像",
+        "caption": "作者官网图片 · 肖像拍摄年份未注明"
+      }
+    },
+    {
+      "node": "beyond-author",
+      "id": "cinema-beyond-author",
+      "title": "把经历写下来，把问题留下",
+      "era": "同一段经历进入不同语言和文化，需要重新讲述。回忆录保存当事人的理解，也需要与其他资料对照。",
+      "life": "2019年至2023年，三本书从青春、求学写到银行交易。中文《走出戈壁》经过重写，从英文22章扩为29章，回应不同读者的背景与兴趣。",
+      "meaning": "回望这条路：哪些是个人行动，哪些来自时代与他人？答案需要一起看。",
+      "duration_seconds": 40,
+      "image": {
+        "file": "atlas-atmosphere.png",
+        "kind": "illustration",
+        "alt": "书页与历史记忆的叙事意象",
+        "caption": "AI 历史氛围插画 · 非史料照片，非作者实际场所复原"
+      }
+    }
+  ],
+  "duration_seconds": 740,
+  "editorial_notes": [
+    "先完成原书的回望，再明确将镜头拨回1993年接书外续篇；不能把幻灯片顺序误读为单向时间线。",
+    "era 是历史/制度处境，life 是人物经历，meaning 是编辑解读；视觉上应区分来源层次。",
+    "h4 两幕共用五关 sequence。第一幕看制度关口与各人限制，第二幕看准备如何被评价及离开经过。",
+    "影像仅作有来源的材料呈现；未能取得的历史现场不补成仿真照片。",
+    "二狗经历注明由其向作者讲述；1989年写明作者在美国获知消息；制砖机必须明确未造出来。"
+  ],
+  "validation": {
+    "count": 17,
+    "all_node_ids_exist": true,
+    "length_limits_passed": true,
+    "duration_range_seconds": [
+      40,
+      50
+    ]
+  }
+}
