@@ -83,16 +83,20 @@ def main() -> None:
         })
 
     DIST.mkdir(parents=True, exist_ok=True)
+    image_entries = json.loads((ROOT / "images" / "images.json").read_text(encoding="utf-8"))["pages"]
     target_images = DIST / "images"
     if target_images.exists():
         shutil.rmtree(target_images)
-    shutil.copytree(IMAGE_SOURCE, target_images)
+    target_images.mkdir()
+    for entry in image_entries:
+        source = IMAGE_SOURCE / Path(entry["asset"]).name
+        shutil.copy2(source, target_images / source.name)
     payload = json.dumps({"title": "走出戈壁", "chapters": entries}, ensure_ascii=False).replace("</", "<\\/")
     write_text(DIST / "data.js", f"window.BOOK = {payload};\n")
     write_text(DIST / "styles.css", STYLES)
     write_text(DIST / "app.js", APP)
     write_text(DIST / "index.html", INDEX)
-    print(f"Built {len(entries)} chapters and {len(list(target_images.glob('*.jpg')))} image pages in {DIST}")
+    print(f"Built {len(entries)} chapters and {len(image_entries)} image pages in {DIST}")
 
 
 INDEX = '''<!doctype html>

@@ -6,7 +6,7 @@ import json
 import re
 from pathlib import Path
 
-from assemble_transcript import chinese_number, load_page, normalized
+from assemble_transcript import chinese_number, load_page, normalized, page_paragraphs, reading_paragraphs
 
 
 BOOK = Path(__file__).resolve().parents[1]
@@ -16,7 +16,10 @@ VARIANTS = ("traditional", "simplified", "traditional-continuous", "simplified-c
 
 def validate() -> None:
     chapters = json.loads((TEXT / "chapters.json").read_text(encoding="utf-8"))
+    image_pages = {entry["pdf_page"] for entry in json.loads((BOOK / "images" / "images.json").read_text(encoding="utf-8"))["pages"]}
     assert len(chapters) == 33, "Expected 33 sections"
+    assert 352 not in image_pages and len(reading_paragraphs(352)) > 1, "PDF 352 is a text page"
+    assert "★★★" in page_paragraphs(41) and "★★★" in page_paragraphs(81)
     starts = [item["pdf_page_start"] for item in chapters]
     assert starts == sorted(set(starts)), "Chapter start pages must increase"
 
@@ -62,6 +65,7 @@ def validate() -> None:
         for path in (TEXT / directory).glob("*.md")
     )
     assert not any(char in simplified for char in "牠衞簷敍擡")
+    assert "費羅" in (TEXT / "traditional-continuous" / "29-chapter-26.md").read_text(encoding="utf-8")
     print("Validated 33 chapter starts and all four manuscript variants.")
 
 
