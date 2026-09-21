@@ -747,5 +747,40 @@
       "url": "https://www.wiley-vch.de/en/areas-interest/finance-economics-law/finance-investments-13fi/institutional-corporate-finance-13fi1/money-machine-978-1-394-16120-1",
       "why": "想深入深圳发展银行经历，可读此书；应与同期机构资料对照。"
     }
+  ],
+  "images": [
+    {
+      "id": "shan-author-portrait",
+      "file": "shan-portrait.jpg",
+      "alt": "单伟建",
+      "caption": "单伟建。图片来源：作者官网。",
+      "source_url": "https://weijian-shan.com/biographyofweijianshan/",
+      "image_url": "https://weijian-shan.com/wp-content/uploads/2023/02/weijian-shan-1.jpg",
+      "credit": "页面未见摄影师署名；页脚为 © Copyright WEIJIAN SHAN 2018–2023。",
+      "license": "未发现明确的开放许可或转载授权；不能声称 CC、免版权或取得许可。",
+      "notes": "图片实际拍摄时间未注明，不要根据上传路径把它写成摄于 2023 年。"
+    },
+    {
+      "id": "money-games-cover",
+      "file": "money-games.jpg",
+      "alt": "Money Games 官方立体书封面图",
+      "caption": "《Money Games》书封。图片来源：作者官网；出版：Wiley。",
+      "source_url": "https://weijian-shan.com/books/",
+      "image_url": "https://weijian-shan.com/wp-content/uploads/2023/03/money-games-3d.jpg",
+      "credit": "图片旁未见封面设计者或摄影者署名。作者网站页脚有版权声明。",
+      "license": "未发现明确的开放许可或转载授权；只可表述为官方书封来源。",
+      "notes": "上传于 2023 年的文件可能对应修订版。主线出版年仍应说明 2020 首版，不可仅凭封面文件时间改年。"
+    },
+    {
+      "id": "money-machine-cover",
+      "file": "money-machine.jpg",
+      "alt": "Money Machine 官方立体书封面图",
+      "caption": "《Money Machine》书封。图片来源：作者官网；出版：Wiley。",
+      "source_url": "https://weijian-shan.com/books/",
+      "image_url": "https://weijian-shan.com/wp-content/uploads/2023/03/money-machine-3d.jpg",
+      "credit": "图片旁未见封面设计者或摄影者署名。作者网站页脚有版权声明。",
+      "license": "未发现明确的开放许可或转载授权；不能声称免版权。",
+      "notes": "官网把此 img 的 alt 错填为 Money Games。以对应 MONEY MACHINE 部分、实际 filename 和下载后画面文字核对，不复制这个错误 alt。"
+    }
   ]
 }
