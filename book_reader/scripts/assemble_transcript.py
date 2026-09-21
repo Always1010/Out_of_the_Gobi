@@ -47,7 +47,8 @@ def chinese_number(number: int) -> str:
 
 def repair_star_break(value: str) -> str:
     """Normalize OCR variants of the book's three-star scene separator."""
-    if re.fullmatch(r"[★大XK]+", value.strip()):
+    # On PDF 41 and 81 PaddleOCR read two separator glyphs as digit 1.
+    if re.fullmatch(r"[★大XK]+", value.strip()) or value.strip() in {"1大X", "大11"}:
         return "★★★"
     return value
 
