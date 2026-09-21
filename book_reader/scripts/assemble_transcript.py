@@ -35,6 +35,16 @@ def normalized(value: str) -> str:
     return re.sub(r"[\s：:，,。\.]+", "", value)
 
 
+def chinese_number(number: int) -> str:
+    digits = "一二三四五六七八九"
+    if number < 10:
+        return digits[number - 1]
+    if number < 20:
+        return "十" + (digits[number - 11] if number > 10 else "")
+    tens, ones = divmod(number, 10)
+    return digits[tens - 1] + "十" + (digits[ones - 1] if ones else "")
+
+
 def repair_star_break(value: str) -> str:
     """Normalize OCR variants of the book's three-star scene separator."""
     if re.fullmatch(r"[★大XK]+", value.strip()):
@@ -52,20 +62,29 @@ def to_mainland_simplified(value: str, converter: OpenCC) -> str:
 def chapter_start(chapter: dict) -> int | None:
     if chapter.get("fixed_pdf_page_start"):
         return int(chapter["fixed_pdf_page_start"])
-    # OCR often puts a section label and its title on separate lines.  Search the
-    # distinctive title portion after the full-width colon when present.
+    # Running headers repeat chapter titles on later pages.  Their OCR boxes
+    # sit above the body (usually y < 330), so they must never define a start.
     title = normalized(chapter["title_traditional"].split("：")[-1])
     expected = chapter.get("pdf_page_start") or chapter["printed_page_start"]
-    candidates: list[tuple[int, float]] = []
+    label = f"第{chinese_number(chapter['number'])}章" if "number" in chapter else None
+    numbered: list[tuple[int, float]] = []
+    titles: list[tuple[int, float]] = []
     for page in range(max(1, expected - 24), min(PAGES, expected + 24) + 1):
         lines, _scores, polygons = load_page(page)
+        body: list[tuple[str, float]] = []
         for index, line in enumerate(lines):
-            if title and title in normalized(line):
-                y = polygons[index][0][1] if index < len(polygons) else 9999
-                candidates.append((page, y))
+            y = polygons[index][0][1] if index < len(polygons) else 9999
+            if 330 <= y <= 1400:
+                body.append((normalized(line), y))
+        page_titles = [(text, y) for text, y in body if title and title in text]
+        titles.extend((page, y) for _text, y in page_titles)
+        if label:
+            # OCR may drop title characters on an opening page, but the
+            # centered chapter number is consistently visible around y=375.
+            numbered.extend((page, y) for text, y in body if 330 <= y <= 850 and text.startswith(label))
+    candidates = numbered if label else titles
     if not candidates:
         return None
-    # A chapter heading is normally near the top or center, while a mention in body text is lower.
     candidates.sort(key=lambda item: (abs(item[0] - expected), item[1]))
     return candidates[0][0]
 
