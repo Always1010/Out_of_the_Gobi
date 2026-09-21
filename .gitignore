@@ -29,6 +29,5 @@ Thumbs.db
 /tmp/
 /pilot20/tmp/poppler-warnings.txt
 
-# 可重建的中间图像和阅读站发布目录
-/book_reader/images/contact_sheets/
+# 阅读站发布目录
 /book_reader/site/dist/
