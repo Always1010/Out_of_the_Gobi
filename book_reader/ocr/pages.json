@@ -1,0 +1,4202 @@
+[
+  {
+    "pdf_page": 1,
+    "status": "complete",
+    "line_count": 7,
+    "character_count": 34,
+    "mean_line_confidence": 0.991,
+    "seconds": 12.87,
+    "peak_process_rss_mb": 696.2,
+    "size": "small"
+  },
+  {
+    "pdf_page": 2,
+    "status": "complete",
+    "line_count": 2,
+    "character_count": 2,
+    "mean_line_confidence": 0.791,
+    "seconds": 12.25,
+    "peak_process_rss_mb": 740.1,
+    "size": "small"
+  },
+  {
+    "pdf_page": 3,
+    "status": "complete",
+    "line_count": 51,
+    "character_count": 576,
+    "mean_line_confidence": 0.986,
+    "seconds": 19.56,
+    "peak_process_rss_mb": 742.4,
+    "size": "small"
+  },
+  {
+    "pdf_page": 4,
+    "status": "complete",
+    "line_count": 24,
+    "character_count": 705,
+    "mean_line_confidence": 0.993,
+    "seconds": 23.09,
+    "peak_process_rss_mb": 775.9,
+    "size": "small"
+  },
+  {
+    "pdf_page": 5,
+    "status": "complete",
+    "line_count": 2,
+    "character_count": 19,
+    "mean_line_confidence": 0.999,
+    "seconds": 12.35,
+    "peak_process_rss_mb": 813.5,
+    "size": "small"
+  },
+  {
+    "pdf_page": 6,
+    "status": "complete",
+    "line_count": 54,
+    "character_count": 176,
+    "mean_line_confidence": 0.997,
+    "seconds": 18.0,
+    "peak_process_rss_mb": 813.7,
+    "size": "small"
+  },
+  {
+    "pdf_page": 7,
+    "status": "complete",
+    "line_count": 45,
+    "character_count": 172,
+    "mean_line_confidence": 0.997,
+    "seconds": 17.46,
+    "peak_process_rss_mb": 812.6,
+    "size": "small"
+  },
+  {
+    "pdf_page": 8,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 637,
+    "mean_line_confidence": 0.995,
+    "seconds": 21.65,
+    "peak_process_rss_mb": 806.7,
+    "size": "small"
+  },
+  {
+    "pdf_page": 9,
+    "status": "complete",
+    "line_count": 21,
+    "character_count": 515,
+    "mean_line_confidence": 0.995,
+    "seconds": 21.13,
+    "peak_process_rss_mb": 846.1,
+    "size": "small"
+  },
+  {
+    "pdf_page": 10,
+    "status": "complete",
+    "line_count": 24,
+    "character_count": 636,
+    "mean_line_confidence": 0.997,
+    "seconds": 23.43,
+    "peak_process_rss_mb": 806.0,
+    "size": "small"
+  },
+  {
+    "pdf_page": 11,
+    "status": "complete",
+    "line_count": 3,
+    "character_count": 14,
+    "mean_line_confidence": 0.793,
+    "seconds": 12.67,
+    "peak_process_rss_mb": 812.5,
+    "size": "small"
+  },
+  {
+    "pdf_page": 12,
+    "status": "complete",
+    "line_count": 23,
+    "character_count": 604,
+    "mean_line_confidence": 0.995,
+    "seconds": 21.29,
+    "peak_process_rss_mb": 821.0,
+    "size": "small"
+  },
+  {
+    "pdf_page": 13,
+    "status": "complete",
+    "line_count": 10,
+    "character_count": 216,
+    "mean_line_confidence": 0.998,
+    "seconds": 16.04,
+    "peak_process_rss_mb": 822.9,
+    "size": "small"
+  },
+  {
+    "pdf_page": 14,
+    "status": "complete",
+    "line_count": 0,
+    "character_count": 0,
+    "mean_line_confidence": null,
+    "seconds": 12.11,
+    "peak_process_rss_mb": 809.0,
+    "size": "small"
+  },
+  {
+    "pdf_page": 15,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 687,
+    "mean_line_confidence": 0.997,
+    "seconds": 21.87,
+    "peak_process_rss_mb": 811.0,
+    "size": "small"
+  },
+  {
+    "pdf_page": 16,
+    "status": "complete",
+    "line_count": 33,
+    "character_count": 693,
+    "mean_line_confidence": 0.992,
+    "seconds": 22.89,
+    "peak_process_rss_mb": 813.0,
+    "size": "small"
+  },
+  {
+    "pdf_page": 17,
+    "status": "complete",
+    "line_count": 30,
+    "character_count": 692,
+    "mean_line_confidence": 0.995,
+    "seconds": 22.76,
+    "peak_process_rss_mb": 808.9,
+    "size": "small"
+  },
+  {
+    "pdf_page": 18,
+    "status": "complete",
+    "line_count": 0,
+    "character_count": 0,
+    "mean_line_confidence": null,
+    "seconds": 12.21,
+    "peak_process_rss_mb": 847.2,
+    "size": "small"
+  },
+  {
+    "pdf_page": 19,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 700,
+    "mean_line_confidence": 0.998,
+    "seconds": 22.37,
+    "peak_process_rss_mb": 798.4,
+    "size": "small"
+  },
+  {
+    "pdf_page": 20,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 833,
+    "mean_line_confidence": 0.996,
+    "seconds": 25.15,
+    "peak_process_rss_mb": 812.2,
+    "size": "small"
+  },
+  {
+    "pdf_page": 21,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 861,
+    "mean_line_confidence": 0.993,
+    "seconds": 28.77,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 22,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 884,
+    "mean_line_confidence": 0.996,
+    "seconds": 29.3,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 23,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 750,
+    "mean_line_confidence": 0.993,
+    "seconds": 25.28,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 24,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 892,
+    "mean_line_confidence": 0.997,
+    "seconds": 28.35,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 25,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 764,
+    "mean_line_confidence": 0.986,
+    "seconds": 25.57,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 26,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 897,
+    "mean_line_confidence": 0.997,
+    "seconds": 28.92,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 27,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 880,
+    "mean_line_confidence": 0.993,
+    "seconds": 29.22,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 28,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 885,
+    "mean_line_confidence": 0.996,
+    "seconds": 27.87,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 29,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 770,
+    "mean_line_confidence": 0.989,
+    "seconds": 27.19,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 30,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 781,
+    "mean_line_confidence": 0.995,
+    "seconds": 44.74,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 31,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 906,
+    "mean_line_confidence": 0.99,
+    "seconds": 43.16,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 32,
+    "status": "complete",
+    "line_count": 20,
+    "character_count": 488,
+    "mean_line_confidence": 0.992,
+    "seconds": 29.87,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 33,
+    "status": "complete",
+    "line_count": 13,
+    "character_count": 106,
+    "mean_line_confidence": 0.886,
+    "seconds": 23.02,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 34,
+    "status": "complete",
+    "line_count": 6,
+    "character_count": 85,
+    "mean_line_confidence": 0.991,
+    "seconds": 23.03,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 35,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 703,
+    "mean_line_confidence": 0.997,
+    "seconds": 37.42,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 36,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 842,
+    "mean_line_confidence": 0.99,
+    "seconds": 39.94,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 37,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 754,
+    "mean_line_confidence": 0.96,
+    "seconds": 40.05,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 38,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 837,
+    "mean_line_confidence": 0.996,
+    "seconds": 52.75,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 39,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 842,
+    "mean_line_confidence": 0.996,
+    "seconds": 47.22,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 40,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 704,
+    "mean_line_confidence": 0.996,
+    "seconds": 49.41,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 41,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 826,
+    "mean_line_confidence": 0.946,
+    "seconds": 47.51,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 42,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 842,
+    "mean_line_confidence": 0.998,
+    "seconds": 48.88,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 43,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 831,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.78,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 44,
+    "status": "complete",
+    "line_count": 24,
+    "character_count": 544,
+    "mean_line_confidence": 0.93,
+    "seconds": 44.48,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 45,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 665,
+    "mean_line_confidence": 0.996,
+    "seconds": 42.77,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 46,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 838,
+    "mean_line_confidence": 0.996,
+    "seconds": 43.42,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 47,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 818,
+    "mean_line_confidence": 0.957,
+    "seconds": 73.22,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 48,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 862,
+    "mean_line_confidence": 0.997,
+    "seconds": 57.88,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 49,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 833,
+    "mean_line_confidence": 0.995,
+    "seconds": 54.14,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 50,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 843,
+    "mean_line_confidence": 0.996,
+    "seconds": 47.72,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 51,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 850,
+    "mean_line_confidence": 0.994,
+    "seconds": 48.21,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 52,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 832,
+    "mean_line_confidence": 0.994,
+    "seconds": 48.09,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 53,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 840,
+    "mean_line_confidence": 0.997,
+    "seconds": 44.25,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 54,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 763,
+    "mean_line_confidence": 0.994,
+    "seconds": 41.89,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 55,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 870,
+    "mean_line_confidence": 0.995,
+    "seconds": 47.55,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 56,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 883,
+    "mean_line_confidence": 0.996,
+    "seconds": 46.68,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 57,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 773,
+    "mean_line_confidence": 0.956,
+    "seconds": 40.92,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 58,
+    "status": "complete",
+    "line_count": 22,
+    "character_count": 517,
+    "mean_line_confidence": 0.997,
+    "seconds": 36.52,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 59,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 649,
+    "mean_line_confidence": 0.998,
+    "seconds": 39.95,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 60,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 814,
+    "mean_line_confidence": 0.988,
+    "seconds": 42.96,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 61,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 853,
+    "mean_line_confidence": 0.998,
+    "seconds": 47.32,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 62,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 758,
+    "mean_line_confidence": 0.997,
+    "seconds": 47.04,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 63,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 824,
+    "mean_line_confidence": 0.997,
+    "seconds": 49.52,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 64,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 741,
+    "mean_line_confidence": 0.996,
+    "seconds": 49.17,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 65,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 723,
+    "mean_line_confidence": 0.976,
+    "seconds": 47.37,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 66,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 814,
+    "mean_line_confidence": 0.997,
+    "seconds": 49.27,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 67,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 816,
+    "mean_line_confidence": 0.997,
+    "seconds": 49.95,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 68,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 861,
+    "mean_line_confidence": 0.996,
+    "seconds": 49.77,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 69,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 653,
+    "mean_line_confidence": 0.971,
+    "seconds": 43.41,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 70,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 753,
+    "mean_line_confidence": 0.995,
+    "seconds": 47.82,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 71,
+    "status": "complete",
+    "line_count": 7,
+    "character_count": 141,
+    "mean_line_confidence": 0.999,
+    "seconds": 27.42,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 72,
+    "status": "complete",
+    "line_count": 26,
+    "character_count": 539,
+    "mean_line_confidence": 0.994,
+    "seconds": 35.93,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 73,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 683,
+    "mean_line_confidence": 0.997,
+    "seconds": 39.78,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 74,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 764,
+    "mean_line_confidence": 0.995,
+    "seconds": 43.91,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 75,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 859,
+    "mean_line_confidence": 0.997,
+    "seconds": 71.86,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 76,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 736,
+    "mean_line_confidence": 0.995,
+    "seconds": 51.89,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 77,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 857,
+    "mean_line_confidence": 0.996,
+    "seconds": 52.27,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 78,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 839,
+    "mean_line_confidence": 0.996,
+    "seconds": 47.27,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 79,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 734,
+    "mean_line_confidence": 0.944,
+    "seconds": 46.14,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 80,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 874,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.08,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 81,
+    "status": "complete",
+    "line_count": 33,
+    "character_count": 845,
+    "mean_line_confidence": 0.948,
+    "seconds": 45.81,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 82,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 649,
+    "mean_line_confidence": 0.985,
+    "seconds": 40.62,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 83,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 847,
+    "mean_line_confidence": 0.997,
+    "seconds": 45.52,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 84,
+    "status": "complete",
+    "line_count": 21,
+    "character_count": 433,
+    "mean_line_confidence": 0.986,
+    "seconds": 33.3,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 85,
+    "status": "complete",
+    "line_count": 15,
+    "character_count": 227,
+    "mean_line_confidence": 0.982,
+    "seconds": 26.58,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 86,
+    "status": "complete",
+    "line_count": 2,
+    "character_count": 23,
+    "mean_line_confidence": 0.829,
+    "seconds": 22.1,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 87,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 693,
+    "mean_line_confidence": 0.997,
+    "seconds": 39.81,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 88,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 799,
+    "mean_line_confidence": 0.953,
+    "seconds": 44.39,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 89,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 765,
+    "mean_line_confidence": 0.993,
+    "seconds": 44.44,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 90,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 807,
+    "mean_line_confidence": 0.992,
+    "seconds": 46.4,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 91,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 759,
+    "mean_line_confidence": 0.99,
+    "seconds": 46.44,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 92,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 821,
+    "mean_line_confidence": 0.996,
+    "seconds": 51.17,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 93,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 850,
+    "mean_line_confidence": 0.994,
+    "seconds": 52.02,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 94,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 825,
+    "mean_line_confidence": 0.994,
+    "seconds": 49.47,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 95,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 841,
+    "mean_line_confidence": 0.996,
+    "seconds": 49.36,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 96,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 653,
+    "mean_line_confidence": 0.994,
+    "seconds": 43.34,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 97,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 854,
+    "mean_line_confidence": 0.997,
+    "seconds": 49.56,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 98,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 798,
+    "mean_line_confidence": 0.995,
+    "seconds": 48.99,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 99,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 700,
+    "mean_line_confidence": 0.994,
+    "seconds": 44.85,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 100,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 745,
+    "mean_line_confidence": 0.996,
+    "seconds": 41.9,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 101,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 816,
+    "mean_line_confidence": 0.993,
+    "seconds": 41.11,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 102,
+    "status": "complete",
+    "line_count": 8,
+    "character_count": 164,
+    "mean_line_confidence": 0.997,
+    "seconds": 26.1,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 103,
+    "status": "complete",
+    "line_count": 24,
+    "character_count": 544,
+    "mean_line_confidence": 0.992,
+    "seconds": 38.03,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 104,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 779,
+    "mean_line_confidence": 0.996,
+    "seconds": 72.26,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 105,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 794,
+    "mean_line_confidence": 0.994,
+    "seconds": 56.15,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 106,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 804,
+    "mean_line_confidence": 0.996,
+    "seconds": 51.45,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 107,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 727,
+    "mean_line_confidence": 0.992,
+    "seconds": 44.48,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 108,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 755,
+    "mean_line_confidence": 0.996,
+    "seconds": 44.33,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 109,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 811,
+    "mean_line_confidence": 0.997,
+    "seconds": 47.21,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 110,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 774,
+    "mean_line_confidence": 0.998,
+    "seconds": 43.69,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 111,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 814,
+    "mean_line_confidence": 0.996,
+    "seconds": 44.35,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 112,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 834,
+    "mean_line_confidence": 0.997,
+    "seconds": 45.16,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 113,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 855,
+    "mean_line_confidence": 0.995,
+    "seconds": 45.17,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 114,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 802,
+    "mean_line_confidence": 0.996,
+    "seconds": 41.76,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 115,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 818,
+    "mean_line_confidence": 0.997,
+    "seconds": 45.26,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 116,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 770,
+    "mean_line_confidence": 0.994,
+    "seconds": 44.38,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 117,
+    "status": "complete",
+    "line_count": 11,
+    "character_count": 250,
+    "mean_line_confidence": 0.996,
+    "seconds": 29.06,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 118,
+    "status": "complete",
+    "line_count": 26,
+    "character_count": 654,
+    "mean_line_confidence": 0.996,
+    "seconds": 36.44,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 119,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 789,
+    "mean_line_confidence": 0.997,
+    "seconds": 45.13,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 120,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 783,
+    "mean_line_confidence": 0.998,
+    "seconds": 47.01,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 121,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 839,
+    "mean_line_confidence": 0.998,
+    "seconds": 50.51,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 122,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 714,
+    "mean_line_confidence": 0.997,
+    "seconds": 46.98,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 123,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 795,
+    "mean_line_confidence": 0.997,
+    "seconds": 50.08,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 124,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 820,
+    "mean_line_confidence": 0.996,
+    "seconds": 48.81,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 125,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 777,
+    "mean_line_confidence": 0.996,
+    "seconds": 49.07,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 126,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 787,
+    "mean_line_confidence": 0.996,
+    "seconds": 48.85,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 127,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 825,
+    "mean_line_confidence": 0.997,
+    "seconds": 50.4,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 128,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 809,
+    "mean_line_confidence": 0.996,
+    "seconds": 48.84,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 129,
+    "status": "complete",
+    "line_count": 12,
+    "character_count": 269,
+    "mean_line_confidence": 0.992,
+    "seconds": 28.65,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 130,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 659,
+    "mean_line_confidence": 0.997,
+    "seconds": 35.79,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 131,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 765,
+    "mean_line_confidence": 0.993,
+    "seconds": 40.92,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 132,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 759,
+    "mean_line_confidence": 0.995,
+    "seconds": 46.98,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 133,
+    "status": "complete",
+    "line_count": 33,
+    "character_count": 752,
+    "mean_line_confidence": 0.997,
+    "seconds": 69.13,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 134,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 857,
+    "mean_line_confidence": 0.996,
+    "seconds": 56.15,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 135,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 697,
+    "mean_line_confidence": 0.997,
+    "seconds": 47.05,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 136,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 466,
+    "mean_line_confidence": 0.994,
+    "seconds": 33.7,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 137,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 772,
+    "mean_line_confidence": 0.994,
+    "seconds": 44.44,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 138,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 849,
+    "mean_line_confidence": 0.991,
+    "seconds": 48.53,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 139,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 742,
+    "mean_line_confidence": 0.996,
+    "seconds": 42.34,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 140,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 850,
+    "mean_line_confidence": 0.997,
+    "seconds": 44.07,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 141,
+    "status": "complete",
+    "line_count": 16,
+    "character_count": 411,
+    "mean_line_confidence": 0.999,
+    "seconds": 31.76,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 142,
+    "status": "complete",
+    "line_count": 26,
+    "character_count": 688,
+    "mean_line_confidence": 0.997,
+    "seconds": 38.98,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 143,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 824,
+    "mean_line_confidence": 0.992,
+    "seconds": 42.42,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 144,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 862,
+    "mean_line_confidence": 0.996,
+    "seconds": 44.51,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 145,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 819,
+    "mean_line_confidence": 0.996,
+    "seconds": 44.49,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 146,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 772,
+    "mean_line_confidence": 0.996,
+    "seconds": 44.11,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 147,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 780,
+    "mean_line_confidence": 0.996,
+    "seconds": 43.57,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 148,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 803,
+    "mean_line_confidence": 0.996,
+    "seconds": 47.08,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 149,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 745,
+    "mean_line_confidence": 0.997,
+    "seconds": 43.95,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 150,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 811,
+    "mean_line_confidence": 0.998,
+    "seconds": 49.48,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 151,
+    "status": "complete",
+    "line_count": 6,
+    "character_count": 107,
+    "mean_line_confidence": 0.995,
+    "seconds": 28.69,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 152,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 547,
+    "mean_line_confidence": 0.997,
+    "seconds": 38.42,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 153,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 821,
+    "mean_line_confidence": 0.995,
+    "seconds": 49.75,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 154,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 830,
+    "mean_line_confidence": 0.995,
+    "seconds": 48.25,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 155,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 774,
+    "mean_line_confidence": 0.996,
+    "seconds": 48.32,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 156,
+    "status": "complete",
+    "line_count": 33,
+    "character_count": 764,
+    "mean_line_confidence": 0.996,
+    "seconds": 47.99,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 157,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 830,
+    "mean_line_confidence": 0.996,
+    "seconds": 50.46,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 158,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 807,
+    "mean_line_confidence": 0.995,
+    "seconds": 48.47,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 159,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 825,
+    "mean_line_confidence": 0.995,
+    "seconds": 42.07,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 160,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 792,
+    "mean_line_confidence": 0.998,
+    "seconds": 41.57,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 161,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 758,
+    "mean_line_confidence": 0.997,
+    "seconds": 44.28,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 162,
+    "status": "complete",
+    "line_count": 7,
+    "character_count": 142,
+    "mean_line_confidence": 0.993,
+    "seconds": 24.71,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 163,
+    "status": "complete",
+    "line_count": 11,
+    "character_count": 91,
+    "mean_line_confidence": 0.982,
+    "seconds": 22.5,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 164,
+    "status": "complete",
+    "line_count": 8,
+    "character_count": 112,
+    "mean_line_confidence": 0.968,
+    "seconds": 24.05,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 165,
+    "status": "complete",
+    "line_count": 1,
+    "character_count": 2,
+    "mean_line_confidence": 0.323,
+    "seconds": 19.67,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 166,
+    "status": "complete",
+    "line_count": 26,
+    "character_count": 685,
+    "mean_line_confidence": 0.997,
+    "seconds": 35.8,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 167,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 775,
+    "mean_line_confidence": 0.995,
+    "seconds": 40.03,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 168,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 833,
+    "mean_line_confidence": 0.995,
+    "seconds": 41.39,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 169,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 808,
+    "mean_line_confidence": 0.996,
+    "seconds": 47.14,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 170,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 698,
+    "mean_line_confidence": 0.997,
+    "seconds": 44.39,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 171,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 711,
+    "mean_line_confidence": 0.995,
+    "seconds": 48.78,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 172,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 777,
+    "mean_line_confidence": 0.997,
+    "seconds": 44.0,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 173,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 705,
+    "mean_line_confidence": 0.995,
+    "seconds": 42.77,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 174,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 667,
+    "mean_line_confidence": 0.995,
+    "seconds": 44.17,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 175,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 775,
+    "mean_line_confidence": 0.997,
+    "seconds": 47.46,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 176,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 828,
+    "mean_line_confidence": 0.995,
+    "seconds": 54.45,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 177,
+    "status": "complete",
+    "line_count": 30,
+    "character_count": 455,
+    "mean_line_confidence": 0.994,
+    "seconds": 35.85,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 178,
+    "status": "complete",
+    "line_count": 30,
+    "character_count": 487,
+    "mean_line_confidence": 0.997,
+    "seconds": 33.6,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 179,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 654,
+    "mean_line_confidence": 0.998,
+    "seconds": 46.69,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 180,
+    "status": "complete",
+    "line_count": 0,
+    "character_count": 0,
+    "mean_line_confidence": null,
+    "seconds": 22.62,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 181,
+    "status": "complete",
+    "line_count": 24,
+    "character_count": 662,
+    "mean_line_confidence": 0.998,
+    "seconds": 41.35,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 182,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 785,
+    "mean_line_confidence": 0.973,
+    "seconds": 48.45,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 183,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 869,
+    "mean_line_confidence": 0.996,
+    "seconds": 52.08,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 184,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 771,
+    "mean_line_confidence": 0.994,
+    "seconds": 47.47,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 185,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 796,
+    "mean_line_confidence": 0.997,
+    "seconds": 49.46,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 186,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 853,
+    "mean_line_confidence": 0.995,
+    "seconds": 52.03,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 187,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 775,
+    "mean_line_confidence": 0.997,
+    "seconds": 47.39,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 188,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 821,
+    "mean_line_confidence": 0.997,
+    "seconds": 51.36,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 189,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 692,
+    "mean_line_confidence": 0.968,
+    "seconds": 45.72,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 190,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 873,
+    "mean_line_confidence": 0.994,
+    "seconds": 51.19,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 191,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 846,
+    "mean_line_confidence": 0.995,
+    "seconds": 48.71,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 192,
+    "status": "complete",
+    "line_count": 6,
+    "character_count": 104,
+    "mean_line_confidence": 0.983,
+    "seconds": 27.23,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 193,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 634,
+    "mean_line_confidence": 0.999,
+    "seconds": 41.26,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 194,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 694,
+    "mean_line_confidence": 0.985,
+    "seconds": 45.36,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 195,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 592,
+    "mean_line_confidence": 0.995,
+    "seconds": 43.09,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 196,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 784,
+    "mean_line_confidence": 0.994,
+    "seconds": 46.72,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 197,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 702,
+    "mean_line_confidence": 0.99,
+    "seconds": 45.97,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 198,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 842,
+    "mean_line_confidence": 0.998,
+    "seconds": 49.79,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 199,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 732,
+    "mean_line_confidence": 0.994,
+    "seconds": 46.64,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 200,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 757,
+    "mean_line_confidence": 0.995,
+    "seconds": 47.75,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 201,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 800,
+    "mean_line_confidence": 0.995,
+    "seconds": 49.14,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 202,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 685,
+    "mean_line_confidence": 0.981,
+    "seconds": 45.39,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 203,
+    "status": "complete",
+    "line_count": 6,
+    "character_count": 109,
+    "mean_line_confidence": 0.987,
+    "seconds": 28.11,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 204,
+    "status": "complete",
+    "line_count": 27,
+    "character_count": 620,
+    "mean_line_confidence": 0.995,
+    "seconds": 41.25,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 205,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 827,
+    "mean_line_confidence": 0.997,
+    "seconds": 49.45,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 206,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 741,
+    "mean_line_confidence": 0.988,
+    "seconds": 47.51,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 207,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 857,
+    "mean_line_confidence": 0.996,
+    "seconds": 49.79,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 208,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 850,
+    "mean_line_confidence": 0.996,
+    "seconds": 51.88,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 209,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 816,
+    "mean_line_confidence": 0.996,
+    "seconds": 49.8,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 210,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 757,
+    "mean_line_confidence": 0.995,
+    "seconds": 47.8,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 211,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 799,
+    "mean_line_confidence": 0.971,
+    "seconds": 49.16,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 212,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 779,
+    "mean_line_confidence": 0.997,
+    "seconds": 49.57,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 213,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 788,
+    "mean_line_confidence": 0.942,
+    "seconds": 48.75,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 214,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 770,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.13,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 215,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 630,
+    "mean_line_confidence": 0.997,
+    "seconds": 38.64,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 216,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 701,
+    "mean_line_confidence": 0.976,
+    "seconds": 42.89,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 217,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 861,
+    "mean_line_confidence": 0.996,
+    "seconds": 50.19,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 218,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 810,
+    "mean_line_confidence": 0.995,
+    "seconds": 49.59,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 219,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 745,
+    "mean_line_confidence": 0.992,
+    "seconds": 48.37,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 220,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 798,
+    "mean_line_confidence": 0.998,
+    "seconds": 48.81,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 221,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 727,
+    "mean_line_confidence": 0.934,
+    "seconds": 47.26,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 222,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 872,
+    "mean_line_confidence": 0.996,
+    "seconds": 51.39,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 223,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 815,
+    "mean_line_confidence": 0.994,
+    "seconds": 49.24,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 224,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 668,
+    "mean_line_confidence": 0.991,
+    "seconds": 45.33,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 225,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 795,
+    "mean_line_confidence": 0.996,
+    "seconds": 48.46,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 226,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 778,
+    "mean_line_confidence": 0.995,
+    "seconds": 47.09,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 227,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 743,
+    "mean_line_confidence": 0.965,
+    "seconds": 46.92,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 228,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 795,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.28,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 229,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 764,
+    "mean_line_confidence": 0.99,
+    "seconds": 46.0,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 230,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 730,
+    "mean_line_confidence": 0.985,
+    "seconds": 46.98,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 231,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 807,
+    "mean_line_confidence": 0.992,
+    "seconds": 49.36,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 232,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 587,
+    "mean_line_confidence": 0.996,
+    "seconds": 38.71,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 233,
+    "status": "complete",
+    "line_count": 23,
+    "character_count": 650,
+    "mean_line_confidence": 0.995,
+    "seconds": 39.89,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 234,
+    "status": "complete",
+    "line_count": 33,
+    "character_count": 820,
+    "mean_line_confidence": 0.979,
+    "seconds": 45.77,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 235,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 849,
+    "mean_line_confidence": 0.994,
+    "seconds": 47.27,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 236,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 741,
+    "mean_line_confidence": 0.998,
+    "seconds": 46.43,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 237,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 844,
+    "mean_line_confidence": 0.995,
+    "seconds": 51.64,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 238,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 755,
+    "mean_line_confidence": 0.997,
+    "seconds": 47.06,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 239,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 801,
+    "mean_line_confidence": 0.998,
+    "seconds": 49.96,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 240,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 749,
+    "mean_line_confidence": 0.994,
+    "seconds": 47.52,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 241,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 722,
+    "mean_line_confidence": 0.969,
+    "seconds": 46.89,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 242,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 825,
+    "mean_line_confidence": 0.996,
+    "seconds": 48.32,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 243,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 652,
+    "mean_line_confidence": 0.976,
+    "seconds": 45.07,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 244,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 853,
+    "mean_line_confidence": 0.996,
+    "seconds": 50.77,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 245,
+    "status": "complete",
+    "line_count": 24,
+    "character_count": 536,
+    "mean_line_confidence": 0.93,
+    "seconds": 39.67,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 246,
+    "status": "complete",
+    "line_count": 4,
+    "character_count": 62,
+    "mean_line_confidence": 0.991,
+    "seconds": 26.36,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 247,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 553,
+    "mean_line_confidence": 0.98,
+    "seconds": 39.92,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 248,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 799,
+    "mean_line_confidence": 0.995,
+    "seconds": 50.52,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 249,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 827,
+    "mean_line_confidence": 0.998,
+    "seconds": 51.52,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 250,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 826,
+    "mean_line_confidence": 0.993,
+    "seconds": 50.61,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 251,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 845,
+    "mean_line_confidence": 0.997,
+    "seconds": 50.82,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 252,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 762,
+    "mean_line_confidence": 0.991,
+    "seconds": 48.28,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 253,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 877,
+    "mean_line_confidence": 0.998,
+    "seconds": 50.73,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 254,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 834,
+    "mean_line_confidence": 0.997,
+    "seconds": 50.8,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 255,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 735,
+    "mean_line_confidence": 0.952,
+    "seconds": 46.78,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 256,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 666,
+    "mean_line_confidence": 0.993,
+    "seconds": 47.07,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 257,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 797,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.15,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 258,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 790,
+    "mean_line_confidence": 0.998,
+    "seconds": 49.19,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 259,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 706,
+    "mean_line_confidence": 0.974,
+    "seconds": 46.79,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 260,
+    "status": "complete",
+    "line_count": 15,
+    "character_count": 353,
+    "mean_line_confidence": 0.991,
+    "seconds": 33.78,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 261,
+    "status": "complete",
+    "line_count": 24,
+    "character_count": 596,
+    "mean_line_confidence": 0.999,
+    "seconds": 37.16,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 262,
+    "status": "complete",
+    "line_count": 33,
+    "character_count": 715,
+    "mean_line_confidence": 0.994,
+    "seconds": 44.2,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 263,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 814,
+    "mean_line_confidence": 0.993,
+    "seconds": 46.04,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 264,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 774,
+    "mean_line_confidence": 0.995,
+    "seconds": 45.52,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 265,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 791,
+    "mean_line_confidence": 0.996,
+    "seconds": 47.19,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 266,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 815,
+    "mean_line_confidence": 0.996,
+    "seconds": 46.87,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 267,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 822,
+    "mean_line_confidence": 0.996,
+    "seconds": 49.23,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 268,
+    "status": "complete",
+    "line_count": 29,
+    "character_count": 652,
+    "mean_line_confidence": 0.995,
+    "seconds": 44.91,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 269,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 631,
+    "mean_line_confidence": 0.996,
+    "seconds": 39.47,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 270,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 942,
+    "mean_line_confidence": 0.998,
+    "seconds": 49.99,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 271,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 784,
+    "mean_line_confidence": 0.994,
+    "seconds": 46.94,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 272,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 823,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.84,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 273,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 801,
+    "mean_line_confidence": 0.997,
+    "seconds": 49.45,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 274,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 790,
+    "mean_line_confidence": 0.996,
+    "seconds": 47.18,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 275,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 787,
+    "mean_line_confidence": 0.974,
+    "seconds": 49.24,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 276,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 795,
+    "mean_line_confidence": 0.997,
+    "seconds": 46.24,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 277,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 832,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.69,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 278,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 822,
+    "mean_line_confidence": 0.996,
+    "seconds": 48.65,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 279,
+    "status": "complete",
+    "line_count": 8,
+    "character_count": 155,
+    "mean_line_confidence": 0.995,
+    "seconds": 28.32,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 280,
+    "status": "complete",
+    "line_count": 26,
+    "character_count": 665,
+    "mean_line_confidence": 0.995,
+    "seconds": 41.52,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 281,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 811,
+    "mean_line_confidence": 0.995,
+    "seconds": 46.68,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 282,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 836,
+    "mean_line_confidence": 0.998,
+    "seconds": 49.12,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 283,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 804,
+    "mean_line_confidence": 0.996,
+    "seconds": 49.24,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 284,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 803,
+    "mean_line_confidence": 0.996,
+    "seconds": 49.0,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 285,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 808,
+    "mean_line_confidence": 0.998,
+    "seconds": 49.64,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 286,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 737,
+    "mean_line_confidence": 0.997,
+    "seconds": 46.68,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 287,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 770,
+    "mean_line_confidence": 0.998,
+    "seconds": 47.59,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 288,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 724,
+    "mean_line_confidence": 0.998,
+    "seconds": 45.93,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 289,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 827,
+    "mean_line_confidence": 0.997,
+    "seconds": 50.08,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 290,
+    "status": "complete",
+    "line_count": 28,
+    "character_count": 710,
+    "mean_line_confidence": 0.992,
+    "seconds": 46.24,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 291,
+    "status": "complete",
+    "line_count": 21,
+    "character_count": 161,
+    "mean_line_confidence": 0.982,
+    "seconds": 28.28,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 292,
+    "status": "complete",
+    "line_count": 6,
+    "character_count": 106,
+    "mean_line_confidence": 0.852,
+    "seconds": 24.87,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 293,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 704,
+    "mean_line_confidence": 0.996,
+    "seconds": 33.49,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 294,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 697,
+    "mean_line_confidence": 0.986,
+    "seconds": 35.75,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 295,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 858,
+    "mean_line_confidence": 0.997,
+    "seconds": 40.72,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 296,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 856,
+    "mean_line_confidence": 0.998,
+    "seconds": 44.18,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 297,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 839,
+    "mean_line_confidence": 0.997,
+    "seconds": 40.93,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 298,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 755,
+    "mean_line_confidence": 0.996,
+    "seconds": 43.37,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 299,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 832,
+    "mean_line_confidence": 0.976,
+    "seconds": 49.5,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 300,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 770,
+    "mean_line_confidence": 0.987,
+    "seconds": 45.72,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 301,
+    "status": "complete",
+    "line_count": 30,
+    "character_count": 567,
+    "mean_line_confidence": 0.996,
+    "seconds": 41.13,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 302,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 843,
+    "mean_line_confidence": 0.995,
+    "seconds": 47.09,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 303,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 690,
+    "mean_line_confidence": 0.997,
+    "seconds": 42.47,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 304,
+    "status": "complete",
+    "line_count": 30,
+    "character_count": 733,
+    "mean_line_confidence": 0.996,
+    "seconds": 45.95,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 305,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 671,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.3,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 306,
+    "status": "complete",
+    "line_count": 10,
+    "character_count": 230,
+    "mean_line_confidence": 0.993,
+    "seconds": 32.51,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 307,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 632,
+    "mean_line_confidence": 0.999,
+    "seconds": 37.22,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 308,
+    "status": "complete",
+    "line_count": 33,
+    "character_count": 807,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.91,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 309,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 879,
+    "mean_line_confidence": 0.996,
+    "seconds": 48.39,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 310,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 825,
+    "mean_line_confidence": 0.997,
+    "seconds": 43.51,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 311,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 841,
+    "mean_line_confidence": 0.998,
+    "seconds": 47.47,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 312,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 746,
+    "mean_line_confidence": 0.995,
+    "seconds": 45.78,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 313,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 763,
+    "mean_line_confidence": 0.994,
+    "seconds": 47.98,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 314,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 685,
+    "mean_line_confidence": 0.996,
+    "seconds": 44.51,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 315,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 729,
+    "mean_line_confidence": 0.996,
+    "seconds": 45.27,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 316,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 691,
+    "mean_line_confidence": 0.997,
+    "seconds": 46.98,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 317,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 764,
+    "mean_line_confidence": 0.996,
+    "seconds": 47.25,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 318,
+    "status": "complete",
+    "line_count": 4,
+    "character_count": 36,
+    "mean_line_confidence": 0.992,
+    "seconds": 24.15,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 319,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 776,
+    "mean_line_confidence": 0.975,
+    "seconds": 48.2,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 320,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 834,
+    "mean_line_confidence": 0.997,
+    "seconds": 50.36,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 321,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 723,
+    "mean_line_confidence": 0.991,
+    "seconds": 47.06,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 322,
+    "status": "complete",
+    "line_count": 12,
+    "character_count": 258,
+    "mean_line_confidence": 0.995,
+    "seconds": 32.09,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 323,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 646,
+    "mean_line_confidence": 0.989,
+    "seconds": 42.61,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 324,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 915,
+    "mean_line_confidence": 0.997,
+    "seconds": 51.06,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 325,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 830,
+    "mean_line_confidence": 0.996,
+    "seconds": 50.35,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 326,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 912,
+    "mean_line_confidence": 0.994,
+    "seconds": 48.4,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 327,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 896,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.34,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 328,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 836,
+    "mean_line_confidence": 0.998,
+    "seconds": 45.76,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 329,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 863,
+    "mean_line_confidence": 0.995,
+    "seconds": 49.85,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 330,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 831,
+    "mean_line_confidence": 0.997,
+    "seconds": 50.75,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 331,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 887,
+    "mean_line_confidence": 0.997,
+    "seconds": 58.87,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 332,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 789,
+    "mean_line_confidence": 0.996,
+    "seconds": 51.98,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 333,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 862,
+    "mean_line_confidence": 0.995,
+    "seconds": 54.9,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 334,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 867,
+    "mean_line_confidence": 0.992,
+    "seconds": 52.31,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 335,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 842,
+    "mean_line_confidence": 0.994,
+    "seconds": 45.9,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 336,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 846,
+    "mean_line_confidence": 0.996,
+    "seconds": 49.13,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 337,
+    "status": "complete",
+    "line_count": 5,
+    "character_count": 89,
+    "mean_line_confidence": 0.999,
+    "seconds": 27.64,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 338,
+    "status": "complete",
+    "line_count": 26,
+    "character_count": 670,
+    "mean_line_confidence": 0.994,
+    "seconds": 40.07,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 339,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 795,
+    "mean_line_confidence": 0.997,
+    "seconds": 47.16,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 340,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 783,
+    "mean_line_confidence": 0.998,
+    "seconds": 48.37,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 341,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 682,
+    "mean_line_confidence": 0.997,
+    "seconds": 44.82,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 342,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 713,
+    "mean_line_confidence": 0.997,
+    "seconds": 43.9,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 343,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 768,
+    "mean_line_confidence": 0.996,
+    "seconds": 47.76,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 344,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 779,
+    "mean_line_confidence": 0.996,
+    "seconds": 45.55,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 345,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 877,
+    "mean_line_confidence": 0.996,
+    "seconds": 52.45,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 346,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 897,
+    "mean_line_confidence": 0.995,
+    "seconds": 49.98,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 347,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 760,
+    "mean_line_confidence": 0.998,
+    "seconds": 46.46,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 348,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 854,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.54,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 349,
+    "status": "complete",
+    "line_count": 27,
+    "character_count": 655,
+    "mean_line_confidence": 0.997,
+    "seconds": 43.6,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 350,
+    "status": "complete",
+    "line_count": 7,
+    "character_count": 107,
+    "mean_line_confidence": 0.929,
+    "seconds": 27.03,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 351,
+    "status": "complete",
+    "line_count": 1,
+    "character_count": 2,
+    "mean_line_confidence": 0.569,
+    "seconds": 23.23,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 352,
+    "status": "complete",
+    "line_count": 26,
+    "character_count": 718,
+    "mean_line_confidence": 0.998,
+    "seconds": 40.42,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 353,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 811,
+    "mean_line_confidence": 0.981,
+    "seconds": 49.13,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 354,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 808,
+    "mean_line_confidence": 0.999,
+    "seconds": 49.87,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 355,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 756,
+    "mean_line_confidence": 0.996,
+    "seconds": 53.28,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 356,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 829,
+    "mean_line_confidence": 0.996,
+    "seconds": 52.6,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 357,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 753,
+    "mean_line_confidence": 0.995,
+    "seconds": 51.08,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 358,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 843,
+    "mean_line_confidence": 0.999,
+    "seconds": 54.52,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 359,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 837,
+    "mean_line_confidence": 0.997,
+    "seconds": 38.89,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 360,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 790,
+    "mean_line_confidence": 0.998,
+    "seconds": 34.68,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 361,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 780,
+    "mean_line_confidence": 0.997,
+    "seconds": 36.23,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 362,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 847,
+    "mean_line_confidence": 0.999,
+    "seconds": 37.02,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 363,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 840,
+    "mean_line_confidence": 0.998,
+    "seconds": 37.72,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 364,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 781,
+    "mean_line_confidence": 0.996,
+    "seconds": 45.77,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 365,
+    "status": "complete",
+    "line_count": 13,
+    "character_count": 349,
+    "mean_line_confidence": 0.997,
+    "seconds": 34.01,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 366,
+    "status": "complete",
+    "line_count": 26,
+    "character_count": 660,
+    "mean_line_confidence": 0.996,
+    "seconds": 40.89,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 367,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 844,
+    "mean_line_confidence": 0.972,
+    "seconds": 49.68,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 368,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 793,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.96,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 369,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 871,
+    "mean_line_confidence": 0.996,
+    "seconds": 52.19,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 370,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 798,
+    "mean_line_confidence": 0.998,
+    "seconds": 46.91,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 371,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 801,
+    "mean_line_confidence": 0.993,
+    "seconds": 49.03,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 372,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 783,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.47,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 373,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 840,
+    "mean_line_confidence": 0.998,
+    "seconds": 50.18,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 374,
+    "status": "complete",
+    "line_count": 33,
+    "character_count": 787,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.21,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 375,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 787,
+    "mean_line_confidence": 0.993,
+    "seconds": 48.96,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 376,
+    "status": "complete",
+    "line_count": 33,
+    "character_count": 822,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.05,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 377,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 865,
+    "mean_line_confidence": 0.997,
+    "seconds": 50.5,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 378,
+    "status": "complete",
+    "line_count": 12,
+    "character_count": 221,
+    "mean_line_confidence": 0.998,
+    "seconds": 28.71,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 379,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 696,
+    "mean_line_confidence": 0.996,
+    "seconds": 39.76,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 380,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 770,
+    "mean_line_confidence": 0.997,
+    "seconds": 44.51,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 381,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 915,
+    "mean_line_confidence": 0.994,
+    "seconds": 46.87,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 382,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 864,
+    "mean_line_confidence": 0.995,
+    "seconds": 47.93,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 383,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 888,
+    "mean_line_confidence": 0.996,
+    "seconds": 53.33,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 384,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 920,
+    "mean_line_confidence": 0.993,
+    "seconds": 54.25,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 385,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 908,
+    "mean_line_confidence": 0.996,
+    "seconds": 56.23,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 386,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 855,
+    "mean_line_confidence": 0.997,
+    "seconds": 53.73,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 387,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 844,
+    "mean_line_confidence": 0.997,
+    "seconds": 44.87,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 388,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 790,
+    "mean_line_confidence": 0.996,
+    "seconds": 34.51,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 389,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 856,
+    "mean_line_confidence": 0.995,
+    "seconds": 36.49,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 390,
+    "status": "complete",
+    "line_count": 33,
+    "character_count": 851,
+    "mean_line_confidence": 0.995,
+    "seconds": 36.12,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 391,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 869,
+    "mean_line_confidence": 0.999,
+    "seconds": 37.93,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 392,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 856,
+    "mean_line_confidence": 0.998,
+    "seconds": 29.9,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 393,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 790,
+    "mean_line_confidence": 0.998,
+    "seconds": 49.84,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 394,
+    "status": "complete",
+    "line_count": 18,
+    "character_count": 191,
+    "mean_line_confidence": 0.975,
+    "seconds": 28.7,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 395,
+    "status": "complete",
+    "line_count": 2,
+    "character_count": 4,
+    "mean_line_confidence": 0.466,
+    "seconds": 23.0,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 396,
+    "status": "complete",
+    "line_count": 6,
+    "character_count": 68,
+    "mean_line_confidence": 0.989,
+    "seconds": 25.75,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 397,
+    "status": "complete",
+    "line_count": 4,
+    "character_count": 10,
+    "mean_line_confidence": 0.606,
+    "seconds": 24.37,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 398,
+    "status": "complete",
+    "line_count": 26,
+    "character_count": 689,
+    "mean_line_confidence": 0.997,
+    "seconds": 41.93,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 399,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 821,
+    "mean_line_confidence": 0.996,
+    "seconds": 47.92,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 400,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 910,
+    "mean_line_confidence": 0.995,
+    "seconds": 50.67,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 401,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 905,
+    "mean_line_confidence": 0.994,
+    "seconds": 50.71,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 402,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 756,
+    "mean_line_confidence": 0.998,
+    "seconds": 48.2,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 403,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 766,
+    "mean_line_confidence": 0.997,
+    "seconds": 45.82,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 404,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 838,
+    "mean_line_confidence": 0.995,
+    "seconds": 47.39,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 405,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 860,
+    "mean_line_confidence": 0.997,
+    "seconds": 49.92,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 406,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 793,
+    "mean_line_confidence": 0.998,
+    "seconds": 47.57,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 407,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 925,
+    "mean_line_confidence": 0.993,
+    "seconds": 50.79,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 408,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 878,
+    "mean_line_confidence": 0.997,
+    "seconds": 51.84,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 409,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 841,
+    "mean_line_confidence": 0.995,
+    "seconds": 48.68,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 410,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 793,
+    "mean_line_confidence": 0.997,
+    "seconds": 48.61,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 411,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 785,
+    "mean_line_confidence": 0.998,
+    "seconds": 45.91,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 412,
+    "status": "complete",
+    "line_count": 13,
+    "character_count": 290,
+    "mean_line_confidence": 0.998,
+    "seconds": 30.31,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 413,
+    "status": "complete",
+    "line_count": 0,
+    "character_count": 0,
+    "mean_line_confidence": null,
+    "seconds": 23.12,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 414,
+    "status": "complete",
+    "line_count": 5,
+    "character_count": 106,
+    "mean_line_confidence": 0.992,
+    "seconds": 26.12,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 415,
+    "status": "complete",
+    "line_count": 25,
+    "character_count": 643,
+    "mean_line_confidence": 0.998,
+    "seconds": 44.11,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 416,
+    "status": "complete",
+    "line_count": 31,
+    "character_count": 795,
+    "mean_line_confidence": 0.997,
+    "seconds": 49.57,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 417,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 868,
+    "mean_line_confidence": 0.996,
+    "seconds": 57.08,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 418,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 800,
+    "mean_line_confidence": 0.998,
+    "seconds": 52.45,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 419,
+    "status": "complete",
+    "line_count": 32,
+    "character_count": 782,
+    "mean_line_confidence": 0.995,
+    "seconds": 53.1,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  },
+  {
+    "pdf_page": 420,
+    "status": "complete",
+    "line_count": 19,
+    "character_count": 447,
+    "mean_line_confidence": 0.993,
+    "seconds": 41.79,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  }
+]

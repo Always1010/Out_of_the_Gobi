@@ -1,0 +1,34 @@
+# 原书扫描件留在本机，避免意外提交大体积原书文件
+/走出戈壁-单伟健.pdf
+
+# 本机依赖、模型和下载缓存
+/.venv-ocr/
+.venv/
+venv/
+/models/
+/cache/
+node_modules/
+
+# Python、编辑器和系统缓存
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# 本地配置、临时文件与运行日志
+.env
+.env.*
+!.env.example
+*.log
+/tmp/
+/pilot20/tmp/poppler-warnings.txt
+
+# 可重建的中间图像和阅读站发布目录
+/book_reader/images/contact_sheets/
+/book_reader/site/dist/

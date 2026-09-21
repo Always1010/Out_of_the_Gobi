@@ -1,0 +1,84 @@
+{
+  "res": {
+    "input_path": "C:\\Users\\ALWAYS~1\\AppData\\Local\\Temp\\gobi-ocr-l1te3ora\\page-351.png",
+    "page_index": null,
+    "model_settings": {
+      "use_doc_preprocessor": false,
+      "use_textline_orientation": false
+    },
+    "dt_polys": [
+      [
+        [
+          953,
+          1725
+        ],
+        [
+          1018,
+          1729
+        ],
+        [
+          1010,
+          1859
+        ],
+        [
+          945,
+          1855
+        ]
+      ]
+    ],
+    "text_det_params": {
+      "limit_side_len": 64,
+      "limit_type": "min",
+      "thresh": 0.3,
+      "max_side_limit": 4000,
+      "box_thresh": 0.6,
+      "unclip_ratio": 1.5
+    },
+    "text_type": "general",
+    "textline_orientation_angles": [
+      -1
+    ],
+    "text_rec_score_thresh": 0.0,
+    "return_word_box": false,
+    "rec_texts": [
+      "AB"
+    ],
+    "rec_scores": [
+      0.5686655044555664
+    ],
+    "rec_polys": [
+      [
+        [
+          953,
+          1725
+        ],
+        [
+          1018,
+          1729
+        ],
+        [
+          1010,
+          1859
+        ],
+        [
+          945,
+          1855
+        ]
+      ]
+    ],
+    "rec_boxes": [
+      [
+        945,
+        1725,
+        1018,
+        1859
+      ]
+    ]
+  },
+  "book_reader_meta": {
+    "pdf_page": 351,
+    "seconds": 23.23,
+    "size": "small",
+    "source": "PaddleOCR PP-OCRv6 small"
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "source_pdf": "../走出戈壁-单伟健.pdf",
+  "pages": [
+    {
+      "pdf_page": 1,
+      "kind": "cover_or_title",
+      "status": "rendered",
+      "note": "Cover and title page with signature.",
+      "asset": "pages/page-001.jpg"
+    },
+    {
+      "pdf_page": 2,
+      "kind": "calligraphy",
+      "status": "rendered",
+      "note": "Full-page handwritten inscription.",
+      "asset": "pages/page-002.jpg"
+    },
+    {
+      "pdf_page": 9,
+      "kind": "inline_portrait",
+      "status": "rendered",
+      "note": "Small portrait at upper right of foreword page.",
+      "asset": "pages/page-009.jpg"
+    },
+    {
+      "pdf_page": 11,
+      "kind": "full_page_photo",
+      "status": "rendered",
+      "note": "Portrait of the author with caption.",
+      "asset": "pages/page-011.jpg"
+    },
+    {
+      "pdf_page": 33,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Family and childhood photographs with captions.",
+      "asset": "pages/page-033.jpg"
+    },
+    {
+      "pdf_page": 34,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Family photographs with captions.",
+      "asset": "pages/page-034.jpg"
+    },
+    {
+      "pdf_page": 85,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Historical and portrait photographs with captions.",
+      "asset": "pages/page-085.jpg"
+    },
+    {
+      "pdf_page": 86,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Outdoor photograph with caption.",
+      "asset": "pages/page-086.jpg"
+    },
+    {
+      "pdf_page": 163,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Three outdoor photographs with captions.",
+      "asset": "pages/page-163.jpg"
+    },
+    {
+      "pdf_page": 164,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Group outdoor photograph with caption.",
+      "asset": "pages/page-164.jpg"
+    },
+    {
+      "pdf_page": 165,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Two portraits with captions.",
+      "asset": "pages/page-165.jpg"
+    },
+    {
+      "pdf_page": 246,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Portraits and outdoor photograph with captions.",
+      "asset": "pages/page-246.jpg"
+    },
+    {
+      "pdf_page": 291,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Historical group photographs with captions.",
+      "asset": "pages/page-291.jpg"
+    },
+    {
+      "pdf_page": 292,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Historical crowd photographs with captions.",
+      "asset": "pages/page-292.jpg"
+    },
+    {
+      "pdf_page": 318,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Landscape and portrait photographs with captions.",
+      "asset": "pages/page-318.jpg"
+    },
+    {
+      "pdf_page": 351,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Outdoor group photograph with caption.",
+      "asset": "pages/page-351.jpg"
+    },
+    {
+      "pdf_page": 352,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Indoor group photographs with captions.",
+      "asset": "pages/page-352.jpg"
+    },
+    {
+      "pdf_page": 394,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Three photographs with captions.",
+      "asset": "pages/page-394.jpg"
+    },
+    {
+      "pdf_page": 395,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Portrait photograph with caption.",
+      "asset": "pages/page-395.jpg"
+    },
+    {
+      "pdf_page": 396,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Outdoor group photograph with caption.",
+      "asset": "pages/page-396.jpg"
+    },
+    {
+      "pdf_page": 397,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Family photographs with captions.",
+      "asset": "pages/page-397.jpg"
+    },
+    {
+      "pdf_page": 414,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "Motorcycle and landscape photographs with captions.",
+      "asset": "pages/page-414.jpg"
+    }
+  ],
+  "blank_pages": [
+    18,
+    413
+  ]
+}

@@ -1,0 +1,296 @@
+[
+  {
+    "id": "foreword",
+    "title_traditional": "前言：中美兩國的機緣巧合",
+    "title_simplified": "前言：中美两国的机缘巧合",
+    "printed_page_start": 8,
+    "pdf_page_start": 8,
+    "status": "located"
+  },
+  {
+    "id": "preface",
+    "title_traditional": "自序",
+    "title_simplified": "自序",
+    "printed_page_start": 10,
+    "pdf_page_start": 10,
+    "status": "located"
+  },
+  {
+    "id": "opening",
+    "title_traditional": "開場白：百年戰禍",
+    "title_simplified": "开场白：百年战祸",
+    "printed_page_start": 15,
+    "pdf_page_start": 15,
+    "status": "located"
+  },
+  {
+    "id": "chapter-01",
+    "number": 1,
+    "title_traditional": "天災人禍",
+    "title_simplified": "天灾人祸",
+    "printed_page_start": 19,
+    "pdf_page_start": 19,
+    "status": "located"
+  },
+  {
+    "id": "chapter-02",
+    "number": 2,
+    "title_traditional": "無憂無慮",
+    "title_simplified": "无忧无虑",
+    "printed_page_start": 35,
+    "pdf_page_start": 35,
+    "status": "located"
+  },
+  {
+    "id": "chapter-03",
+    "number": 3,
+    "title_traditional": "疾風驟雨",
+    "title_simplified": "疾风骤雨",
+    "printed_page_start": 45,
+    "pdf_page_start": 45,
+    "status": "located"
+  },
+  {
+    "id": "chapter-04",
+    "number": 4,
+    "title_traditional": "天下大亂",
+    "title_simplified": "天下大乱",
+    "printed_page_start": 59,
+    "pdf_page_start": 59,
+    "status": "located"
+  },
+  {
+    "id": "chapter-05",
+    "number": 5,
+    "title_traditional": "繼續革命",
+    "title_simplified": "继续革命",
+    "printed_page_start": 72,
+    "pdf_page_start": 75,
+    "status": "located"
+  },
+  {
+    "id": "chapter-06",
+    "number": 6,
+    "title_traditional": "屯墾戍邊",
+    "title_simplified": "屯垦戍边",
+    "printed_page_start": 87,
+    "pdf_page_start": 87,
+    "status": "located"
+  },
+  {
+    "id": "chapter-07",
+    "number": 7,
+    "title_traditional": "物稀爲貴",
+    "title_simplified": "物稀为贵",
+    "printed_page_start": 105,
+    "pdf_page_start": 105,
+    "status": "located"
+  },
+  {
+    "id": "chapter-08",
+    "number": 8,
+    "title_traditional": "備戰備荒",
+    "title_simplified": "备战备荒",
+    "printed_page_start": 120,
+    "pdf_page_start": 121,
+    "status": "located"
+  },
+  {
+    "id": "chapter-09",
+    "number": 9,
+    "title_traditional": "修理地球",
+    "title_simplified": "修理地球",
+    "printed_page_start": 132,
+    "pdf_page_start": 133,
+    "status": "located"
+  },
+  {
+    "id": "chapter-10",
+    "number": 10,
+    "title_traditional": "烏梁素海",
+    "title_simplified": "乌梁素海",
+    "printed_page_start": 144,
+    "pdf_page_start": 144,
+    "status": "located"
+  },
+  {
+    "id": "chapter-11",
+    "number": 11,
+    "title_traditional": "冰凍三尺",
+    "title_simplified": "冰冻三尺",
+    "printed_page_start": 154,
+    "pdf_page_start": 155,
+    "status": "located"
+  },
+  {
+    "id": "chapter-12",
+    "number": 12,
+    "title_traditional": "長夜難明",
+    "title_simplified": "长夜难明",
+    "printed_page_start": 168,
+    "pdf_page_start": 169,
+    "status": "located"
+  },
+  {
+    "id": "chapter-13",
+    "number": 13,
+    "title_traditional": "文化沙漠",
+    "title_simplified": "文化沙漠",
+    "printed_page_start": 183,
+    "pdf_page_start": 183,
+    "status": "located"
+  },
+  {
+    "id": "chapter-14",
+    "number": 14,
+    "title_traditional": "赤腳郎中",
+    "title_simplified": "赤脚郎中",
+    "printed_page_start": 195,
+    "pdf_page_start": 195,
+    "status": "located"
+  },
+  {
+    "id": "chapter-15",
+    "number": 15,
+    "title_traditional": "救死扶傷",
+    "title_simplified": "救死扶伤",
+    "printed_page_start": 206,
+    "pdf_page_start": 207,
+    "status": "located"
+  },
+  {
+    "id": "chapter-16",
+    "number": 16,
+    "title_traditional": "白坯紅磚",
+    "title_simplified": "白坯红砖",
+    "printed_page_start": 217,
+    "pdf_page_start": 217,
+    "status": "located"
+  },
+  {
+    "id": "chapter-17",
+    "number": 17,
+    "title_traditional": "不平則鳴",
+    "title_simplified": "不平则鸣",
+    "printed_page_start": 235,
+    "pdf_page_start": 237,
+    "status": "located"
+  },
+  {
+    "id": "chapter-18",
+    "number": 18,
+    "title_traditional": "插翅難飛",
+    "title_simplified": "插翅难飞",
+    "printed_page_start": 249,
+    "pdf_page_start": 249,
+    "status": "located"
+  },
+  {
+    "id": "chapter-19",
+    "number": 19,
+    "title_traditional": "男女有別",
+    "title_simplified": "男女有别",
+    "printed_page_start": 265,
+    "pdf_page_start": 267,
+    "status": "located"
+  },
+  {
+    "id": "chapter-20",
+    "number": 20,
+    "title_traditional": "夢斷戈壁",
+    "title_simplified": "梦断戈壁",
+    "printed_page_start": 273,
+    "pdf_page_start": 273,
+    "status": "located"
+  },
+  {
+    "id": "chapter-21",
+    "number": 21,
+    "title_traditional": "峰迴路轉",
+    "title_simplified": "峰回路转",
+    "printed_page_start": 284,
+    "pdf_page_start": 285,
+    "status": "located"
+  },
+  {
+    "id": "chapter-22",
+    "number": 22,
+    "title_traditional": "多事之秋",
+    "title_simplified": "多事之秋",
+    "printed_page_start": 297,
+    "pdf_page_start": 297,
+    "status": "located"
+  },
+  {
+    "id": "chapter-23",
+    "number": 23,
+    "title_traditional": "改革開放",
+    "title_simplified": "改革开放",
+    "printed_page_start": 311,
+    "pdf_page_start": 311,
+    "status": "located"
+  },
+  {
+    "id": "chapter-24",
+    "number": 24,
+    "title_traditional": "海上仙山",
+    "title_simplified": "海上仙山",
+    "printed_page_start": 329,
+    "pdf_page_start": 329,
+    "status": "located"
+  },
+  {
+    "id": "chapter-25",
+    "number": 25,
+    "title_traditional": "事在人為",
+    "title_simplified": "事在人为",
+    "printed_page_start": 344,
+    "pdf_page_start": 338,
+    "status": "located"
+  },
+  {
+    "id": "chapter-26",
+    "number": 26,
+    "title_traditional": "再渡重洋",
+    "title_simplified": "再渡重洋",
+    "printed_page_start": 358,
+    "pdf_page_start": 357,
+    "status": "located"
+  },
+  {
+    "id": "chapter-27",
+    "number": 27,
+    "title_traditional": "天倫之樂",
+    "title_simplified": "天伦之乐",
+    "printed_page_start": 372,
+    "pdf_page_start": 371,
+    "status": "located"
+  },
+  {
+    "id": "chapter-28",
+    "number": 28,
+    "title_traditional": "常春藤下",
+    "title_simplified": "常春藤下",
+    "printed_page_start": 385,
+    "pdf_page_start": 385,
+    "status": "located"
+  },
+  {
+    "id": "chapter-29",
+    "number": 29,
+    "title_traditional": "歸去來兮",
+    "title_simplified": "归去来兮",
+    "printed_page_start": 404,
+    "pdf_page_start": 403,
+    "status": "located"
+  },
+  {
+    "id": "afterword",
+    "title_traditional": "後記：故人依舊",
+    "title_simplified": "后记：故人依旧",
+    "printed_page_start": 421,
+    "pdf_page_start": 415,
+    "fixed_pdf_page_start": 415,
+    "status": "located"
+  }
+]
