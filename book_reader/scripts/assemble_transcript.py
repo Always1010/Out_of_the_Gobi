@@ -53,6 +53,11 @@ def repair_star_break(value: str) -> str:
     return value
 
 
+def normalize_round_brackets(value: str) -> str:
+    """Use matching fullwidth round brackets in the Chinese reading text."""
+    return value.translate(str.maketrans({"(": "（", ")": "）"}))
+
+
 def to_mainland_simplified(value: str, converter: OpenCC) -> str:
     """Apply the small set of Mainland usage choices OpenCC leaves unchanged."""
     return converter.convert(value).translate(str.maketrans({
@@ -126,7 +131,7 @@ def reading_paragraphs(page: int, image_kind: str | None = None) -> list[str]:
     values = page_paragraphs(page)
     for phrase in INLINE_IMAGE_TEXT_REMOVALS.get(page, ()):
         values = [value.replace(phrase, "") for value in values]
-    return [value for value in values if value]
+    return [normalize_round_brackets(value) for value in values if value]
 
 
 def main() -> None:

@@ -53,7 +53,7 @@
 
 ## EPUB 阅读版
 
-运行 `..\.venv-ocr\Scripts\python.exe scripts\build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。输出目录不纳入 Git；每次重新运行均会覆盖对应文件。电子书包含 33 节正文、原书封面和题字页、19 处正文图片以及已核对的图注，并提供可跳转目录。文字稿仍未完成逐字人工校勘。
+运行 `..\.venv-ocr\Scripts\python.exe scripts\build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。该目录是被 Git 忽略的生成目录；运行 `python scripts\publish_ebooks.py` 后，四个 EPUB/PDF 成品会复制到项目主目录并纳入 Git。电子书包含 33 节正文、原书封面和题字页、19 处正文图片以及已核对的图注，并提供可跳转目录。文字稿仍未完成逐字人工校勘。
 
 ## 文字重排 PDF
 

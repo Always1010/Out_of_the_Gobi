@@ -58,6 +58,16 @@ def validate() -> None:
             line.strip() == "★★★"
             for content in contents for line in content.splitlines() if "★" in line
         ), f"{directory}: nonstandard scene separator"
+        for content in contents:
+            assert "(" not in content and ")" not in content, f"{directory}: halfwidth round bracket"
+            balance = 0
+            for character in content:
+                if character == "（":
+                    balance += 1
+                elif character == "）":
+                    balance -= 1
+                assert balance >= 0, f"{directory}: unmatched closing round bracket"
+            assert balance == 0, f"{directory}: unmatched opening round bracket"
 
     simplified = "\n".join(
         path.read_text(encoding="utf-8")

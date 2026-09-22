@@ -7,10 +7,20 @@
 - `book_reader/ocr/`：420 个 PDF 物理页的 OCR JSON、逐页文本和索引。
 - `book_reader/text/`：33 节繁简体、分页及连续 Markdown，包含完整汇编；分页稿保留 PDF 页码，适合回查证据。
 - `book_reader/images/`：21 个实际图片页，15 页可辨图注。
+- `book_reader/output/`：被 Git 忽略的电子书生成目录；主目录中的四个电子书文件是纳入 Git 的成品。
 - `book_reader/site/dist/index.html`：本机生成的离线阅读器。
 - `book_reader/qa/full-manuscript-review.md`：文字稿复核结论；全书尚未完成逐字人工校勘。
 
 阅读器与全书处理说明见 [book_reader/README.md](book_reader/README.md)，已安装的 OCR 工具路径见 [book_reader/OCR环境.md](book_reader/OCR环境.md)。
+
+## 电子书成品
+
+| 版本 | EPUB | 文字重排 PDF |
+| --- | --- | --- |
+| 简体 | [走出戈壁-简体.epub](走出戈壁-简体.epub) | [走出戈壁-简体.pdf](走出戈壁-简体.pdf) |
+| 繁体 | [走出戈壁-繁体.epub](走出戈壁-繁体.epub) | [走出戈壁-繁体.pdf](走出戈壁-繁体.pdf) |
+
+这些成品由 OCR 文字稿生成，**尚未经过人工逐字审稿**，可能存在错字、漏字、标点、排版或图注偏差。如发现问题，请在项目 Issues 中说明文件名、章节、问题片段和建议更正。原始扫描版 `走出戈壁-单伟健.pdf` 仅保存在本机，不纳入 Git。
 
 ## 人物传记地图
 
