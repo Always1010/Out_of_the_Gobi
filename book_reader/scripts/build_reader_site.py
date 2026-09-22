@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import re
@@ -79,6 +80,11 @@ def write_text(path: Path, value: str) -> None:
     path.write_text(value, encoding="utf-8")
 
 
+def versioned_name(stem: str, suffix: str, value: str) -> str:
+    digest = hashlib.sha256(value.encode("utf-8")).hexdigest()[:10]
+    return f"{stem}-{digest}.{suffix}"
+
+
 def main() -> None:
     chapters = json.loads((TEXT / "chapters.json").read_text(encoding="utf-8"))
     image_entries = json.loads((ROOT / "images" / "images.json").read_text(encoding="utf-8"))["pages"]
@@ -116,10 +122,17 @@ def main() -> None:
         source = IMAGE_SOURCE / Path(entry["asset"]).name
         shutil.copy2(source, target_images / source.name)
     payload = json.dumps({"title": "走出戈壁", "chapters": entries}, ensure_ascii=False).replace("</", "<\\/")
-    write_text(DIST / "data.js", f"window.BOOK = {payload};\n")
+    data_source = f"window.BOOK = {payload};\n"
+    write_text(DIST / "data.js", data_source)
     write_text(DIST / "styles.css", STYLES)
     write_text(DIST / "app.js", APP)
-    write_text(DIST / "index.html", INDEX)
+    data_name = versioned_name("data", "js", data_source)
+    style_name = versioned_name("styles", "css", STYLES)
+    app_name = versioned_name("app", "js", APP)
+    write_text(DIST / data_name, data_source)
+    write_text(DIST / style_name, STYLES)
+    write_text(DIST / app_name, APP)
+    write_text(DIST / "index.html", INDEX.replace("styles.css", style_name).replace("data.js", data_name).replace("app.js", app_name))
     print(f"Built {len(entries)} chapters and {len(image_entries)} image pages in {DIST}")
 
 
@@ -183,7 +196,7 @@ body.toc-collapsed .layout { grid-template-columns:minmax(0,1fr); } body.toc-col
 .chapter-heading { break-inside:avoid; }
 .plate { margin:2.6em auto; text-align:center; }.plate-button { max-width:100%; padding:0; border:0; background:transparent; cursor:zoom-in; }.plate img { display:block; max-width:100%; max-height:760px; margin:auto; box-shadow:0 7px 26px #0003; }.plate figcaption { max-width:700px; margin:10px auto 0; font-size:13px; color:var(--muted); line-height:1.7; }.plate-source { display:block; text-align:center; }.plate-caption { display:block; margin-top:7px; text-align:left; }.chapter-nav { display:flex; justify-content:space-between; gap:16px; border-top:1px solid var(--edge); padding-top:27px; margin-top:56px; }.chapter-nav button { padding:9px 14px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:15px inherit; cursor:pointer; }.chapter-nav button:hover:not(:disabled) { background:#edf2ed; }.chapter-nav button:disabled { opacity:.35; cursor:default; }
 .page-nav { display:none; align-items:center; justify-content:space-between; gap:5px; border-top:1px solid var(--edge); padding-top:10px; margin-top:10px; }.page-nav button { padding:7px 9px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:14px inherit; cursor:pointer; white-space:nowrap; }.page-nav button:disabled { opacity:.35; cursor:default; }.page-status { min-width:100px; text-align:center; color:var(--muted); white-space:nowrap; } #page-count { display:block; font:14px/1.4 sans-serif; }.key-hint { display:block; font:12px/1.3 sans-serif; }
-body.page-mode { height:100dvh; overflow:hidden; } body.page-mode .layout { height:calc(100dvh - var(--header-height,64px)); } body.page-mode .toc-panel { height:calc(100dvh - var(--header-height,64px)); min-height:0; top:var(--header-height,64px); } body.page-mode #reader { display:flex; flex-direction:column; height:100%; padding-top:18px; padding-bottom:14px; } body.page-mode .reader-meta { flex:none; margin-bottom:13px; } body.page-mode #chapter { flex:1; width:100%; min-width:0; min-height:0; column-fill:auto; column-gap:28px; overflow:hidden; overscroll-behavior:contain; } body.page-mode #chapter p { orphans:2; widows:2; } body.page-mode .plate { break-inside:avoid; margin:1.2em auto; } body.page-mode .chapter-nav { display:none; } body.page-mode .page-nav { display:flex; }
+body.page-mode { height:100dvh; overflow:hidden; } body.page-mode .layout { height:calc(100dvh - var(--header-height,64px)); min-height:0; grid-template-rows:minmax(0,1fr); overflow:hidden; } body.page-mode .toc-panel { height:calc(100dvh - var(--header-height,64px)); min-height:0; top:var(--header-height,64px); } body.page-mode #reader { display:flex; flex-direction:column; height:100%; min-height:0; overflow:hidden; padding-top:18px; padding-bottom:14px; } body.page-mode .reader-meta { flex:none; margin-bottom:13px; } body.page-mode #chapter { flex:1; width:100%; min-width:0; min-height:0; column-fill:auto; column-gap:28px; overflow:hidden; overscroll-behavior:contain; } body.page-mode #chapter p { orphans:2; widows:2; } body.page-mode .plate { break-inside:avoid; margin:1.2em auto; } body.page-mode .chapter-nav { display:none; } body.page-mode .page-nav { display:flex; }
 .search-results { position:fixed; z-index:10; top:57px; right:96px; width:min(490px,calc(100vw - 30px)); max-height:55vh; overflow:auto; padding:8px; border:1px solid var(--edge); border-radius:0 0 8px 8px; background:var(--paper); box-shadow:0 10px 26px #0003; }.result { width:100%; display:block; text-align:left; padding:11px; border:0; background:transparent; border-bottom:1px solid var(--edge); font:14px/1.55 inherit; cursor:pointer; }.result strong { color:var(--pine); display:block; margin-bottom:3px; }.result:hover { background:#edf2ed; }.visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
 dialog { width:min(1000px,94vw); max-height:94vh; padding:18px; border:0; background:var(--paper); color:var(--ink); box-shadow:0 15px 50px #0008; } dialog::backdrop { background:#000b; } dialog img { display:block; max-width:100%; max-height:80vh; margin:auto; } dialog p { text-align:center; color:var(--muted); } #close-image { float:right; border:0; background:transparent; font-size:29px; cursor:pointer; color:var(--ink); }
 body.dark { --ink:#e5e4dc; --muted:#a7aaa1; --paper:#1c211e; --edge:#3e4740; --pine:#9bc4b6; --header-bg:#254f45; --accent:#d9a06d; } body.dark .toc-item:hover,body.dark .toc-item.active,body.dark .chapter-nav button:hover:not(:disabled),body.dark .result:hover { background:#2c3830; } body.dark .search input { background:#eff0eb; color:#20251f; }
