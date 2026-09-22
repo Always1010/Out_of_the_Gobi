@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import json
+import os
 import re
+import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -70,8 +72,25 @@ def load_captions(script: str) -> dict[int, list[str]]:
     if script != "simplified":
         raise ValueError(script)
     # Match the mainland character choices already used by the reader site.
-    from opencc import OpenCC
-    from assemble_transcript import to_mainland_simplified
+    try:
+        from opencc import OpenCC
+        from assemble_transcript import to_mainland_simplified
+    except ModuleNotFoundError:
+        # The bundled PDF runtime has ReportLab but not OpenCC; use the project's
+        # existing OCR environment for exactly the same conversion as the site.
+        converter_python = BOOK.parent / ".venv-ocr" / "Scripts" / "python.exe"
+        if not converter_python.is_file():
+            raise RuntimeError("OpenCC is needed for Simplified Chinese captions") from None
+        result = subprocess.run(
+            [str(converter_python), "-c", "import json; from export_common import load_captions; print(json.dumps(load_captions('simplified'), ensure_ascii=False))"],
+            cwd=Path(__file__).parent,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            env={**os.environ, "PYTHONIOENCODING": "utf-8"},
+            check=True,
+        )
+        return {int(page): values for page, values in json.loads(result.stdout).items()}
 
     converter = OpenCC("tw2sp")
     return {

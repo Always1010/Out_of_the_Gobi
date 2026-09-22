@@ -4,10 +4,8 @@ from __future__ import annotations
 
 import argparse
 import html
-import re
 import zipfile
 from datetime import datetime, timezone
-from pathlib import Path
 from xml.etree import ElementTree as ET
 
 from export_common import IMAGES, OUTPUT, Chapter, image_pages, load_captions, load_chapters

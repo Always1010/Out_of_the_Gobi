@@ -54,3 +54,7 @@
 ## EPUB 阅读版
 
 运行 `..\.venv-ocr\Scripts\python.exe scripts\build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。输出目录不纳入 Git；每次重新运行均会覆盖对应文件。电子书包含 33 节正文、原书封面和题字页、19 处正文图片以及已核对的图注，并提供可跳转目录。文字稿仍未完成逐字人工校勘。
+
+## 文字重排 PDF
+
+运行 `python scripts\build_pdf.py`，可生成简体和繁体两套 B5 版式 PDF，同样保存到 `output/`。运行环境需有 ReportLab 和 Pillow、Windows Noto Sans SC/TC 字体；简体图注转换使用 OpenCC，若当前 Python 环境没有 OpenCC，脚本会调用项目的 `.venv-ocr`。PDF 有可搜索的正文、目录页、章节书签和页码。原始 420 页扫描 PDF 仍单独保留，不会被覆盖。
