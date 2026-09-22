@@ -30,3 +30,4 @@ Thumbs.db
 
 # 阅读站发布目录
 /book_reader/site/dist/
+/book_reader/output/

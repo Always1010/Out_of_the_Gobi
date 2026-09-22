@@ -50,3 +50,7 @@
 - 已整理 33 个章节或前后附录的繁简体文字稿，分别提供分页版与连续版；网页使用简体连续版，章节边界已按正文标题校正。
 - 已登记、保存 21 个实际图片页，并在 `images/captions.json` 整理 15 页可辨图注。PDF 第 352 页已恢复为第二十六章正文。
 - 离线阅读网页位于 `site/dist/index.html`，可由 `scripts/build_reader_site.py` 重建。当前复核结果与仍需留意的事项见 `qa/full-manuscript-review.md`。
+
+## EPUB 阅读版
+
+运行 `..\.venv-ocr\Scripts\python.exe scripts\build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。输出目录不纳入 Git；每次重新运行均会覆盖对应文件。电子书包含 33 节正文、原书封面和题字页、19 处正文图片以及已核对的图注，并提供可跳转目录。文字稿仍未完成逐字人工校勘。
