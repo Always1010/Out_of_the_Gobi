@@ -12,6 +12,11 @@ from urllib.parse import quote, urlencode
 from urllib.request import Request, urlopen
 
 NAMES = tuple(f"走出戈壁-{script}.{extension}" for script in ("简体", "繁体") for extension in ("epub", "pdf"))
+ASSET_NAMES = {
+    f"走出戈壁-{script}.{extension}": f"out-of-the-gobi-{locale}.{extension}"
+    for script, locale in (("简体", "zh-Hans"), ("繁体", "zh-Hant"))
+    for extension in ("epub", "pdf")
+}
 MARKER = re.compile(r"<!-- gobi-ebooks (\{.*?\}) -->")
 
 
@@ -120,16 +125,35 @@ def publish(client: GitHub, tag: str, source_sha: str, directory: Path) -> str:
     metadata = json.loads(matches[0][1]) if matches else {"source_sha": source_sha, "assets": {}}
     if metadata.get("source_sha") != source_sha:
         raise ValueError("Existing release records a different source commit")
-    if release and release["draft"] and (not matches or any(a["name"] not in NAMES for a in assets)):
-        raise ValueError("Refusing to publish an unrelated draft or its unrelated assets")
-    existing = {asset["name"]: asset for asset in assets if asset["name"] in NAMES}
-    if len(existing) != sum(asset["name"] in NAMES for asset in assets):
-        raise ValueError("Duplicate ebook asset names")
     recorded = metadata.get("assets", {})
-    for name, asset in existing.items():
+    source_names = {remote: local for local, remote in ASSET_NAMES.items()}
+    existing, unrelated = {}, []
+    for asset in assets:
+        name = source_names.get(asset["name"])
+        if name is None and release and release["draft"] and matches:
+            # GitHub stripped an earlier Chinese filename to '-.epub'. Adopt
+            # only a unique, fully uploaded asset whose digest is in our own
+            # same-source draft manifest; unknown files are never renamed.
+            if asset["name"] in NAMES:
+                candidates = [asset["name"]]
+            elif asset["name"] in {"-.epub", "-.pdf"}:
+                candidates = [n for n in NAMES if n.endswith(Path(asset["name"]).suffix)
+                              and asset.get("digest") == f"sha256:{recorded.get(n)}"]
+            else:
+                candidates = []
+            if len(candidates) == 1:
+                name = candidates[0]
+        if name is None:
+            unrelated.append(asset)
+            continue
+        if name in existing:
+            raise ValueError("Duplicate ebook asset names or digests")
         if name not in recorded:
             raise ValueError(f"Unrecognized existing ebook asset: {name}; no overwrite is allowed")
         check_asset(asset, recorded[name])
+        existing[name] = asset
+    if release and release["draft"] and (not matches or unrelated):
+        raise ValueError("Refusing to publish an unrelated draft or its unrelated assets")
     if release and release.get("immutable"):
         if set(existing) != set(NAMES):
             raise ValueError("The existing Release is immutable and is missing ebooks; use a new version tag")
@@ -147,22 +171,31 @@ def publish(client: GitHub, tag: str, source_sha: str, directory: Path) -> str:
                                   "body": updated_body, "draft": True, "make_latest": "false"})
     elif updated_body != body:
         client.request("PATCH", f"releases/{release['id']}", {"body": updated_body})
+    for name, asset in existing.items():
+        if asset["name"] != ASSET_NAMES[name]:
+            # Rename the verified failed upload in place. No delete, reupload,
+            # replacement, or change of content is required to resume the draft.
+            renamed = client.request("PATCH", f"releases/assets/{asset['id']}",
+                                     {"name": ASSET_NAMES[name], "label": name})
+            if renamed.get("name") != ASSET_NAMES[name]:
+                raise ValueError("GitHub did not retain the safe ASCII asset name")
+            check_asset(renamed, recorded[name])
     for name in NAMES:
         if name in existing:
             continue
-        asset = client.request("POST", f"releases/{release['id']}/assets?" + urlencode({"name": name}),
+        asset = client.request("POST", f"releases/{release['id']}/assets?" + urlencode({"name": ASSET_NAMES[name], "label": name}),
                                (directory / name).read_bytes(), upload=True)
-        if asset.get("name") != name:
+        if asset.get("name") != ASSET_NAMES[name]:
             raise ValueError(f"GitHub changed the asset filename: {name}")
         check_asset(asset, hashes[name])
     final_assets = client.assets(release["id"])
     final = {asset["name"]: asset for asset in final_assets}
     for name in NAMES:
-        check_asset(final[name], metadata["assets"][name])
+        check_asset(final[ASSET_NAMES[name]], metadata["assets"][name])
     verify_tag()
     # Publishing a draft is the final action, after all four assets are verified.
     if release["draft"]:
-        if set(final) != set(NAMES):
+        if set(final) != set(ASSET_NAMES.values()):
             raise ValueError("Draft gained unrelated assets; refusing to publish them")
         release = client.request("PATCH", f"releases/{release['id']}", {"draft": False, "make_latest": "false"})
     url = release["html_url"]

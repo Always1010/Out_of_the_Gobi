@@ -4,7 +4,7 @@
 
 ## 给现有 book-v1.0 补发 Release
 
-`book-v1.0` 的首次 [Runner 构建已成功](https://github.com/Always1010/Out_of_the_Gobi/actions/runs/38061306548)，旧工作流只上传了 Actions 压缩包。新的发布流程进入 `main` 后：
+`book-v1.0` 的首次 [Runner 构建已成功](https://github.com/Always1010/Out_of_the_Gobi/actions/runs/38061306548)，旧工作流只上传了 Actions 压缩包。首次 Release 尝试因 GitHub 净化中文文件名而安全停在草稿；当前流程使用稳定英文文件名，可按校验值识别并原位重命名那个已上传文件后继续。更新后的发布流程进入 `main` 后：
 
 1. 打开 **Actions → Build corrected ebooks → Run workflow**。
 2. 分支选择 **main**，在 **release_tag** 输入 **book-v1.0**。
@@ -34,10 +34,12 @@ git push origin book-v1.0.1
 
 Release 的 Assets 中分别提供：
 
-- `走出戈壁-简体.epub`
-- `走出戈壁-简体.pdf`
-- `走出戈壁-繁体.epub`
-- `走出戈壁-繁体.pdf`
+- `out-of-the-gobi-zh-Hans.epub`：简体 EPUB
+- `out-of-the-gobi-zh-Hans.pdf`：简体 PDF
+- `out-of-the-gobi-zh-Hant.epub`：繁体 EPUB
+- `out-of-the-gobi-zh-Hant.pdf`：繁体 PDF
+
+下载文件名使用 ASCII，避免 GitHub 将中文名净化成 `-.epub`／`-.pdf`；上传时另设置中文显示标签。Actions 备份中的原文件名保持中文。
 
 不把四份书合成一个 Release ZIP。GitHub 自动显示的 Source code ZIP／tar.gz 是源码归档，与四份电子书不同。
 
@@ -49,6 +51,7 @@ Actions 仍保留 `gobi-ebooks-运行编号-尝试编号` 作为备份，内含�
 - 普通构建任务只有 `contents: read`；独立发布任务才有 `contents: write`。不需要额外密钥或修改仓库权限设置。
 - 发布任务运行当前工作流提交中的受控发布程序，不运行旧 Tag 中的书稿构建代码；文件通过本次构建的精确 artifact ID 传递。
 - 失败后可重跑新流程的失败任务。已验证、来自同一源码提交的文件会保留，仅补齐缺失文件；重建时间变化不会强制替换已有文件。
+- 早期失败草稿中被净化成 `-.epub`／`-.pdf` 的资产，只有在源码提交一致、SHA-256 唯一匹配本流程记录时才原位重命名为正确英文名，保留原 asset ID 和内容，不删除、不重新上传。未知或同名冲突资产仍会停止。
 - 不删除或覆盖同名资产，不改动无关资产，不发布用户原有的无关草稿。遇到未知同名文件、校验不匹配、标签被移动等情况会停止，并在日志说明原因。
 - GitHub 偶尔会在失败上传后留下零字节 `starter` 资产；自动重跑不会删除它，会安全停止。需要人工确认并清理该失败资产后再重跑，不要删除已成功的文件。
 - 补齐已有公开 Release 时保留原有说明，并追加本流程的构建记录。不会把旧版本强行设为仓库最新 Release。
