@@ -10,11 +10,13 @@
 
 提供四种阅读文件：简体 EPUB、简体 PDF、繁体 EPUB、繁体 PDF。
 
-- **独立文件下载**：[GitHub Releases](https://github.com/Always1010/Out_of_the_Gobi/releases) 是后续版本的发布入口，发布完成后可在 Assets 中分别下载四份电子书。首次 Release 尚待发布。
-- **当前可用成品**：[`book-v1.0` 的 Actions 构建](https://github.com/Always1010/Out_of_the_Gobi/actions/runs/38061306548) 已成功，在该页面的 Artifacts 中下载四份电子书及校验文件。需登录 GitHub；产物请求保留 90 天，以仓库策略为限。
-- **旧版存档**：仓库根目录的四份 EPUB/PDF 仍为改前版本，请勿将它们作为本次校订成品下载。
+- **独立文件下载**：[book-v1.0 Release](https://github.com/Always1010/Out_of_the_Gobi/releases/tag/book-v1.0) 已发布，四份文件可分别下载：
+  - 简体：[EPUB](https://github.com/Always1010/Out_of_the_Gobi/releases/download/book-v1.0/out-of-the-gobi-zh-Hans.epub) · [PDF](https://github.com/Always1010/Out_of_the_Gobi/releases/download/book-v1.0/out-of-the-gobi-zh-Hans.pdf)
+  - 繁体：[EPUB](https://github.com/Always1010/Out_of_the_Gobi/releases/download/book-v1.0/out-of-the-gobi-zh-Hant.epub) · [PDF](https://github.com/Always1010/Out_of_the_Gobi/releases/download/book-v1.0/out-of-the-gobi-zh-Hant.pdf)
+- **构建备份**：[已成功的 Actions 运行](https://github.com/Always1010/Out_of_the_Gobi/actions/runs/38091928739) 的 Artifacts 中保留四书及校验文件。需登录 GitHub；产物请求保留 90 天，以仓库策略为限。
+- **版本来源**：本版包含诗句逗号和原书漏句号两处最新修订。四个 Release 文件已下载校验 SHA-256，并通过正文、卷首、图片及连续页码检查；根目录四份旧成品已移除，源码与构建程序保留。
 
-维护者可从 `main` 手动运行工作流，填写 `release_tag=book-v1.0`，为现有标签补发 Release；不要重跑首次旧运行来升级发布流程。详见[电子书构建与发布说明](book_reader/BUILD_EBOOKS.md)。
+后续版本使用新 `book-v*` 标签触发构建与发布；手动补发已有标签时填写 `release_tag`。详见[电子书构建与发布说明](book_reader/BUILD_EBOOKS.md)。
 
 ### 文字稿与离线阅读
 

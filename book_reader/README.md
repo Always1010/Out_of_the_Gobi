@@ -53,7 +53,7 @@
 
 ## EPUB 阅读版
 
-运行 `..\.venv-ocr\Scripts\python.exe scripts\build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。该目录是被 Git 忽略的生成目录；如需替换根目录旧成品，可在四份 EPUB/PDF 全部重建后运行 `python scripts\publish_ebooks.py`，再自行提交生成文件。电子书包含 33 节正文及前后附录、作者简介与献辞、原书封面和题字页、20 处正文图片以及已核对的图注，并提供可跳转目录。
+运行 `..\.venv-ocr\Scripts\python.exe scripts\build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。该目录是被 Git 忽略的生成目录；正式下载文件发布到 [GitHub Releases](https://github.com/Always1010/Out_of_the_Gobi/releases)，不再将成品书提交到仓库根目录。电子书包含 33 节正文及前后附录、作者简介与献辞、原书封面和题字页、20 处正文图片以及已核对的图注，并提供可跳转目录。
 
 文字稿已完成校对与修订，整理版仍可能存在错字、漏字、标点、排版或图片标注偏差。发现问题时，请在项目 Issues 中注明文件名、章节、问题片段和建议更正。
 
@@ -63,7 +63,7 @@
 
 ## 本次原扫描回改
 
-校订源稿与构建程序已同步；根目录四份 EPUB/PDF 仍是旧版存档。[GitHub Actions Tag 打包与发布](BUILD_EBOOKS.md) 会在 Runner 重建并校验四份成品，再作为四个独立 Release 文件发布。`book-v1.0` 的 Runner 构建已成功；可通过新工作流的 `release_tag` 手动输入补发已有标签。勿将根目录旧文件视为本次结果。
+[book-v1.0 Release](https://github.com/Always1010/Out_of_the_Gobi/releases/tag/book-v1.0) 已发布四个独立文件，包含诗句逗号与原书漏句号修订；实际下载文件的 SHA-256、正文、卷首、图片与连续页码检查均通过。根目录四份旧 EPUB/PDF 已移除，校订源稿与全部构建程序保留。[GitHub Actions Tag 打包与发布](BUILD_EBOOKS.md) 用于后续新版本和已有标签补发。
 
 修改范围和保留疑点分别见 [本次修改说明](qa/本次修改说明.md)、[原文疑点说明](qa/原文疑点说明.md)。版权与版本信息页依本次裁决不收入阅读版；阅读 PDF 从第一页起连续编号。
 
@@ -76,7 +76,6 @@ python book_reader/scripts/build_pdf.py
 python book_reader/scripts/build_reader_site.py
 python book_reader/scripts/validate_manuscript.py --exports
 python book_reader/scripts/validate_proofreading.py
-python book_reader/scripts/publish_ebooks.py
 ```
 
-以上命令从仓库根目录执行。需要重新从 OCR 组稿时先运行 `assemble_transcript.py`；脚本会自动重放 `qa/proofreading-corrections.json` 中的逐页精确修正，再按上述顺序重建。原始 OCR 不改写；位置与预期不符会停止，避免静默丢失校改。
+以上命令从仓库根目录执行，成品留在被 Git 忽略的 `book_reader/output/`。历史本地复制工具 `publish_ebooks.py` 仍保留，但 Release 发布和日常重建不需要运行它。需要重新从 OCR 组稿时先运行 `assemble_transcript.py`；脚本会自动重放 `qa/proofreading-corrections.json` 中的逐页精确修正，再按上述顺序重建。原始 OCR 不改写；位置与预期不符会停止，避免静默丢失校改。
