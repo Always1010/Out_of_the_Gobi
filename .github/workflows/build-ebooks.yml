@@ -1,0 +1,123 @@
+name: Build corrected ebooks
+run-name: Build corrected ebooks · ${{ github.ref_name }}
+
+on:
+  push:
+    tags:
+      - 'book-v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ebooks-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || github.event.deleted == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    env:
+      PYTHONUTF8: '1'
+      PYTHONUNBUFFERED: '1'
+
+    steps:
+      - name: Check out the triggering commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12.14'
+          cache: pip
+          cache-dependency-path: book_reader/requirements-build.txt
+
+      - name: Install pinned build dependencies
+        run: |
+          python -m pip install --disable-pip-version-check -r book_reader/requirements-build.txt
+          python -m pip check
+
+      - name: Prepare verified Simplified and Traditional Chinese fonts
+        env:
+          FONT_DIR: ${{ runner.temp }}/gobi-fonts
+          GOBI_FONT_SC: ${{ runner.temp }}/gobi-fonts/NotoSansSC-Regular.ttf
+          GOBI_FONT_TC: ${{ runner.temp }}/gobi-fonts/NotoSansTC-Regular.ttf
+        run: |
+          mkdir -p "$FONT_DIR"
+          # Full CJK fonts retain mixed-script source characters; verify before parsing.
+          base='https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/Variable/TTF'
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            "$base/NotoSansCJKsc-VF.ttf" -o "$FONT_DIR/NotoSansSC-VF.ttf"
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            "$base/NotoSansCJKtc-VF.ttf" -o "$FONT_DIR/NotoSansTC-VF.ttf"
+          (
+            cd "$FONT_DIR"
+            printf '%s\n' \
+              '990c807e79c25662a5a9ecf7f971baeb2bf2eab9a559e5ecf15cdfdb8561d21f  NotoSansSC-VF.ttf' \
+              '6b40dd16cf1b73b5a7a0ed2472d641b60e3e85e87211abd20009f67d841425da  NotoSansTC-VF.ttf' \
+              | sha256sum --check --strict
+          )
+          # ReportLab embeds TrueType outlines; freeze variable fonts at Regular.
+          fonttools varLib.instancer "$FONT_DIR/NotoSansSC-VF.ttf" wght=400 --output "$GOBI_FONT_SC"
+          fonttools varLib.instancer "$FONT_DIR/NotoSansTC-VF.ttf" wght=400 --output "$GOBI_FONT_TC"
+
+      - name: Rebuild from reviewed manuscripts and validate all four ebooks
+        env:
+          GOBI_FONT_SC: ${{ runner.temp }}/gobi-fonts/NotoSansSC-Regular.ttf
+          GOBI_FONT_TC: ${{ runner.temp }}/gobi-fonts/NotoSansTC-Regular.ttf
+        run: |
+          # No OCR, regional vocabulary reconversion, or old root ebook inputs.
+          python book_reader/scripts/validate_proofreading.py
+          python book_reader/scripts/build_continuous_transcript.py
+          python book_reader/scripts/validate_manuscript.py
+          python book_reader/scripts/build_epub.py
+          python book_reader/scripts/build_pdf.py
+          python book_reader/scripts/build_reader_site.py
+          python book_reader/scripts/validate_manuscript.py --exports
+          python book_reader/scripts/validate_proofreading.py
+          git diff --exit-code -- book_reader/text book_reader/images book_reader/ocr book_reader/qa
+
+      - name: Check deliverables and write SHA-256 checksums
+        run: |
+          cd book_reader/output
+          files=('走出戈壁-简体.epub' '走出戈壁-简体.pdf' '走出戈壁-繁体.epub' '走出戈壁-繁体.pdf')
+          for file in "${files[@]}"; do
+            test -s "$file"
+          done
+          sha256sum "${files[@]}" > SHA256SUMS.txt
+          sha256sum --check --strict SHA256SUMS.txt
+          ls -lh "${files[@]}"
+
+      - name: Upload the four ebooks and checksums
+        id: ebooks
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: gobi-ebooks-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            book_reader/output/走出戈壁-简体.epub
+            book_reader/output/走出戈壁-简体.pdf
+            book_reader/output/走出戈壁-繁体.epub
+            book_reader/output/走出戈壁-繁体.pdf
+            book_reader/output/SHA256SUMS.txt
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 90
+
+      - name: Add download link to the run summary
+        env:
+          ARTIFACT_URL: ${{ steps.ebooks.outputs.artifact-url }}
+        run: |
+          {
+            printf '## 四份校订电子书已构建并通过校验\n\n'
+            printf '来源：`%s`，提交：`%s`。\n\n' "$GITHUB_REF" "$GITHUB_SHA"
+            printf '[下载四份电子书与 SHA-256 校验文件](%s)\n\n' "$ARTIFACT_URL"
+            printf '包含简体 EPUB/PDF、繁体 EPUB/PDF。产物保留 90 天（以仓库策略为限），请及时保存。\n'
+          } >> "$GITHUB_STEP_SUMMARY"

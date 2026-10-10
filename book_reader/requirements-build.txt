@@ -1,0 +1,8 @@
+# Python 3.12.14; clean Linux build used by .github/workflows/build-ebooks.yml.
+# charset-normalizer is a ReportLab dependency; pin it as well.
+reportlab==4.4.9
+pillow==12.3.0
+PyMuPDF==1.26.6
+opencc-python-reimplemented==0.1.7
+fonttools==4.61.1
+charset-normalizer==3.5.1
