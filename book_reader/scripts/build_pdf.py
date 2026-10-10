@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import argparse
 import html
+import os
+from io import BytesIO
 from pathlib import Path
 
 from PIL import Image as PILImage
@@ -16,6 +18,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     BaseDocTemplate,
     Frame,
+    Flowable,
     Image,
     KeepTogether,
     PageBreak,
@@ -25,7 +28,7 @@ from reportlab.platypus import (
 )
 from reportlab.platypus.tableofcontents import TableOfContents
 
-from export_common import IMAGES, OUTPUT, Chapter, image_pages, load_captions, load_chapters
+from export_common import IMAGES, OUTPUT, Chapter, FrontMatter, expected_body_image_pages, image_pages, load_captions, load_chapters, load_frontmatter
 
 
 TITLE = "走出戈壁：我的中美故事"
@@ -40,10 +43,29 @@ FRAME_HEIGHT = PAGE_HEIGHT - TOP - BOTTOM
 def registered_font(script: str) -> str:
     name = "NotoSC" if script == "simplified" else "NotoTC"
     filename = "NotoSansSC-VF.ttf" if script == "simplified" else "NotoSansTC-VF.ttf"
-    path = Path("C:/Windows/Fonts") / filename
-    if not path.is_file():
-        raise FileNotFoundError(f"Required Chinese font: {path}")
-    pdfmetrics.registerFont(TTFont(name, str(path)))
+    override = os.environ.get("GOBI_FONT_SC" if script == "simplified" else "GOBI_FONT_TC")
+    candidates = [Path(override)] if override else [
+        Path("C:/Windows/Fonts") / filename,
+        Path("/usr/share/fonts/truetype/noto") / filename,
+        Path.home() / ".local/share/fonts" / filename,
+        Path("/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc"),
+    ]
+    for path in candidates:
+        if path.is_file():
+            pdfmetrics.registerFont(TTFont(name, str(path)))
+            return name
+    if override:
+        raise FileNotFoundError(f"Configured Chinese TrueType font not found: {override}")
+    # PyMuPDF ships a portable Chinese TrueType font. ReportLab cannot embed
+    # the CFF outlines used by typical Linux Noto CJK .ttc installations.
+    try:
+        import fitz
+    except ModuleNotFoundError:
+        raise RuntimeError(
+            "Install PyMuPDF for an embedded Chinese font, or set GOBI_FONT_SC/GOBI_FONT_TC "
+            "to a Chinese TrueType font."
+        ) from None
+    pdfmetrics.registerFont(TTFont(name, BytesIO(fitz.Font("cjk").buffer)))
     return name
 
 
@@ -69,25 +91,69 @@ class BookDocument(BaseDocTemplate):
         self.chapter_number = 0
 
     def draw_page(self, canvas, doc):
-        if doc.page <= 2:
-            return
         canvas.saveState()
         canvas.setStrokeColor(colors.HexColor("#d6d1c8"))
         canvas.setLineWidth(0.5)
         canvas.line(LEFT, 33, PAGE_WIDTH - RIGHT, 33)
         canvas.setFont(self.body_font, 8)
         canvas.setFillColor(colors.HexColor("#6b6258"))
-        canvas.drawCentredString(PAGE_WIDTH / 2, 21, str(doc.page - 2))
+        # Number the reading PDF consecutively; scan/printed page jumps are
+        # source locators and must never create gaps in the reflowed book.
+        canvas.drawCentredString(PAGE_WIDTH / 2, 21, str(doc.page))
         canvas.restoreState()
 
     def afterFlowable(self, flowable):
+        if isinstance(flowable, SearchableScan):
+            key = f"front-{flowable.section.slug}"
+            title = flowable.section.title
+            self.canv.bookmarkPage(key)
+            self.canv.addOutlineEntry(title, key, level=0)
+            self.notify("TOCEntry", (0, title, self.page, key))
         if isinstance(flowable, Paragraph) and getattr(flowable, "_is_chapter", False):
             self.chapter_number += 1
             title = flowable.getPlainText()
             key = f"chapter-{self.chapter_number:02d}"
             self.canv.bookmarkPage(key)
             self.canv.addOutlineEntry(title, key, level=0)
-            self.notify("TOCEntry", (0, title, self.page - 2, key))
+            self.notify("TOCEntry", (0, title, self.page, key))
+
+
+class SearchableScan(Flowable):
+    """Preserve the full original page, with a same-page searchable text layer."""
+
+    def __init__(self, section: FrontMatter, font: str):
+        super().__init__()
+        self.section, self.font = section, font
+        with PILImage.open(section.image) as source:
+            width, height = source.size
+        scale = min(FRAME_WIDTH / width, (FRAME_HEIGHT - 1) / height)
+        self.width, self.height = width * scale, height * scale
+        self.hAlign = "CENTER"
+
+    def draw(self):
+        self.canv.saveState()
+        self.canv.drawImage(str(self.section.image), 0, 0, self.width, self.height)
+        # These transparent lines enable text selection/search without adding
+        # a second visible transcription to the dedication or its whitespace.
+        text = self.canv.beginText()
+        text.setTextOrigin(18, self.height - 24)
+        text.setFont(self.font, 8)
+        text.setLeading(11)
+        text.setTextRenderMode(3)
+        paragraphs = [self.section.title] + [block.value for block in self.section.blocks if block.kind == "paragraph"]
+        for paragraph in paragraphs:
+            for source_line in paragraph.split("\n"):
+                line = ""
+                for char in source_line:
+                    if pdfmetrics.stringWidth(line + char, self.font, 8) > self.width - 36:
+                        text.textLine(line)
+                        line = ""
+                    line += char
+                if line:
+                    text.textLine(line)
+            text.textLine("")
+        self.canv.drawText(text)
+        self.canv.restoreState()
 
 
 def fit_image(path: Path, max_width: float, max_height: float) -> Image:
@@ -137,7 +203,7 @@ def add_chapter(story: list, chapter: Chapter, chapter_index: int, captions: dic
     story.append(heading)
     for block in chapter.blocks:
         if block.kind == "paragraph":
-            story.append(Paragraph(html.escape(block.value), style["body"]))
+            story.append(Paragraph(html.escape(block.value).replace("\n", "<br/>"), style["body"]))
         elif block.kind == "break":
             story.append(Paragraph("★★★", style["break"]))
         else:
@@ -156,10 +222,17 @@ def add_chapter(story: list, chapter: Chapter, chapter_index: int, captions: dic
 
 def build_one(script: str) -> Path:
     chapters = load_chapters(script)
+    frontmatter = load_frontmatter(script)
     captions = load_captions(script)
     assert len(chapters) == 33
-    assert len(image_pages(chapters)) == 19
+    assert image_pages(chapters) == expected_body_image_pages(), "Chapter image plates do not match the image manifest"
     font = registered_font(script)
+    contents = TITLE + "".join(part.title + "".join(block.value for block in part.blocks) for part in [*frontmatter, *chapters])
+    contents += "".join(value for values in captions.values() for value in values)
+    glyphs = pdfmetrics.getFont(font).face.charToGlyph
+    missing = sorted({char for char in contents if not char.isspace() and ord(char) not in glyphs})
+    if missing:
+        raise ValueError(f"The PDF font is missing glyphs: {''.join(missing)}; configure GOBI_FONT_SC/GOBI_FONT_TC")
     style = styles(font)
     author = "单伟建" if script == "simplified" else "單偉建"
     OUTPUT.mkdir(parents=True, exist_ok=True)
@@ -173,10 +246,10 @@ def build_one(script: str) -> Path:
         PageBreak(),
         fit_image(IMAGES / "page-002.jpg", FRAME_WIDTH, FRAME_HEIGHT),
         PageBreak(),
-        Paragraph("目录" if script == "simplified" else "目錄", style["toc-title"]),
-        toc,
-        PageBreak(),
     ]
+    for part in frontmatter:
+        story.extend([SearchableScan(part, font), PageBreak()])
+    story.extend([Paragraph("目录" if script == "simplified" else "目錄", style["toc-title"]), toc, PageBreak()])
     for index, chapter in enumerate(chapters, 1):
         add_chapter(story, chapter, index, captions, style)
     document.multiBuild(story, maxPasses=4)

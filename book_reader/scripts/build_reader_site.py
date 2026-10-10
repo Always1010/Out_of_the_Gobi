@@ -9,9 +9,7 @@ import re
 import shutil
 from pathlib import Path
 
-from opencc import OpenCC
-
-from assemble_transcript import to_mainland_simplified
+from export_common import load_captions, load_frontmatter, paragraph_text
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,7 +30,7 @@ def content_html(markdown: str, title: str, captions: dict[str, list[str]]) -> s
 
     def flush() -> None:
         nonlocal paragraph
-        value = "".join(part.strip() for part in paragraph).strip()
+        value = paragraph_text(paragraph)
         paragraph = []
         # The scanned chapter-opening page usually repeats the title after its H1.
         if not value or value == title or re.fullmatch(r"第[一二三四五六七八九十百]+章", value):
@@ -40,7 +38,7 @@ def content_html(markdown: str, title: str, captions: dict[str, list[str]]) -> s
         if value == "★★★":
             chunks.append(f'<div class="scene-break" data-block="{len(chunks)}" aria-label="段落分隔">★★★</div>')
         else:
-            chunks.append(f'<p data-block="{len(chunks)}">{html.escape(value)}</p>')
+            chunks.append(f'<p data-block="{len(chunks)}">{html.escape(value).replace(chr(10), "<br>")}</p>')
 
     for raw in markdown.splitlines():
         line = raw.strip()
@@ -92,12 +90,25 @@ def main() -> None:
     raw_captions = json.loads((ROOT / "images" / "captions.json").read_text(encoding="utf-8"))["pages"]
     if not set(raw_captions) <= image_pages:
         raise ValueError("A caption points to a page that is not in the image manifest")
-    converter = OpenCC("tw2sp")
-    captions = {
-        page: [to_mainland_simplified(value, converter) for value in values]
-        for page, values in raw_captions.items()
-    }
+    captions = {str(page): values for page, values in load_captions("simplified").items()}
+    frontmatter = load_frontmatter("simplified")
     entries = []
+    for part in frontmatter:
+        markdown = (TEXT / "frontmatter" / "simplified" / f"{part.slug}.md").read_text(encoding="utf-8")
+        image = f"images/{part.image.name}"
+        caption = f"{part.title}原页 · PDF 第 {part.source_page} 页"
+        scan = (
+            f'<figure class="plate" data-block="-4"><button class="plate-button" type="button" '
+            f'data-image="{image}" data-caption="{html.escape(caption, quote=True)}">'
+            f'<img src="{image}" alt="{html.escape(caption, quote=True)}" loading="lazy"></button>'
+            f'<figcaption>{html.escape(caption)} · 点击放大</figcaption></figure>'
+        )
+        entries.append({
+            "id": f"front-{part.slug}", "number": "", "title": part.title,
+            "label": "卷首", "pdfPage": part.source_page, "frontmatter": True,
+            "html": scan + f'<div class="front-transcript {part.layout}">' + content_html(markdown, part.title, {}) + '</div>',
+            "searchText": plain_text(markdown),
+        })
     for index, chapter in enumerate(chapters, start=1):
         source = TEXT / "simplified-continuous" / f"{index:02d}-{chapter['id']}.md"
         markdown = source.read_text(encoding="utf-8")
@@ -121,6 +132,8 @@ def main() -> None:
     for entry in image_entries:
         source = IMAGE_SOURCE / Path(entry["asset"]).name
         shutil.copy2(source, target_images / source.name)
+    for part in frontmatter:
+        shutil.copy2(part.image, target_images / part.image.name)
     payload = json.dumps({"title": "走出戈壁", "chapters": entries}, ensure_ascii=False).replace("</", "<\\/")
     data_source = f"window.BOOK = {payload};\n"
     write_text(DIST / "data.js", data_source)
@@ -133,7 +146,12 @@ def main() -> None:
     write_text(DIST / style_name, STYLES)
     write_text(DIST / app_name, APP)
     write_text(DIST / "index.html", INDEX.replace("styles.css", style_name).replace("data.js", data_name).replace("app.js", app_name))
-    print(f"Built {len(entries)} chapters and {len(image_entries)} image pages in {DIST}")
+    current_assets = {data_name, style_name, app_name}
+    for pattern in ("data-*.js", "styles-*.css", "app-*.js"):
+        for obsolete in DIST.glob(pattern):
+            if obsolete.name not in current_assets:
+                obsolete.unlink()
+    print(f"Built {len(chapters)} chapters, {len(frontmatter)} front-matter sections and {len(image_entries) + len(frontmatter)} image pages in {DIST}")
 
 
 INDEX = '''<!doctype html>
@@ -149,7 +167,7 @@ INDEX = '''<!doctype html>
   <header class="topbar">
     <div class="book-controls">
       <button id="toc-toggle" class="toc-toggle" type="button" aria-controls="toc-panel" aria-expanded="true">收起目录</button>
-      <a class="brand" href="#section-01">走出戈壁 <span>单伟建</span></a>
+      <a class="brand" href="#front-author-biography">走出戈壁 <span>单伟建</span></a>
     </div>
     <div class="tools">
       <select id="reading-mode" aria-label="阅读方式" title="选择滚动或翻页阅读"><option value="scroll">滚动阅读</option><option value="pages">翻页阅读</option></select>
@@ -194,6 +212,7 @@ body.toc-collapsed .layout { grid-template-columns:minmax(0,1fr); } body.toc-col
 #reader { max-width:820px; width:100%; margin:0 auto; padding:41px 54px 88px; }.reader-meta { display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:13px; margin-bottom:25px; }.reader-meta a { color:var(--pine); text-decoration:none; }.reader-meta a:hover { text-decoration:underline; }
 #chapter h1 { margin:0 0 8px; color:var(--pine); font-size:34px; letter-spacing:.08em; font-weight:600; } .chapter-kicker { color:var(--accent); font-size:14px; letter-spacing:.15em; margin-bottom:18px; } #chapter p { margin:0 0 1em; font-size:var(--body-size); line-height:2.05; text-align:justify; text-indent:2em; letter-spacing:.025em; } .scene-break { color:var(--accent); text-align:center; letter-spacing:.45em; margin:2em 0; font-size:15px; }
 .chapter-heading { break-inside:avoid; }
+.front-transcript.dedication p { text-align:center; text-indent:0; margin:3em 0; }
 .plate { margin:2.6em auto; text-align:center; }.plate-button { max-width:100%; padding:0; border:0; background:transparent; cursor:zoom-in; }.plate img { display:block; max-width:100%; max-height:760px; margin:auto; box-shadow:0 7px 26px #0003; }.plate figcaption { max-width:700px; margin:10px auto 0; font-size:13px; color:var(--muted); line-height:1.7; }.plate-source { display:block; text-align:center; }.plate-caption { display:block; margin-top:7px; text-align:left; }.chapter-nav { display:flex; justify-content:space-between; gap:16px; border-top:1px solid var(--edge); padding-top:27px; margin-top:56px; }.chapter-nav button { padding:9px 14px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:15px inherit; cursor:pointer; }.chapter-nav button:hover:not(:disabled) { background:#edf2ed; }.chapter-nav button:disabled { opacity:.35; cursor:default; }
 .page-nav { display:none; align-items:center; justify-content:space-between; gap:5px; border-top:1px solid var(--edge); padding-top:10px; margin-top:10px; }.page-nav button { padding:7px 9px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:14px inherit; cursor:pointer; white-space:nowrap; }.page-nav button:disabled { opacity:.35; cursor:default; }.page-status { min-width:100px; text-align:center; color:var(--muted); white-space:nowrap; } #page-count { display:block; font:14px/1.4 sans-serif; }.key-hint { display:block; font:12px/1.3 sans-serif; }
 body.page-mode { height:100dvh; overflow:hidden; } body.page-mode .layout { height:calc(100dvh - var(--header-height,64px)); min-height:0; grid-template-rows:minmax(0,1fr); overflow:hidden; } body.page-mode .toc-panel { height:calc(100dvh - var(--header-height,64px)); min-height:0; top:var(--header-height,64px); } body.page-mode #reader { display:flex; flex-direction:column; height:100%; min-height:0; overflow:hidden; padding-top:18px; padding-bottom:14px; } body.page-mode .reader-meta { flex:none; margin-bottom:13px; } body.page-mode #chapter { flex:1; width:100%; min-width:0; min-height:0; column-fill:auto; column-gap:28px; overflow:hidden; overscroll-behavior:contain; } body.page-mode #chapter p { orphans:2; widows:2; } body.page-mode .plate { break-inside:avoid; margin:1.2em auto; } body.page-mode .chapter-nav { display:none; } body.page-mode .page-nav { display:flex; }
@@ -236,8 +255,8 @@ APP = '''
     updateHeaderHeight();
     if (settings.mode === 'pages') scheduleLayout({ block: lastBlock });
   });
-  $('#chapter-count').textContent = book.chapters.length + ' 节';
-  toc.innerHTML = book.chapters.map(c => `<button class="toc-item" data-id="${c.id}"><span class="toc-num">${String(c.number).padStart(2,'0')}</span><span class="toc-label">${c.title}</span></button>`).join('');
+  $('#chapter-count').textContent = book.chapters.filter(c => !c.frontmatter).length + ' 节＋卷首';
+  toc.innerHTML = book.chapters.map(c => `<button class="toc-item" data-id="${c.id}"><span class="toc-num">${c.frontmatter ? '序' : String(c.number).padStart(2,'0')}</span><span class="toc-label">${c.title}</span></button>`).join('');
   function getChapter(id) { return book.chapters.find(c => c.id === id) || book.chapters[0]; }
   function blocks() { return [...chapterEl.querySelectorAll('[data-block]')]; }
   function visibleBlock() {
@@ -310,7 +329,7 @@ APP = '''
     const c = getChapter(id);
     currentSection = c; pageIndex = 0; pageCount = 1; keepLastPage = !!target.last; lastBlock = target.block ?? null;
     chapterEl.scrollLeft = 0;
-    chapterEl.innerHTML = `${c.number === 1 ? bookOpening : ''}<div class="chapter-heading" data-block="-1"><div class="chapter-kicker">${c.label} · PDF 第 ${c.pdfPage} 页起</div><h1>${c.title}</h1></div>${c.html}`;
+    chapterEl.innerHTML = `${c.id === book.chapters[0].id ? bookOpening : ''}<div class="chapter-heading" data-block="-1"><div class="chapter-kicker">${c.label} · PDF 第 ${c.pdfPage} 页起</div><h1>${c.title}</h1></div>${c.html}`;
     $('#location').textContent = `${c.title} · PDF 第 ${c.pdfPage} 页起`;
     $('#source-link').href = `../../../走出戈壁-单伟健.pdf#page=${c.pdfPage}`;
     document.querySelectorAll('.toc-item').forEach(el => {

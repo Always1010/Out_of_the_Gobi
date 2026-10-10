@@ -7,15 +7,19 @@
 ## 全书资料
 
 - `book_reader/ocr/`：420 个 PDF 物理页的 OCR JSON、逐页文本和索引。
-- `book_reader/text/`：33 节繁简体、分页及连续 Markdown，包含完整汇编；分页稿保留 PDF 页码，适合回查证据。
-- `book_reader/images/`：21 个实际图片页，15 页可辨图注。
+- `book_reader/text/`：33 节正文及前后附录、2 节卷首的繁简体文字，含分页稿、连续稿及全书汇编；分页稿保留 PDF 页码，适合回查证据。
+- `book_reader/images/`：22 个封面／题字／正文图片页、2 张新增卷首原图，16 页可辨图注。
 - `book_reader/output/`：被 Git 忽略的电子书生成目录；主目录中的四个电子书文件是纳入 Git 的成品。
 - `book_reader/site/dist/index.html`：本机生成的离线阅读器。
 - `book_reader/qa/full-manuscript-review.md`：文字稿复核结论；全书尚未完成逐字人工校勘。
 
+本次原扫描回改见[本次修改说明](book_reader/qa/本次修改说明.md)与[原文疑点说明](book_reader/qa/原文疑点说明.md)。已确认的转写差异已修复；原书自身疑点保留。
+
 阅读器与全书处理说明见 [book_reader/README.md](book_reader/README.md)，已安装的 OCR 工具路径见 [book_reader/OCR环境.md](book_reader/OCR环境.md)。
 
 ## 电子书成品
+
+**本校订分支的根目录 EPUB/PDF 尚为改前版本。**新校订成品已重建并作为文件另行交付，因上传接口的大文件限制暂未替换入库。请从本分支源码重建，详见[本次修改说明](book_reader/qa/本次修改说明.md#电子书交付状态)。
 
 | 版本 | EPUB | 文字重排 PDF |
 | --- | --- | --- |

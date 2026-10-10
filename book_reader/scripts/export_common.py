@@ -1,14 +1,11 @@
-"""Shared, read-only book data for EPUB and typeset PDF exports."""
+"""Shared, read-only book data for EPUB, typeset PDF and offline exports."""
 
 from __future__ import annotations
 
 import json
-import os
 import re
-import subprocess
 from dataclasses import dataclass
 from pathlib import Path
-
 
 BOOK = Path(__file__).resolve().parents[1]
 TEXT = BOOK / "text"
@@ -31,38 +28,75 @@ class Chapter:
     blocks: tuple[Block, ...]
 
 
+@dataclass(frozen=True)
+class FrontMatter:
+    slug: str
+    title: str
+    source_page: int
+    image: Path
+    layout: str
+    blocks: tuple[Block, ...]
+
+
+def paragraph_text(lines: list[str]) -> str:
+    """Join ordinary OCR wraps but retain explicit Markdown hard line breaks."""
+    return "".join(line.strip() + ("\n" if line.endswith("  ") else "") for line in lines).strip()
+
+
+def parse_blocks(markdown: str, title: str) -> tuple[Block, ...]:
+    blocks: list[Block] = []
+    paragraph: list[str] = []
+
+    def flush() -> None:
+        value = paragraph_text(paragraph)
+        paragraph.clear()
+        if value and value != title and not CHAPTER_NUMBER_RE.fullmatch(value):
+            blocks.append(Block("break" if value == "★★★" else "paragraph", value))
+
+    for raw in markdown.splitlines():
+        line = raw.strip()
+        image = IMAGE_RE.fullmatch(line)
+        if image:
+            flush()
+            blocks.append(Block("image", image.group(1)))
+        elif not line or line == "---" or line.startswith("# "):
+            flush()
+        elif line.startswith("<!--"):
+            flush()
+        else:
+            paragraph.append(raw)
+    flush()
+    return tuple(blocks)
+
+
 def load_chapters(script: str) -> list[Chapter]:
     if script not in {"simplified", "traditional"}:
         raise ValueError(script)
     manifest = json.loads((TEXT / "chapters.json").read_text(encoding="utf-8"))
-    chapters: list[Chapter] = []
-    for index, entry in enumerate(manifest, 1):
-        path = TEXT / f"{script}-continuous" / f"{index:02d}-{entry['id']}.md"
+    return [
+        Chapter(entry["id"], entry[f"title_{script}"], parse_blocks(
+            (TEXT / f"{script}-continuous" / f"{index:02d}-{entry['id']}.md").read_text(encoding="utf-8"),
+            entry[f"title_{script}"],
+        ))
+        for index, entry in enumerate(manifest, 1)
+    ]
+
+
+def load_frontmatter(script: str) -> list[FrontMatter]:
+    """Independent front matter preserves the existing 33 chapter identities."""
+    if script not in {"simplified", "traditional"}:
+        raise ValueError(script)
+    manifest = json.loads((TEXT / "frontmatter.json").read_text(encoding="utf-8"))
+    result = []
+    for entry in manifest:
         title = entry[f"title_{script}"]
-        lines = path.read_text(encoding="utf-8").splitlines()
-        blocks: list[Block] = []
-        paragraph: list[str] = []
-
-        def flush() -> None:
-            value = "".join(part.strip() for part in paragraph).strip()
-            paragraph.clear()
-            if not value or value == title or CHAPTER_NUMBER_RE.fullmatch(value):
-                return
-            blocks.append(Block("break" if value == "★★★" else "paragraph", value))
-
-        for raw in lines:
-            line = raw.strip()
-            image = IMAGE_RE.fullmatch(line)
-            if image:
-                flush()
-                blocks.append(Block("image", image.group(1)))
-            elif not line or line == "---" or line.startswith("# "):
-                flush()
-            else:
-                paragraph.append(raw)
-        flush()
-        chapters.append(Chapter(entry["id"], title, tuple(blocks)))
-    return chapters
+        source = TEXT / "frontmatter" / script / f"{entry['id']}.md"
+        picture = BOOK / "images" / entry["asset"]
+        if not picture.is_file():
+            raise FileNotFoundError(picture)
+        result.append(FrontMatter(entry["id"], title, int(entry["pdf_page"]), picture,
+                                  entry["layout"], parse_blocks(source.read_text(encoding="utf-8"), title)))
+    return result
 
 
 def load_captions(script: str) -> dict[int, list[str]]:
@@ -71,33 +105,20 @@ def load_captions(script: str) -> dict[int, list[str]]:
         return {int(page): values for page, values in pages.items()}
     if script != "simplified":
         raise ValueError(script)
-    # Match the mainland character choices already used by the reader site.
     try:
         from opencc import OpenCC
-        from assemble_transcript import to_mainland_simplified
     except ModuleNotFoundError:
-        # The bundled PDF runtime has ReportLab but not OpenCC; use the project's
-        # existing OCR environment for exactly the same conversion as the site.
-        converter_python = BOOK.parent / ".venv-ocr" / "Scripts" / "python.exe"
-        if not converter_python.is_file():
-            raise RuntimeError("OpenCC is needed for Simplified Chinese captions") from None
-        result = subprocess.run(
-            [str(converter_python), "-c", "import json; from export_common import load_captions; print(json.dumps(load_captions('simplified'), ensure_ascii=False))"],
-            cwd=Path(__file__).parent,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            env={**os.environ, "PYTHONIOENCODING": "utf-8"},
-            check=True,
-        )
-        return {int(page): values for page, values in json.loads(result.stdout).items()}
-
-    converter = OpenCC("tw2sp")
-    return {
-        int(page): [to_mainland_simplified(value, converter) for value in values]
-        for page, values in pages.items()
-    }
+        raise RuntimeError("Install opencc-python-reimplemented to build Simplified Chinese captions") from None
+    # Convert character forms only. Regional phrase conversion (tw2sp) can
+    # silently replace an author's words, including 資料, 文件 and 影片.
+    converter = OpenCC("t2s")
+    return {int(page): [converter.convert(value) for value in values] for page, values in pages.items()}
 
 
 def image_pages(chapters: list[Chapter]) -> set[int]:
     return {int(block.value[5:8]) for chapter in chapters for block in chapter.blocks if block.kind == "image"}
+
+
+def expected_body_image_pages() -> set[int]:
+    manifest = json.loads((BOOK / "images" / "images.json").read_text(encoding="utf-8"))
+    return {int(entry["pdf_page"]) for entry in manifest["pages"] if int(entry["pdf_page"]) not in {1, 2}}

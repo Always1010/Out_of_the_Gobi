@@ -5,7 +5,7 @@
 ## 目标与交付
 
 - 覆盖原 PDF 的全部 420 个物理页，记录每页的处理状态，并分别保存 PDF 页码与印刷页码。
-- 先保留逐页 OCR 原始结果，再整理成按章分文件的 UTF-8 繁体 Markdown；从校对后的繁体稿生成简体 Markdown 和全书纯文本。
+- 先保留逐页 OCR 原始结果，再整理成按章分文件的 UTF-8 繁体 Markdown；分别保存经核对的繁简分页稿，再由分页稿生成连续稿和全书汇编，避免地区词库改写原词。
 - 登记并保存照片、插图、图表、手写内容和整页图片，按原书位置放入网页。图片本身的繁体字不强制转换。
 - 生成可本地离线阅读的静态网页：目录、全文搜索、字体和主题设置、阅读进度、图片放大、跳转 PDF 原页。
 - 完整性验收记录放在 `qa/`：420 页覆盖、章节边界、图片清单、抽样文字校对及网页检查。
@@ -47,14 +47,34 @@
 ## 当前状态
 
 - 420 个物理页的 OCR 结果和逐页索引已生成，尚需继续人工校对。
-- 已整理 33 个章节或前后附录的繁简体文字稿，分别提供分页版与连续版；网页使用简体连续版，章节边界已按正文标题校正。
-- 已登记、保存 21 个实际图片页，并在 `images/captions.json` 整理 15 页可辨图注。PDF 第 352 页已恢复为第二十六章正文。
+- 已整理 33 个章节或前后附录，补回作者简介与献辞两节卷首；繁简分页版、连续版及全书汇编同步。网页使用简体连续版，既有章节 ID 保持不变。
+- 已登记、保存 22 个封面／题字／正文图片页，并在 `images/captions.json` 整理 16 页可辨图注；新增两张卷首原图单列于 `images/frontmatter/`。扫描第350页照片及三条图注已恢复；第352页仍为第二十六章正文。
 - 离线阅读网页位于 `site/dist/index.html`，可由 `scripts/build_reader_site.py` 重建。当前复核结果与仍需留意的事项见 `qa/full-manuscript-review.md`。
 
 ## EPUB 阅读版
 
-运行 `..\.venv-ocr\Scripts\python.exe scripts\build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。该目录是被 Git 忽略的生成目录；运行 `python scripts\publish_ebooks.py` 后，四个 EPUB/PDF 成品会复制到项目主目录并纳入 Git。电子书包含 33 节正文、原书封面和题字页、19 处正文图片以及已核对的图注，并提供可跳转目录。文字稿仍未完成逐字人工校勘。
+运行 `..\.venv-ocr\Scripts\python.exe scripts\build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。该目录是被 Git 忽略的生成目录；运行 `python scripts\publish_ebooks.py` 后，四个 EPUB/PDF 成品会复制到项目主目录并纳入 Git。电子书包含 33 节正文及前后附录、作者简介与献辞、原书封面和题字页、20 处正文图片以及已核对的图注，并提供可跳转目录。文字稿仍未完成逐字人工校勘。
 
 ## 文字重排 PDF
 
-运行 `python scripts\build_pdf.py`，可生成简体和繁体两套 B5 版式 PDF，同样保存到 `output/`。运行环境需有 ReportLab 和 Pillow、Windows Noto Sans SC/TC 字体；简体图注转换使用 OpenCC，若当前 Python 环境没有 OpenCC，脚本会调用项目的 `.venv-ocr`。PDF 有可搜索的正文、目录页、章节书签和页码。原始 420 页扫描 PDF 仍单独保留，不会被覆盖。
+运行 `python scripts\build_pdf.py`，可生成简体和繁体两套 B5 版式 PDF，同样保存到 `output/`。运行环境需有 ReportLab、Pillow 和 OpenCC。字体优先采用 Noto Sans SC/TC，亦可用 `GOBI_FONT_SC`／`GOBI_FONT_TC` 指定中文 TrueType 字体；无本机字体时使用 PyMuPDF 内置的可嵌入中文字体。简体图注仅作字形转换，避免地区词库替换原词。PDF 有可搜索的正文、目录页、章节书签和页码。原始 420 页扫描 PDF 仍单独保留，不会被覆盖。
+
+## 本次原扫描回改
+
+本分支的校订源稿与构建程序已同步；根目录四份 EPUB/PDF 受大文件上传限制暂未替换。已生成的校订成品另行交付，勿将根目录旧文件视为本次结果。
+
+修改范围和保留疑点分别见 [本次修改说明](qa/本次修改说明.md)、[原文疑点说明](qa/原文疑点说明.md)。版权与版本信息页依本次裁决不收入阅读版；阅读 PDF 从第一页起连续编号。
+
+日常从已校对分页稿重建：
+
+```sh
+python book_reader/scripts/build_continuous_transcript.py
+python book_reader/scripts/build_epub.py
+python book_reader/scripts/build_pdf.py
+python book_reader/scripts/build_reader_site.py
+python book_reader/scripts/validate_manuscript.py --exports
+python book_reader/scripts/validate_proofreading.py
+python book_reader/scripts/publish_ebooks.py
+```
+
+以上命令从仓库根目录执行。需要重新从 OCR 组稿时先运行 `assemble_transcript.py`；脚本会自动重放 `qa/proofreading-corrections.json` 中的逐页精确修正，再按上述顺序重建。原始 OCR 不改写；位置与预期不符会停止，避免静默丢失校改。

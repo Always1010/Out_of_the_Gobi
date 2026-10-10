@@ -6,9 +6,10 @@ import argparse
 import html
 import zipfile
 from datetime import datetime, timezone
+from pathlib import Path
 from xml.etree import ElementTree as ET
 
-from export_common import IMAGES, OUTPUT, Chapter, image_pages, load_captions, load_chapters
+from export_common import IMAGES, OUTPUT, Chapter, FrontMatter, expected_body_image_pages, image_pages, load_captions, load_chapters, load_frontmatter
 
 
 TITLE = "走出戈壁：我的中美故事"
@@ -25,6 +26,9 @@ figcaption span { display: block; margin-bottom: .35em; }
 .cover { margin: 0; text-align: center; }
 .cover img { display: block; width: 100%; max-height: 100vh; object-fit: contain; }
 .nav-list { line-height: 2; }
+.front-scan { break-after: page; }
+.front-scan img { max-height: 92vh; }
+.dedication p { text-align: center; text-indent: 0; margin-top: 3em; }
 """
 
 
@@ -47,7 +51,7 @@ def chapter_xhtml(chapter: Chapter, language: str, captions: dict[int, list[str]
     body = [f'<h1>{escape(chapter.title)}</h1>']
     for block in chapter.blocks:
         if block.kind == "paragraph":
-            body.append(f'<p>{escape(block.value)}</p>')
+            body.append(f'<p>{escape(block.value).replace(chr(10), "<br/>")}</p>')
         elif block.kind == "break":
             body.append('<div class="scene-break" aria-label="段落分隔">★★★</div>')
         else:
@@ -61,11 +65,25 @@ def chapter_xhtml(chapter: Chapter, language: str, captions: dict[int, list[str]
     return xhtml(chapter.title, language, "\n".join(body))
 
 
+def frontmatter_xhtml(section: FrontMatter, language: str) -> str:
+    transcription = "".join(
+        f'<p>{escape(block.value).replace(chr(10), "<br/>")}</p>'
+        for block in section.blocks if block.kind == "paragraph"
+    )
+    body = (
+        f'<figure class="front-scan"><img src="images/{section.image.name}" '
+        f'alt="{escape(section.title)}原页，PDF 第 {section.source_page} 页"/></figure>'
+        f'<section class="{section.layout}"><h1>{escape(section.title)}</h1>{transcription}</section>'
+    )
+    return xhtml(section.title, language, body)
+
+
 def build_one(script: str) -> Path:
     chapters = load_chapters(script)
+    frontmatter = load_frontmatter(script)
     captions = load_captions(script)
     assert len(chapters) == 33
-    assert len(image_pages(chapters)) == 19
+    assert image_pages(chapters) == expected_body_image_pages(), "Chapter image plates do not match the image manifest"
     language = "zh-CN" if script == "simplified" else "zh-TW"
     author = "单伟建" if script == "simplified" else "單偉建"
     output_name = f"走出戈壁-{'简体' if script == 'simplified' else '繁体'}.epub"
@@ -78,14 +96,15 @@ def build_one(script: str) -> Path:
         if not (IMAGES / name).is_file():
             raise FileNotFoundError(IMAGES / name)
 
+    nav_entries = [(f"front-{part.slug}.xhtml", part.title) for part in frontmatter]
+    nav_entries += [(f"chapter-{i:02d}.xhtml", chapter.title) for i, chapter in enumerate(chapters, 1)]
     nav_links = "".join(
-        f'<li><a href="chapter-{i:02d}.xhtml">{escape(chapter.title)}</a></li>'
-        for i, chapter in enumerate(chapters, 1)
+        f'<li><a href="{href}">{escape(title)}</a></li>' for href, title in nav_entries
     )
     nav = xhtml("目录", language, f'<nav epub:type="toc" id="toc" xmlns:epub="http://www.idpf.org/2007/ops"><h1>目录</h1><ol class="nav-list">{nav_links}</ol></nav>')
     ncx_items = "".join(
-        f'<navPoint id="chapter-{i:02d}" playOrder="{i}"><navLabel><text>{escape(chapter.title)}</text></navLabel><content src="chapter-{i:02d}.xhtml"/></navPoint>'
-        for i, chapter in enumerate(chapters, 1)
+        f'<navPoint id="entry-{i:02d}" playOrder="{i}"><navLabel><text>{escape(title)}</text></navLabel><content src="{href}"/></navPoint>'
+        for i, (href, title) in enumerate(nav_entries, 1)
     )
     ncx = (
         '<?xml version="1.0" encoding="utf-8"?>'
@@ -101,6 +120,14 @@ def build_one(script: str) -> Path:
         '<item id="title-page" href="title.xhtml" media-type="application/xhtml+xml"/>',
     ]
     manifest.extend(
+        f'<item id="front-{part.slug}" href="front-{part.slug}.xhtml" media-type="application/xhtml+xml"/>'
+        for part in frontmatter
+    )
+    manifest.extend(
+        f'<item id="front-image-{part.slug}" href="images/{part.image.name}" media-type="image/png"/>'
+        for part in frontmatter
+    )
+    manifest.extend(
         f'<item id="chapter-{i:02d}" href="chapter-{i:02d}.xhtml" media-type="application/xhtml+xml"/>'
         for i in range(1, len(chapters) + 1)
     )
@@ -109,7 +136,9 @@ def build_one(script: str) -> Path:
         + (' properties="cover-image"' if name == cover else '') + '/>'
         for i, name in enumerate(picture_names, 1)
     )
-    spine = '<itemref idref="cover-page"/><itemref idref="title-page"/>' + "".join(
+    spine = '<itemref idref="cover-page"/><itemref idref="title-page"/>'
+    spine += "".join(f'<itemref idref="front-{part.slug}"/>' for part in frontmatter)
+    spine += "".join(
         f'<itemref idref="chapter-{i:02d}"/>' for i in range(1, len(chapters) + 1)
     )
     opf = (
@@ -139,6 +168,9 @@ def build_one(script: str) -> Path:
         book.writestr("OEBPS/content.opf", opf)
         book.writestr("OEBPS/cover.xhtml", xhtml(TITLE, language, f'<div class="cover"><img src="images/{cover}" alt="原书封面"/></div>'))
         book.writestr("OEBPS/title.xhtml", xhtml("题字", language, f'<div class="cover"><img src="images/{title_image}" alt="原书题字页"/></div>'))
+        for part in frontmatter:
+            book.writestr(f"OEBPS/front-{part.slug}.xhtml", frontmatter_xhtml(part, language))
+            book.write(part.image, f"OEBPS/images/{part.image.name}", compress_type=zipfile.ZIP_STORED)
         for i, chapter in enumerate(chapters, 1):
             book.writestr(f"OEBPS/chapter-{i:02d}.xhtml", chapter_xhtml(chapter, language, captions))
         for name in picture_names:
