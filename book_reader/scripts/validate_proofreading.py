@@ -54,6 +54,10 @@ def validate() -> None:
         verse = "曲折又漫長" if script == "traditional" else "曲折又漫长"
         assert content.count(f"{verse}，  \n") == 1
         assert f"{verse}·" not in content
+        ending = "只聽到雨刷上下擺動而發出有節奏的聲音" if script == "traditional" else "只听到雨刷上下摆动而发出有节奏的声音"
+        following = "我的思緒漫遊回戈壁" if script == "traditional" else "我的思绪漫游回戈壁"
+        assert content.count(f"{ending}。\n\n{following}") == 1
+        assert f"{ending}\n\n" not in content
         assert "<!-- Image plate: images/pages/page-350.jpg -->" in content
     print(f"Validated {len(required)} confirmed correction records, {len(data['preserved_text'])} original-wording checks, all source hashes, continuous views and four compilations.")
 

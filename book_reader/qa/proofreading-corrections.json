@@ -5189,7 +5189,7 @@
         373
       ],
       "before": "只听到雨刷上下摆动而发出有节奏的声音我的思绪漫游回戈壁",
-      "after": "只听到雨刷上下摆动而发出有节奏的声音\n\n我的思绪漫游回戈壁",
+      "after": "只听到雨刷上下摆动而发出有节奏的声音。\n\n我的思绪漫游回戈壁",
       "ids": [
         "R459"
       ]
@@ -5202,7 +5202,7 @@
         373
       ],
       "before": "只聽到雨刷上下擺動而發出有節奏的聲音我的思緒漫遊回戈壁",
-      "after": "只聽到雨刷上下擺動而發出有節奏的聲音\n\n我的思緒漫遊回戈壁",
+      "after": "只聽到雨刷上下擺動而發出有節奏的聲音。\n\n我的思緒漫遊回戈壁",
       "ids": [
         "R459"
       ]
@@ -11165,7 +11165,7 @@
         373
       ],
       "verification_status": "original_book_issue",
-      "final_action": "保留原书字词；按原版在「声音」后分段，不将补句号当成转写修复。原书缺句号另列编辑问题。"
+      "final_action": "原书在「只听到雨刷上下摆动而发出有节奏的声音」后漏印句号；按用户裁决，阅读版补为「声音。」，并保留其后的原有分段。繁简稿同步；原书漏句号及阅读版已补的处理仍列于原文疑点说明。"
     },
     {
       "id": "R460",
@@ -14674,7 +14674,7 @@
     "traditional/21-chapter-18.md": "7c0522d747e6b87059d7c964c0ae9e241369df304f47fef013b0ed95de3235a6",
     "traditional/20-chapter-17.md": "19e2dffe2c3993faab82b6bc2d1a9eca268a431e7ea2959e2dd9955d72b466c2",
     "traditional/23-chapter-20.md": "61d1467a9169fbb111fac2ca864d93d51f2fb475564f68ca1ba0f838522f7589",
-    "traditional/30-chapter-27.md": "1344beaba30345551595d979f5ac533242a9dc57078df1e39c772fd946b14176",
+    "traditional/30-chapter-27.md": "e9eff8ddd995084e599b5f8e2264988c77e50600740e7d8ae52ad3309fe80103",
     "traditional/28-chapter-25.md": "82869fae67df09a99944aaf9bf63c56f9c52cd2290e89f8886f84e4f73e72dfd",
     "traditional/25-chapter-22.md": "47d694345f0ee3fa3a3369d5f6c7112e126d02385ca46f911b5eebcafd369451",
     "traditional/19-chapter-16.md": "b271c244154b9fd520c461fa8a61d9ed702ad110f773b29be6a7623eac491028",
@@ -14707,7 +14707,7 @@
     "simplified/21-chapter-18.md": "b847efb8ab3afaaafcdc5ebf9d0d359aa63b23366c911c0c4a7477ea93779e39",
     "simplified/20-chapter-17.md": "ecb5ecc662307c89cad505b102af961ab92deec7521bd6124e597bf21d61460d",
     "simplified/23-chapter-20.md": "4f959efc2739c508b583cf94445cd40a880032a1038b1ca712202f11c715ce71",
-    "simplified/30-chapter-27.md": "4f30175f55516707df4c82c507325375a6d459b728d339746b15e12d9f7a2b48",
+    "simplified/30-chapter-27.md": "bd0d99fb609af61653e2e6cbdac7586d5f5a630df40fcb58a5f88a52af1a812b",
     "simplified/28-chapter-25.md": "5a432d430a7bd9e0e7e77a1f061eb3e876bafc33e9ac45826f837dc9f6f36417",
     "simplified/25-chapter-22.md": "c244fc68637a94204d99370d931e23837ea4c6c3c7227dc919af9aa919f9eaaf",
     "simplified/19-chapter-16.md": "7e4d0a58500a7eb1fb0b026ddfb3f5319607e8632339f21182669d9369efda95",
