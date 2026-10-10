@@ -183,7 +183,11 @@ def main() -> None:
         book_simplified.extend(simplified + ["", "---", ""])
     (BOOK / "text" / "book-traditional.md").write_text("\n".join(book_traditional).rstrip() + "\n", encoding="utf-8")
     (BOOK / "text" / "book-simplified.md").write_text("\n".join(book_simplified).rstrip() + "\n", encoding="utf-8")
-    print(f"Wrote {len(resolved)} chapter files in both scripts.")
+    # Reapply reviewed, page-scoped fixes after the reproducible OCR baseline.
+    # The OCR JSON itself remains unchanged as source evidence.
+    from proofreading import apply_patches
+    corrected = apply_patches()
+    print(f"Wrote {len(resolved)} chapter files in both scripts; applied {corrected} reviewed corrections.")
 
 
 if __name__ == "__main__":

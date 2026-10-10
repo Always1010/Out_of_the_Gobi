@@ -1,0 +1,18 @@
+[
+  {
+    "id": "author-biography",
+    "title_traditional": "作者簡介",
+    "title_simplified": "作者简介",
+    "pdf_page": 4,
+    "asset": "frontmatter/page-004.png",
+    "layout": "prose"
+  },
+  {
+    "id": "dedication",
+    "title_traditional": "獻辭",
+    "title_simplified": "献辞",
+    "pdf_page": 5,
+    "asset": "frontmatter/page-005.png",
+    "layout": "dedication"
+  }
+]

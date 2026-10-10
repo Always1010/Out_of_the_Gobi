@@ -107,6 +107,13 @@
       "asset": "pages/page-318.jpg"
     },
     {
+      "pdf_page": 350,
+      "kind": "photo_plate",
+      "status": "rendered",
+      "note": "原扫描第350页照片及三条图注；本次按R422/R423恢复。",
+      "asset": "pages/page-350.jpg"
+    },
+    {
       "pdf_page": 351,
       "kind": "photo_plate",
       "status": "rendered",

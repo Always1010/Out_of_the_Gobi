@@ -1,33 +1,24 @@
-"""Build Simplified and Traditional chapter manuscripts without page breaks."""
+"""Derive continuous manuscripts from the reviewed paginated source files.
 
+Do not re-read OCR or retranslate vocabulary here: that would undo corrections.
+Physical scan page markers stay in the source and are removed only in this
+reading view. Explicitly reviewed joins are recorded in the correction manifest.
+"""
 from __future__ import annotations
 
 import json
 import re
 from pathlib import Path
 
-from opencc import OpenCC
+from assemble_transcript import normalized
+from proofreading import PAGE_RE, frontmatter_texts, read_manifest, rebuild_paginated_books
 
-from assemble_transcript import PAGES, chapter_start, normalized, reading_paragraphs, repair_star_break, to_mainland_simplified
-
-ROOT = Path(__file__).resolve().parents[2]
-BOOK = ROOT / "book_reader"
-CHAPTERS = BOOK / "text" / "chapters.json"
-IMAGES = BOOK / "images" / "images.json"
-VARIANTS = (
-    ("traditional-continuous", "book-traditional-continuous.md", None),
-    ("simplified-continuous", "book-simplified-continuous.md", OpenCC("tw2sp")),
-)
+BOOK = Path(__file__).resolve().parents[1]
+TEXT = BOOK / "text"
 SENTENCE_ENDINGS = ("。", "！", "？", "；", "：", "…", ".", "!", "?", ";", ":", "”", "』", "」", "）", ")")
 
 
-def clean(paragraph: str, converter: OpenCC | None) -> str:
-    value = repair_star_break(paragraph)
-    return to_mainland_simplified(value, converter) if converter else value
-
-
 def ends_sentence(value: str) -> bool:
-    """Only retain a paragraph break when the prior page actually ended it."""
     return value.rstrip().endswith(SENTENCE_ENDINGS)
 
 
@@ -35,70 +26,70 @@ def is_chapter_heading(value: str, title: str) -> bool:
     return normalized(value) in {normalized(title), normalized(title.split("：")[-1])} or bool(re.fullmatch(r"第[一二三四五六七八九十百零]+章", value))
 
 
-def render_chapter(chapter: dict, start: int, end: int, image_records: dict[int, dict], converter: OpenCC | None) -> str:
-    title = clean(chapter["title_traditional"], converter)
+def render_chapter(source: str, title: str, join_rules: list[dict]) -> str:
+    forced_joins = {entry["page"] for entry in join_rules}
+    deferred_markers = {entry["defer_image"]: entry["page"] for entry in join_rules if "defer_image" in entry}
+    pending_images: list[str] = []
     blocks = [f"# {title}"]
     previous_text_index: int | None = None
     previous_page_had_image = False
-    for page in range(start, end + 1):
-        image = image_records.get(page)
-        page_values = [clean(paragraph, converter) for paragraph in reading_paragraphs(page, image["kind"] if image else None)]
-        page_values = [value for value in page_values if value]
-        for paragraph_index, value in enumerate(page_values):
+    markers = list(PAGE_RE.finditer(source))
+    for index, marker in enumerate(markers):
+        page = int(marker.group(1))
+        end = markers[index + 1].start() if index + 1 < len(markers) else len(source)
+        body = source[marker.end():end]
+        paragraphs = [value.strip() for value in re.split(r"\n\s*\n", body) if value.strip()]
+        had_image = False
+        for paragraph_index, value in enumerate(paragraphs):
             if is_chapter_heading(value, title):
                 continue
-            if value == "★★★":
+            if value in deferred_markers:
+                pending_images.append(value)
+                continue
+            if value == "★★★" or value.startswith("<!-- Image plate:"):
                 blocks.append(value)
                 previous_text_index = None
+                had_image = value.startswith("<!-- Image plate:") or had_image
                 continue
-            # First paragraph on the next physical page belongs to the prior
-            # paragraph if the prior page did not end a sentence.  This is the
-            # page-break gap that made the earlier continuous version read
-            # discontinuously.
             can_join = (
-                paragraph_index == 0
-                and previous_text_index is not None
+                paragraph_index == 0 and previous_text_index is not None
                 and not previous_page_had_image
-                and not ends_sentence(blocks[previous_text_index])
+                and (page in forced_joins or not ends_sentence(blocks[previous_text_index]))
             )
             if can_join:
                 blocks[previous_text_index] += value
             else:
                 blocks.append(value)
                 previous_text_index = len(blocks) - 1
-        previous_page_had_image = image is not None
-        if previous_page_had_image:
-            blocks.append(f"<!-- Image plate: images/pages/page-{page:03d}.jpg -->")
-            previous_text_index = None
+            if pending_images and page in forced_joins:
+                blocks.extend(pending_images)
+                pending_images.clear()
+                previous_text_index = None
+        previous_page_had_image = had_image
+    assert not pending_images, "A relocated image did not find its reviewed paragraph join"
     return "\n\n".join(blocks).rstrip() + "\n"
 
 
 def main() -> None:
-    chapters = json.loads(CHAPTERS.read_text(encoding="utf-8"))
-    image_records = {item["pdf_page"]: item for item in json.loads(IMAGES.read_text(encoding="utf-8"))["pages"]}
-    resolved: list[dict] = []
-    for chapter in chapters:
-        start = chapter_start(chapter)
-        if start is None:
-            raise RuntimeError(f"Chapter title was not found: {chapter['title_traditional']}")
-        resolved.append({**chapter, "pdf_page_start": start})
-    resolved.sort(key=lambda item: item["pdf_page_start"])
-
-    for directory_name, book_name, converter in VARIANTS:
-        output_dir = BOOK / "text" / directory_name
-        output_dir.mkdir(parents=True, exist_ok=True)
-        for old in output_dir.glob("*.md"):
-            old.unlink()
-        full_book = []
-        for index, chapter in enumerate(resolved):
-            start = chapter["pdf_page_start"]
-            end = resolved[index + 1]["pdf_page_start"] - 1 if index + 1 < len(resolved) else PAGES
-            rendered = render_chapter(chapter, start, end, image_records, converter)
-            filename = f"{index + 1:02d}-{chapter['id']}.md"
-            (output_dir / filename).write_text(rendered, encoding="utf-8")
-            full_book.extend([rendered.rstrip(), "", "---", ""])
-        (BOOK / "text" / book_name).write_text("\n".join(full_book).rstrip() + "\n", encoding="utf-8")
-        print(f"Wrote {len(resolved)} files in {directory_name} and {book_name}.")
+    chapters = json.loads((TEXT / "chapters.json").read_text(encoding="utf-8"))
+    manifest = read_manifest()
+    for script in ("traditional", "simplified"):
+        output = TEXT / f"{script}-continuous"
+        output.mkdir(parents=True, exist_ok=True)
+        full_book = frontmatter_texts(script, False)
+        for index, chapter in enumerate(chapters, 1):
+            filename = f"{index:02d}-{chapter['id']}.md"
+            source = (TEXT / script / filename).read_text(encoding="utf-8")
+            joins = [
+                entry for entry in manifest.get("continuous_joins", [])
+                if entry["file"] == filename and script in entry.get("variants", ["traditional", "simplified"])
+            ]
+            rendered = render_chapter(source, chapter[f"title_{script}"], joins)
+            (output / filename).write_text(rendered, encoding="utf-8")
+            full_book.append(rendered.rstrip())
+        (TEXT / f"book-{script}-continuous.md").write_text("\n\n---\n\n".join(full_book) + "\n\n---\n", encoding="utf-8")
+        print(f"Wrote {len(chapters)} {script} sections from the reviewed paginated manuscripts.")
+    rebuild_paginated_books()
 
 
 if __name__ == "__main__":
