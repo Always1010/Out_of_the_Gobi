@@ -46,14 +46,16 @@
 
 ## 当前状态
 
-- 420 个物理页的 OCR 结果和逐页索引已生成，尚需继续人工校对。
+- 420 个物理页的 OCR 结果和逐页索引已生成，文字稿已完成校对与修订。
 - 已整理 33 个章节或前后附录，补回作者简介与献辞两节卷首；繁简分页版、连续版及全书汇编同步。网页使用简体连续版，既有章节 ID 保持不变。
 - 已登记、保存 22 个封面／题字／正文图片页，并在 `images/captions.json` 整理 16 页可辨图注；新增两张卷首原图单列于 `images/frontmatter/`。扫描第350页照片及三条图注已恢复；第352页仍为第二十六章正文。
-- 离线阅读网页位于 `site/dist/index.html`，可由 `scripts/build_reader_site.py` 重建。当前复核结果与仍需留意的事项见 `qa/full-manuscript-review.md`。
+- 离线阅读网页位于 `site/dist/index.html`，可由 `scripts/build_reader_site.py` 重建。最新修改与保留疑点见[本次修改说明](qa/本次修改说明.md)和[原文疑点说明](qa/原文疑点说明.md)。
 
 ## EPUB 阅读版
 
-运行 `..\.venv-ocr\Scripts\python.exe scripts\build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。该目录是被 Git 忽略的生成目录；运行 `python scripts\publish_ebooks.py` 后，四个 EPUB/PDF 成品会复制到项目主目录并纳入 Git。电子书包含 33 节正文及前后附录、作者简介与献辞、原书封面和题字页、20 处正文图片以及已核对的图注，并提供可跳转目录。文字稿仍未完成逐字人工校勘。
+运行 `..\.venv-ocr\Scripts\python.exe scripts\build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。该目录是被 Git 忽略的生成目录；如需替换根目录旧成品，可在四份 EPUB/PDF 全部重建后运行 `python scripts\publish_ebooks.py`，再自行提交生成文件。电子书包含 33 节正文及前后附录、作者简介与献辞、原书封面和题字页、20 处正文图片以及已核对的图注，并提供可跳转目录。
+
+文字稿已完成校对与修订，整理版仍可能存在错字、漏字、标点、排版或图片标注偏差。发现问题时，请在项目 Issues 中注明文件名、章节、问题片段和建议更正。
 
 ## 文字重排 PDF
 

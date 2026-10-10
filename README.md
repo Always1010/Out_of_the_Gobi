@@ -1,45 +1,65 @@
-# 《走出戈壁》文字整理与人物传记地图
+# 《走出戈壁》文字整理与阅读资源
 
-项目保存全书扫描版的文字稿、原书图片和本地阅读器，另包含一份实验性人物传记地图。
+本项目基于单伟健《走出戈壁》扫描本整理，提供简繁体文字稿、EPUB 与文字重排 PDF、原书图片和离线阅读器，另收录一份实验性人物传记地图。
 
-**本项目仅作为学习和参考用途，项目中书籍皆为非正式出版或经过完整人工校订的版本。**
+**本项目仅供学习与参考，所提供的整理版为非正式出版物。**
 
-## 全书资料
+## 阅读与下载
 
-- `book_reader/ocr/`：420 个 PDF 物理页的 OCR JSON、逐页文本和索引。
-- `book_reader/text/`：33 节正文及前后附录、2 节卷首的繁简体文字，含分页稿、连续稿及全书汇编；分页稿保留 PDF 页码，适合回查证据。
-- `book_reader/images/`：22 个封面／题字／正文图片页、2 张新增卷首原图，16 页可辨图注。
-- `book_reader/output/`：被 Git 忽略的电子书生成目录；主目录中的四个电子书文件是纳入 Git 的成品。
-- `book_reader/site/dist/index.html`：本机生成的离线阅读器。
-- `book_reader/qa/full-manuscript-review.md`：文字稿复核结论；全书尚未完成逐字人工校勘。
+### 电子书
 
-本次原扫描回改见[本次修改说明](book_reader/qa/本次修改说明.md)与[原文疑点说明](book_reader/qa/原文疑点说明.md)。已确认的转写差异已修复；原书自身疑点保留。
+提供四种阅读文件：简体 EPUB、简体 PDF、繁体 EPUB、繁体 PDF。
 
-阅读器与全书处理说明见 [book_reader/README.md](book_reader/README.md)，已安装的 OCR 工具路径见 [book_reader/OCR环境.md](book_reader/OCR环境.md)。
+- **独立文件下载**：[GitHub Releases](https://github.com/Always1010/Out_of_the_Gobi/releases) 是后续版本的发布入口，发布完成后可在 Assets 中分别下载四份电子书。首次 Release 尚待发布。
+- **当前可用成品**：[`book-v1.0` 的 Actions 构建](https://github.com/Always1010/Out_of_the_Gobi/actions/runs/38061306548) 已成功，在该页面的 Artifacts 中下载四份电子书及校验文件。需登录 GitHub；产物请求保留 90 天，以仓库策略为限。
+- **旧版存档**：仓库根目录的四份 EPUB/PDF 仍为改前版本，请勿将它们作为本次校订成品下载。
 
-## 电子书成品
+维护者可从 `main` 手动运行工作流，填写 `release_tag=book-v1.0`，为现有标签补发 Release；不要重跑首次旧运行来升级发布流程。详见[电子书构建与发布说明](book_reader/BUILD_EBOOKS.md)。
 
-**根目录 EPUB/PDF 尚为改前版本，请勿作为本次校订成品下载。**校订源码已就绪；[Tag 打包与发布工作流](book_reader/BUILD_EBOOKS.md) 会由 GitHub Runner 重建简体／繁体 EPUB 与 PDF，并作为四个独立文件发布到对应 GitHub Release；Actions 同时保留备份。`book-v1.0` 的构建已成功，给它补发 Release 的步骤见[使用说明](book_reader/BUILD_EBOOKS.md#给现有-book-v10-补发-release)。
+### 文字稿与离线阅读
 
-下面四个链接保留为旧版存档；新校订版请使用 Release 的四个独立文件或 Actions 产物。详见[本次修改说明](book_reader/qa/本次修改说明.md#电子书交付状态)。
+- 直接阅读：[简体连续稿](book_reader/text/book-simplified-continuous.md) · [繁体连续稿](book_reader/text/book-traditional-continuous.md)。
+- 回查原页：[简体分页稿](book_reader/text/book-simplified.md) · [繁体分页稿](book_reader/text/book-traditional.md)，保留原扫描 PDF 页码定位。
+- 离线阅读器：按下方命令生成后，在本地打开 `book_reader/site/dist/index.html`，支持目录、全文搜索、字体与主题设置、阅读进度及图片放大。
 
-| 版本 | EPUB | 文字重排 PDF |
-| --- | --- | --- |
-| 简体 | [走出戈壁-简体.epub](走出戈壁-简体.epub) | [走出戈壁-简体.pdf](走出戈壁-简体.pdf) |
-| 繁体 | [走出戈壁-繁体.epub](走出戈壁-繁体.epub) | [走出戈壁-繁体.pdf](走出戈壁-繁体.pdf) |
+## 校对与修订说明
 
-这些成品由 OCR 文字稿生成，**尚未经过人工逐字审稿**，可能存在错字、漏字、标点、排版或图注偏差。如发现问题，请在项目 Issues 中说明文件名、章节、问题片段和建议更正。
+全书文字稿已完成校对与修订，已确认的转写、繁简转换、段落结构及图注问题已修正；原书自身仍存疑的内容予以保留并另作说明。
 
-## 人物传记地图（实验性）
+**整理版仍可能存在错字、漏字、标点、排版或图片标注偏差。**如发现问题，请在 [Issues](https://github.com/Always1010/Out_of_the_Gobi/issues) 中注明文件名、章节、问题片段和建议更正；如方便，也请附原扫描页码。
 
-人物传记地图是让 GPT-6.Astra 尝试制作的练习性内容，**效果并不理想**，仅供参考。打开 [biography/dist/index.html](biography/dist/index.html)，可离线浏览原书经历及相关地图、人物和场景。
+- [本次修改说明](book_reader/qa/本次修改说明.md)：修改范围、卷首恢复、页码处理及成品交付状态。
+- [原文疑点说明](book_reader/qa/原文疑点说明.md)：保留的原书疑点及处理依据。
 
-当前带读方案见 [biography/GUIDED_READING.md](biography/GUIDED_READING.md)，重建与校验方式见 [biography/README.md](biography/README.md)。
+## 项目目录与文档
 
-## 重建阅读器
+| 路径 | 内容 |
+| --- | --- |
+| `book_reader/text/` | 简繁体分页稿、连续稿、全书汇编及卷首内容 |
+| `book_reader/ocr/` | 420 个 PDF 物理页的原始 OCR 结果、逐页文本和索引 |
+| `book_reader/images/` | 原书图片、卷首原图、图注与图片清单 |
+| `book_reader/scripts/` | 文字稿整理、电子书及阅读器构建、校验脚本 |
+| `book_reader/qa/` | 修改说明、疑点记录、校改清单与核验记录 |
+| `book_reader/output/` | 本地生成的 EPUB/PDF，不纳入 Git |
+| `biography/` | 实验性人物传记地图及相关资料 |
 
-```powershell
+处理流程见 [book_reader/README.md](book_reader/README.md)，构建与发布见 [BUILD_EBOOKS.md](book_reader/BUILD_EBOOKS.md)，原 OCR 环境记录见 [OCR环境.md](book_reader/OCR环境.md)。
+
+## 本地重建
+
+先按[构建说明](book_reader/BUILD_EBOOKS.md#本地复现)准备 Python 环境与依赖，再在仓库根目录运行以下命令，从已校对分页稿生成连续稿和离线阅读器：
+
+```sh
+python book_reader/scripts/build_continuous_transcript.py
 python book_reader/scripts/build_reader_site.py
 ```
 
-随后打开 `book_reader/site/dist/index.html`。本机原 PDF 为 `走出戈壁-单伟健.pdf`，不随 Git 提交。依赖、模型、下载缓存和临时文件均在 `.gitignore` 中排除。
+随后打开 `book_reader/site/dist/index.html`。电子书的依赖、字体准备及完整构建校验步骤见[构建说明](book_reader/BUILD_EBOOKS.md#本地复现)。
+
+原扫描文件 `走出戈壁-单伟健.pdf` 不随 Git 提交；仅从现有校订稿重建电子书和阅读器不需要该文件，阅读器跳转原扫描页时需在本地保留它。依赖、模型、下载缓存和临时文件由 `.gitignore` 排除。
+
+## 人物传记地图（实验性）
+
+人物传记地图由 GPT-6.Astra 尝试制作，效果尚不理想，仅供参考。下载项目后，可在本地打开 [biography/dist/index.html](biography/dist/index.html)，浏览原书经历及相关人物、地图和场景。
+
+使用、重建与校验方式见 [biography/README.md](biography/README.md)，当前设计见 [biography/NODE_MAP.md](biography/NODE_MAP.md)。
