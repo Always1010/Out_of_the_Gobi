@@ -63,7 +63,7 @@ Actions 仍保留 `gobi-ebooks-运行编号-尝试编号` 作为备份，内含�
 - GitHub 托管 `ubuntu-24.04`，Python `3.12.14`；Python 包固定于 [requirements-build.txt](requirements-build.txt)，官方 Actions 固定到完整 commit SHA。
 - 固定 Noto CJK 官方字体提交，下载完整 SC／TC TrueType 字体，校验 SHA-256 并固定 400 字重；覆盖原书混用字形，无须 Windows 字体。字体许可：[SIL OFL 1.1](https://github.com/notofonts/noto-cjk/blob/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/LICENSE)。
 - 仅使用仓库校订稿、校改清单、核验 OCR 数据和图片，不运行 OCR，不需要原扫描 PDF，不重新执行 `tw2sp`，不使用根目录旧 EPUB／PDF。
-- 校验 377 项已确认修正、239 项原文保留断言、源稿哈希、全书汇编、章节、卷首、版权页排除、图片、EPUB 内容及 PDF 全文和连续页码。重建导致源稿变化会失败。
+- 校验 378 项已确认修正、238 项原文保留断言、源稿哈希、全书汇编、章节、卷首、版权页排除、图片、EPUB 内容及 PDF 全文和连续页码。重建导致源稿变化会失败。
 - 同时重建离线阅读器供综合检查，但发布内容仅为四份电子书。这些检查不替代全书逐字人工校勘。
 - 初版构建已通过真实 GitHub Runner；新增 Release 发布逻辑通过离线模拟测试，首次真实发布仍需运行上述新流程后确认。
 

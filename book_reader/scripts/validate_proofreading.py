@@ -51,7 +51,9 @@ def validate() -> None:
         content = (TEXT / f"book-{script}-continuous.md").read_text(encoding="utf-8")
         assert "978-988-74175-8-3" not in content
         assert "1904年至1905的日俄" in content
-        assert "曲折又漫" in content and "·  \n" in content
+        verse = "曲折又漫長" if script == "traditional" else "曲折又漫长"
+        assert content.count(f"{verse}，  \n") == 1
+        assert f"{verse}·" not in content
         assert "<!-- Image plate: images/pages/page-350.jpg -->" in content
     print(f"Validated {len(required)} confirmed correction records, {len(data['preserved_text'])} original-wording checks, all source hashes, continuous views and four compilations.")
 
