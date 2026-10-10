@@ -61,7 +61,7 @@
 
 ## 本次原扫描回改
 
-校订源稿与构建程序已同步；根目录四份 EPUB/PDF 仍是旧版存档。新增 [GitHub Actions Tag 打包](BUILD_EBOOKS.md)：工作流合入后推送 `book-v*` 标签，在 GitHub Runner 重建并校验四份成品，从该次 Actions 运行下载。首次 Runner 执行需在合入并触发后确认。勿将根目录旧文件视为本次结果。
+校订源稿与构建程序已同步；根目录四份 EPUB/PDF 仍是旧版存档。[GitHub Actions Tag 打包与发布](BUILD_EBOOKS.md) 会在 Runner 重建并校验四份成品，再作为四个独立 Release 文件发布。`book-v1.0` 的 Runner 构建已成功；可通过新工作流的 `release_tag` 手动输入补发已有标签。勿将根目录旧文件视为本次结果。
 
 修改范围和保留疑点分别见 [本次修改说明](qa/本次修改说明.md)、[原文疑点说明](qa/原文疑点说明.md)。版权与版本信息页依本次裁决不收入阅读版；阅读 PDF 从第一页起连续编号。
 

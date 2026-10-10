@@ -1,11 +1,16 @@
 name: Build corrected ebooks
-run-name: Build corrected ebooks · ${{ github.ref_name }}
+run-name: Build corrected ebooks · ${{ inputs.release_tag || github.ref_name }}
 
 on:
   push:
     tags:
       - 'book-v*'
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: '可选：填写已有 book-v* 标签，重建该标签的源码并补发四个独立 Release 文件；留空只构建'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -17,6 +22,10 @@ concurrency:
 jobs:
   build:
     if: github.event_name == 'workflow_dispatch' || github.event.deleted == false
+    outputs:
+      release_tag: ${{ steps.source.outputs.release_tag }}
+      source_sha: ${{ steps.checkout.outputs.commit }}
+      artifact_id: ${{ steps.ebooks.outputs.artifact-id }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     defaults:
@@ -27,9 +36,31 @@ jobs:
       PYTHONUNBUFFERED: '1'
 
     steps:
-      - name: Check out the triggering commit
+      - name: Select the exact source ref and publication target
+        id: source
+        env:
+          REQUESTED_TAG: ${{ inputs.release_tag }}
+        run: |
+          tag=''
+          if [[ "$GITHUB_EVENT_NAME" == 'push' && "$GITHUB_REF_TYPE" == 'tag' ]]; then
+            tag="$GITHUB_REF_NAME"
+          elif [[ "$GITHUB_EVENT_NAME" == 'workflow_dispatch' ]]; then
+            tag="$REQUESTED_TAG"
+          fi
+          source_ref="$GITHUB_SHA"
+          if [[ -n "$tag" ]]; then
+            [[ "$tag" =~ ^book-v[0-9][0-9A-Za-z._-]*$ ]] || { echo 'Invalid ebook version tag'; exit 1; }
+            if [[ "$GITHUB_EVENT_NAME" == 'workflow_dispatch' ]]; then
+              source_ref="refs/tags/$tag"
+            fi
+          fi
+          printf 'release_tag=%s\nsource_ref=%s\n' "$tag" "$source_ref" >> "$GITHUB_OUTPUT"
+
+      - name: Check out the exact book source (existing tag or selected commit)
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ steps.source.outputs.source_ref }}
           persist-credentials: false
           fetch-depth: 1
 
@@ -114,10 +145,59 @@ jobs:
       - name: Add download link to the run summary
         env:
           ARTIFACT_URL: ${{ steps.ebooks.outputs.artifact-url }}
+          SOURCE_REF: ${{ steps.source.outputs.source_ref }}
+          SOURCE_SHA: ${{ steps.checkout.outputs.commit }}
         run: |
           {
             printf '## 四份校订电子书已构建并通过校验\n\n'
-            printf '来源：`%s`，提交：`%s`。\n\n' "$GITHUB_REF" "$GITHUB_SHA"
+            printf '来源：`%s`，提交：`%s`。\n\n' "$SOURCE_REF" "$SOURCE_SHA"
             printf '[下载四份电子书与 SHA-256 校验文件](%s)\n\n' "$ARTIFACT_URL"
             printf '包含简体 EPUB/PDF、繁体 EPUB/PDF。产物保留 90 天（以仓库策略为限），请及时保存。\n'
           } >> "$GITHUB_STEP_SUMMARY"
+
+  release:
+    needs: build
+    if: needs.build.outputs.release_tag != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    concurrency:
+      group: ebook-release-${{ needs.build.outputs.release_tag }}
+      cancel-in-progress: false
+    steps:
+      # Use the publisher from this workflow's commit, not from an old book tag.
+      # Book-building code runs only in the read-only build job above.
+      - name: Check out the publication helper from the workflow commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.workflow_sha }}
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12.14'
+
+      - name: Download this build's verified ebooks
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          artifact-ids: ${{ needs.build.outputs.artifact_id }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/gobi-release
+
+      - name: Test safe publication behavior
+        run: python -m unittest discover -s book_reader/tests -p 'test_publish_release.py' -v
+
+      - name: Publish four separate assets to the existing tag's Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.build.outputs.release_tag }}
+          SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
+          RELEASE_DIR: ${{ runner.temp }}/gobi-release
+        run: >-
+          python book_reader/scripts/publish_release.py
+          --tag "$RELEASE_TAG"
+          --source-sha "$SOURCE_SHA"
+          --directory "$RELEASE_DIR"

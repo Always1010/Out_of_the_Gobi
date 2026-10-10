@@ -1,60 +1,79 @@
-# 用 GitHub Runner 打包四份校订电子书
+# GitHub Runner 打包并分别发布四份校订电子书
 
-工作流：[Build corrected ebooks](https://github.com/Always1010/Out_of_the_Gobi/actions/workflows/build-ebooks.yml)。配置在 [build-ebooks.yml](../.github/workflows/build-ebooks.yml)。先把本次工作流改动合入 `main`，再对包含该工作流和校订稿的提交打标签。
+工作流：[Build corrected ebooks](https://github.com/Always1010/Out_of_the_Gobi/actions/workflows/build-ebooks.yml)。配置在 [build-ebooks.yml](../.github/workflows/build-ebooks.yml)。
 
-## 打 Tag 触发
+## 给现有 book-v1.0 补发 Release
 
-在仓库本地执行，示例版本号尚未使用时可直接采用：
+`book-v1.0` 的首次 [Runner 构建已成功](https://github.com/Always1010/Out_of_the_Gobi/actions/runs/38061306548)，旧工作流只上传了 Actions 压缩包。新的发布流程进入 `main` 后：
+
+1. 打开 **Actions → Build corrected ebooks → Run workflow**。
+2. 分支选择 **main**，在 **release_tag** 输入 **book-v1.0**。
+3. 点击 **Run workflow**；完成后打开仓库 **Releases → book-v1.0**，四个电子书文件可分别下载。
+
+这里使用 `main` 的最新工作流和发布程序，但**书稿、图片、Python 依赖清单及构建脚本严格取自 book-v1.0 指向的提交**；Runner 配置和字体准备规则由当前工作流固定。发布前再次检查标签仍指向该构建提交。不移动旧标签，不创建新标签，也不把最新 main 的书稿冒充旧标签版本。
+
+不要点第一次旧运行的 **Re-run all jobs** 来升级流程；旧运行重跑仍使用当时的旧工作流。补发必须使用上面的新手动入口。启动时不存在的标签会失败；此流程只接受已有标签，不主动新建或移动标签。发布运行期间请勿由其他终端删除／移动同一标签。
+
+## 后续新版本：打 Tag 自动构建并发布
+
+先确保工作流和校订稿已在目标提交中，然后在仓库本地执行：
 
 ```sh
 git switch main
 git pull --ff-only origin main
-git tag -a book-v1.0.0 -m "校订电子书 v1.0.0"
-git push origin book-v1.0.0
+git tag -a book-v1.0.1 -m "校订电子书 v1.0.1"
+git push origin book-v1.0.1
 ```
 
-- 只有推送名称匹配 `book-v*` 的标签才自动构建；普通分支推送不触发。只在本地创建标签不会触发。
-- Runner 检出**该标签指向的提交**，不是运行时最新的 `main`。请先合入工作流，再打标签；指向老提交的标签不会获得新工作流。
-- 后续版本使用新标签，例如 `book-v1.0.1`。不要移动、删除或强制覆盖已发布标签，也不要一次推送大量标签。
+- 推送 `book-v*` 标签触发构建并发布；使用 `book-v` 加数字开头的版本名，例如 `book-v1.0.1`、`book-v1.1.0-rc.1`，仅允许字母、数字、点、下划线、短横线。
+- Runner 检出标签指向的提交。普通分支推送、只在本地创建标签都不会触发。
+- 使用新版本标签，不移动、删除或强制覆盖旧标签。
+- 手动运行时，`release_tag` **留空只构建 Actions 产物**；填写已有版本标签才发布该标签的 Release。此规则也适用于手动选择 tag 运行。
 
-## 下载、重跑和手动构建
+## 四个独立下载文件
 
-1. 打开仓库 **Actions → Build corrected ebooks**，进入对应标签的成功运行。
-2. 在运行摘要点下载链接，或在 **Artifacts** 下载 `gobi-ebooks-运行编号-尝试编号`。
-3. 解压后包含：
-   - `走出戈壁-简体.epub`
-   - `走出戈壁-简体.pdf`
-   - `走出戈壁-繁体.epub`
-   - `走出戈壁-繁体.pdf`
-   - `SHA256SUMS.txt`（四书的 SHA-256 校验值，不是第五份电子书）
+Release 的 Assets 中分别提供：
 
-下载需要登录有权读取仓库的 GitHub 账号。产物请求保留 90 天，以仓库实际保留策略为限，建议及时保存。过期后可重新构建。
+- `走出戈壁-简体.epub`
+- `走出戈壁-简体.pdf`
+- `走出戈壁-繁体.epub`
+- `走出戈壁-繁体.pdf`
 
-同一提交需要重跑时，在原运行右上角选 **Re-run all jobs**，无需重新打标签。工作流合入默认分支后，也可点 **Run workflow**，选择要构建的分支手动运行；手动运行不创建标签。
+不把四份书合成一个 Release ZIP。GitHub 自动显示的 Source code ZIP／tar.gz 是源码归档，与四份电子书不同。
 
-工作流只上传 Actions 产物，不创建 GitHub Release、不推送提交、不替换根目录旧文件，也不需要配置额外密钥。如果以后需要长期公开下载，可另行增加 Release 发布步骤。
+Actions 仍保留 `gobi-ebooks-运行编号-尝试编号` 作为备份，内含四书和 `SHA256SUMS.txt`。下载 Actions 产物需登录，产物请求保留 90 天，以仓库策略为限；Release 文件不受 Actions 产物到期时间影响。校验值也保存在发布说明的构建记录中。
 
-## 构建和校验范围
+## 安全重跑与发布失败
 
-- GitHub 托管的 `ubuntu-24.04`，Python `3.12.14`，Python 包固定于 [requirements-build.txt](requirements-build.txt)；三个官方 Actions 均固定到完整 commit SHA。
-- 从固定的 Noto CJK 官方提交下载完整字符集的 Noto Sans CJK SC/TC，校验 SHA-256 后生成 400 字重的 TrueType 字体。字体采用 [SIL Open Font License 1.1](https://github.com/notofonts/noto-cjk/blob/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/LICENSE)。兼顾原书中繁简混用的字形；不依赖 Windows 字体或 Runner 系统字体，缺字会使构建失败。
-- 输入仅为仓库已有的校订分页稿、校改清单、OCR 核验数据和图片。不会运行 OCR，不需要原扫描 PDF，不重新进行 `tw2sp` 地区词汇转换，不使用根目录旧 EPUB/PDF。
-- 重新生成连续稿、两份 EPUB、两份 PDF，以及用于综合检查的离线阅读器；**只上传四份电子书与校验值**。
-- 校验既有 377 项已确认修正、239 项原文保留断言、源稿哈希和四份汇编；检查全书章节、卷首作者简介／献辞、版权页排除、图片、EPUB 内容、PDF 全文可搜索及连续页码。重建后源稿或证据发生变化也会失败。
-- 这些自动检查不能替代全书逐字人工校勘。页数随字体排版变化，不要求与先前使用其他字体构建的 PDF 页数相同。
-- 每次产物含生成时间等元数据，重跑的二进制 SHA-256 不保证相同；校验文件对应当次下载的四份成品。
+- 新 Release 先创建草稿，四个文件全部上传并验证 GitHub 返回的 SHA-256 后才公开发布。
+- 普通构建任务只有 `contents: read`；独立发布任务才有 `contents: write`。不需要额外密钥或修改仓库权限设置。
+- 发布任务运行当前工作流提交中的受控发布程序，不运行旧 Tag 中的书稿构建代码；文件通过本次构建的精确 artifact ID 传递。
+- 失败后可重跑新流程的失败任务。已验证、来自同一源码提交的文件会保留，仅补齐缺失文件；重建时间变化不会强制替换已有文件。
+- 不删除或覆盖同名资产，不改动无关资产，不发布用户原有的无关草稿。遇到未知同名文件、校验不匹配、标签被移动等情况会停止，并在日志说明原因。
+- GitHub 偶尔会在失败上传后留下零字节 `starter` 资产；自动重跑不会删除它，会安全停止。需要人工确认并清理该失败资产后再重跑，不要删除已成功的文件。
+- 补齐已有公开 Release 时保留原有说明，并追加本流程的构建记录。不会把旧版本强行设为仓库最新 Release。
+- 已启用不可变发布的 Release 无法追加缺失文件；流程会停止而不改动它，需要另用新版本标签。
+- 如果整个构建重跑，PDF／EPUB 生成时间等元数据可变化，因此二进制校验值不保证与上次相同；同一标签已成功发布的文件保持原样。
 
-## 本地复现（Linux）
+## 构建和校验
 
-在仓库根目录，用 Python 3.12.14 建立虚拟环境并安装固定依赖：
+- GitHub 托管 `ubuntu-24.04`，Python `3.12.14`；Python 包固定于 [requirements-build.txt](requirements-build.txt)，官方 Actions 固定到完整 commit SHA。
+- 固定 Noto CJK 官方字体提交，下载完整 SC／TC TrueType 字体，校验 SHA-256 并固定 400 字重；覆盖原书混用字形，无须 Windows 字体。字体许可：[SIL OFL 1.1](https://github.com/notofonts/noto-cjk/blob/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/LICENSE)。
+- 仅使用仓库校订稿、校改清单、核验 OCR 数据和图片，不运行 OCR，不需要原扫描 PDF，不重新执行 `tw2sp`，不使用根目录旧 EPUB／PDF。
+- 校验 377 项已确认修正、239 项原文保留断言、源稿哈希、全书汇编、章节、卷首、版权页排除、图片、EPUB 内容及 PDF 全文和连续页码。重建导致源稿变化会失败。
+- 同时重建离线阅读器供综合检查，但发布内容仅为四份电子书。这些检查不替代全书逐字人工校勘。
+- 初版构建已通过真实 GitHub Runner；新增 Release 发布逻辑通过离线模拟测试，首次真实发布仍需运行上述新流程后确认。
+
+## 本地复现
+
+在仓库根目录使用 Python 3.12.14：
 
 ```sh
 python -m venv .venv
 . .venv/bin/activate
 python -m pip install -r book_reader/requirements-build.txt
 python -m pip check
+python -m unittest discover -s book_reader/tests -p 'test_publish_release.py' -v
 ```
 
-按工作流的 `Prepare verified Simplified and Traditional Chinese fonts` 步骤准备字体，将 `FONT_DIR`、`GOBI_FONT_SC`、`GOBI_FONT_TC` 设为本地可写目录和对应字体路径，再依次执行 `Rebuild from reviewed manuscripts and validate all four ebooks` 与 `Check deliverables and write SHA-256 checksums` 中的命令。输出在被 Git 忽略的 `book_reader/output/`；不要将下载缓存、字体或环境目录提交到仓库。
-
-本次已在干净 Linux checkout 与独立虚拟环境中执行同一套构建／校验命令；GitHub Runner 的首次实际运行仍须在工作流合入并推送标签（或手动触发）后确认。运行失败时查看红色步骤日志，未通过校验不会上传成品。
+按工作流准备字体，将 `FONT_DIR`、`GOBI_FONT_SC`、`GOBI_FONT_TC` 设为本地路径，再执行构建和校验步骤。生成文件在被 Git 忽略的 `book_reader/output/`，不要提交字体、下载缓存或虚拟环境。发布测试不会联网或创建真实 Release。

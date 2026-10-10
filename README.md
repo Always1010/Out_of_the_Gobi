@@ -19,9 +19,9 @@
 
 ## 电子书成品
 
-**根目录 EPUB/PDF 尚为改前版本，请勿作为本次校订成品下载。**校订源码已就绪；新增 [Tag 打包工作流](book_reader/BUILD_EBOOKS.md)，合入后推送 `book-v*` 标签即可由 GitHub Runner 重建简体／繁体 EPUB 与 PDF，并从 Actions 下载四份成品。工作流首次实际运行需在合入并触发后确认。
+**根目录 EPUB/PDF 尚为改前版本，请勿作为本次校订成品下载。**校订源码已就绪；[Tag 打包与发布工作流](book_reader/BUILD_EBOOKS.md) 会由 GitHub Runner 重建简体／繁体 EPUB 与 PDF，并作为四个独立文件发布到对应 GitHub Release；Actions 同时保留备份。`book-v1.0` 的构建已成功，给它补发 Release 的步骤见[使用说明](book_reader/BUILD_EBOOKS.md#给现有-book-v10-补发-release)。
 
-下面四个链接保留为旧版存档；新校订版请使用上述 Actions 产物。详见[本次修改说明](book_reader/qa/本次修改说明.md#电子书交付状态)。
+下面四个链接保留为旧版存档；新校订版请使用 Release 的四个独立文件或 Actions 产物。详见[本次修改说明](book_reader/qa/本次修改说明.md#电子书交付状态)。
 
 | 版本 | EPUB | 文字重排 PDF |
 | --- | --- | --- |
