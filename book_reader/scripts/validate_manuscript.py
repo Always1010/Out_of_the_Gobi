@@ -81,6 +81,14 @@ def validate_exports() -> None:
                 for block in section.blocks:
                     assert re.sub(r"\s+", "", block.value) in searchable, f"Missing PDF front-matter text: {section.slug}"
                 assert bool(pdf[offset].get_images()) == (section.presentation == "scan"), "Only scan-presented front matter embeds its page image"
+            picture_pages = [page for page in list(pdf)[4:] if page.get_images()]
+            plates = [block for chapter in chapters for block in chapter.blocks if block.kind == "image"]
+            assert len(picture_pages) == len(plates) == 20, "Each body plate must occupy its own page"
+            captions = load_captions(script)
+            for page, block in zip(picture_pages, plates):
+                actual = re.sub(r"\s+", "", page.get_text(clip=fitz.Rect(0, 0, page.rect.width, page.rect.height - 39)))
+                expected = re.sub(r"\s+", "", "".join(captions.get(int(block.value[5:8]), [])))
+                assert actual == expected, f"Prose shares image page or caption misplaced: {block.value}"
     site = BOOK / "site" / "dist"
     payload = (site / "data.js").read_text(encoding="utf-8").split("=", 1)[1].strip().removesuffix(";")
     sections = json.loads(payload)["chapters"]

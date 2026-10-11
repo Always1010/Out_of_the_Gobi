@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-from export_common import IMAGES, OUTPUT, Chapter, FrontMatter, expected_body_image_pages, image_pages, load_captions, load_chapters, load_frontmatter
+from export_common import IMAGES, OUTPUT, Chapter, FrontMatter, expected_body_image_pages, image_pages, load_captions, load_chapters, load_frontmatter, reading_image
 
 
 TITLE = "走出戈壁：我的中美故事"
@@ -18,7 +18,7 @@ html { writing-mode: horizontal-tb; }
 body { font-family: serif; line-height: 1.7; margin: 0 5%; color: #24211d; }
 h1 { font-size: 1.55em; line-height: 1.45; text-align: center; margin: 2.5em 0 1.8em; }
 p { margin: 0 0 .85em; text-indent: 2em; text-align: justify; }
-figure { margin: 1.8em 0; text-align: center; break-inside: avoid; }
+figure { margin: 1.8em 0; text-align: center; break-inside: avoid; break-before: page; break-after: page; page-break-before: always; page-break-after: always; }
 figure img { display: block; max-width: 100%; max-height: 90vh; margin: auto; object-fit: contain; }
 figcaption { font-size: .82em; line-height: 1.5; margin-top: .7em; text-align: left; }
 figcaption span { display: block; margin-bottom: .35em; }
@@ -93,8 +93,8 @@ def build_one(script: str) -> Path:
     title_image = "page-002.jpg"
     picture_names = [cover, title_image] + sorted({f"page-{page:03d}.jpg" for page in image_pages(chapters)})
     for name in picture_names:
-        if not (IMAGES / name).is_file():
-            raise FileNotFoundError(IMAGES / name)
+        if not reading_image(name).is_file():
+            raise FileNotFoundError(reading_image(name))
 
     nav_entries = [(f"front-{part.slug}.xhtml", part.title) for part in frontmatter]
     nav_entries += [(f"chapter-{i:02d}.xhtml", chapter.title) for i, chapter in enumerate(chapters, 1)]
@@ -175,7 +175,7 @@ def build_one(script: str) -> Path:
         for i, chapter in enumerate(chapters, 1):
             book.writestr(f"OEBPS/chapter-{i:02d}.xhtml", chapter_xhtml(chapter, language, captions))
         for name in picture_names:
-            book.write(IMAGES / name, f"OEBPS/images/{name}", compress_type=zipfile.ZIP_STORED)
+            book.write(reading_image(name), f"OEBPS/images/{name}", compress_type=zipfile.ZIP_STORED)
     # Parse every authored XML/XHTML entry, including the navigation and metadata.
     with zipfile.ZipFile(target) as book:
         for name in book.namelist():

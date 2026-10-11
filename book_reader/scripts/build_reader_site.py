@@ -9,7 +9,7 @@ import re
 import shutil
 from pathlib import Path
 
-from export_common import load_captions, load_frontmatter, paragraph_text
+from export_common import load_captions, load_frontmatter, paragraph_text, reading_image
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -130,7 +130,7 @@ def main() -> None:
         shutil.rmtree(target_images)
     target_images.mkdir()
     for entry in image_entries:
-        source = IMAGE_SOURCE / Path(entry["asset"]).name
+        source = reading_image(Path(entry["asset"]).name)
         shutil.copy2(source, target_images / source.name)
     for part in frontmatter:
         if part.presentation == "scan":
@@ -216,7 +216,7 @@ body.toc-collapsed .layout { grid-template-columns:minmax(0,1fr); } body.toc-col
 .front-transcript.dedication p { text-align:center; text-indent:0; margin:3em 0; }
 .plate { margin:2.6em auto; text-align:center; }.plate-button { max-width:100%; padding:0; border:0; background:transparent; cursor:zoom-in; }.plate img { display:block; max-width:100%; max-height:760px; margin:auto; box-shadow:0 7px 26px #0003; }.plate figcaption { max-width:700px; margin:10px auto 0; font-size:13px; color:var(--muted); line-height:1.7; }.plate-source { display:block; text-align:center; }.plate-caption { display:block; margin-top:7px; text-align:left; }.chapter-nav { display:flex; justify-content:space-between; gap:16px; border-top:1px solid var(--edge); padding-top:27px; margin-top:56px; }.chapter-nav button { padding:9px 14px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:15px inherit; cursor:pointer; }.chapter-nav button:hover:not(:disabled) { background:#edf2ed; }.chapter-nav button:disabled { opacity:.35; cursor:default; }
 .page-nav { display:none; align-items:center; justify-content:space-between; gap:5px; border-top:1px solid var(--edge); padding-top:10px; margin-top:10px; }.page-nav button { padding:7px 9px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:14px inherit; cursor:pointer; white-space:nowrap; }.page-nav button:disabled { opacity:.35; cursor:default; }.page-status { min-width:100px; text-align:center; color:var(--muted); white-space:nowrap; } #page-count { display:block; font:14px/1.4 sans-serif; }.key-hint { display:block; font:12px/1.3 sans-serif; }
-body.page-mode { height:100dvh; overflow:hidden; } body.page-mode .layout { height:calc(100dvh - var(--header-height,64px)); min-height:0; grid-template-rows:minmax(0,1fr); overflow:hidden; } body.page-mode .toc-panel { height:calc(100dvh - var(--header-height,64px)); min-height:0; top:var(--header-height,64px); } body.page-mode #reader { display:flex; flex-direction:column; height:100%; min-height:0; overflow:hidden; padding-top:18px; padding-bottom:14px; } body.page-mode .reader-meta { flex:none; margin-bottom:13px; } body.page-mode #chapter { flex:1; width:100%; min-width:0; min-height:0; column-fill:auto; column-gap:28px; overflow:hidden; overscroll-behavior:contain; } body.page-mode #chapter p { orphans:2; widows:2; } body.page-mode .plate { break-inside:avoid; margin:1.2em auto; } body.page-mode .chapter-nav { display:none; } body.page-mode .page-nav { display:flex; }
+body.page-mode { height:100dvh; overflow:hidden; } body.page-mode .layout { height:calc(100dvh - var(--header-height,64px)); min-height:0; grid-template-rows:minmax(0,1fr); overflow:hidden; } body.page-mode .toc-panel { height:calc(100dvh - var(--header-height,64px)); min-height:0; top:var(--header-height,64px); } body.page-mode #reader { display:flex; flex-direction:column; height:100%; min-height:0; overflow:hidden; padding-top:18px; padding-bottom:14px; } body.page-mode .reader-meta { flex:none; margin-bottom:13px; } body.page-mode #chapter { flex:1; width:100%; min-width:0; min-height:0; column-fill:auto; column-gap:28px; overflow:hidden; overscroll-behavior:contain; } body.page-mode #chapter p { orphans:2; widows:2; } body.page-mode .plate { break-before:column; break-after:column; break-inside:avoid; margin:1.2em auto; } body.page-mode .chapter-nav { display:none; } body.page-mode .page-nav { display:flex; }
 .search-results { position:fixed; z-index:10; top:57px; right:96px; width:min(490px,calc(100vw - 30px)); max-height:55vh; overflow:auto; padding:8px; border:1px solid var(--edge); border-radius:0 0 8px 8px; background:var(--paper); box-shadow:0 10px 26px #0003; }.result { width:100%; display:block; text-align:left; padding:11px; border:0; background:transparent; border-bottom:1px solid var(--edge); font:14px/1.55 inherit; cursor:pointer; }.result strong { color:var(--pine); display:block; margin-bottom:3px; }.result:hover { background:#edf2ed; }.visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
 dialog { width:min(1000px,94vw); max-height:94vh; padding:18px; border:0; background:var(--paper); color:var(--ink); box-shadow:0 15px 50px #0008; } dialog::backdrop { background:#000b; } dialog img { display:block; max-width:100%; max-height:80vh; margin:auto; } dialog p { text-align:center; color:var(--muted); } #close-image { float:right; border:0; background:transparent; font-size:29px; cursor:pointer; color:var(--ink); }
 body.dark { --ink:#e5e4dc; --muted:#a7aaa1; --paper:#1c211e; --edge:#3e4740; --pine:#9bc4b6; --accent:#d9a06d; color-scheme:dark; } body.dark .toc-item:hover,body.dark .toc-item.active,body.dark .chapter-nav button:hover:not(:disabled),body.dark .result:hover { background:#2c3830; }
@@ -350,6 +350,7 @@ APP = '''
       if (document.fonts?.ready) document.fonts.ready.then(() => { if (currentSection.id === c.id) scheduleLayout({ block: lastBlock, last: keepLastPage }); });
     } else {
       chapterEl.style.columnWidth = '';
+      for (const image of chapterEl.querySelectorAll('.plate img')) image.style.maxHeight = '';
       requestAnimationFrame(() => {
         if (target.block == null || !scrollToBlock(target.block)) window.scrollTo(0, target.y || 0);
         savePosition();

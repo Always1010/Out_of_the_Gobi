@@ -28,7 +28,7 @@ from reportlab.platypus import (
 )
 from reportlab.platypus.tableofcontents import TableOfContents
 
-from export_common import IMAGES, OUTPUT, Chapter, FrontMatter, expected_body_image_pages, image_pages, load_captions, load_chapters, load_frontmatter
+from export_common import IMAGES, OUTPUT, Chapter, FrontMatter, expected_body_image_pages, image_pages, load_captions, load_chapters, load_frontmatter, reading_image
 
 
 TITLE = "走出戈壁：我的中美故事"
@@ -38,6 +38,7 @@ TOP = 48
 BOTTOM = 48
 FRAME_WIDTH = PAGE_WIDTH - LEFT - RIGHT
 FRAME_HEIGHT = PAGE_HEIGHT - TOP - BOTTOM
+MIN_PLATE_DPI = 100
 
 
 def registered_font(script: str) -> str:
@@ -157,6 +158,44 @@ class SearchableScan(Flowable):
         self.canv.restoreState()
 
 
+class ImagePlate(Flowable):
+    """One complete reading page with an uncropped image and its captions."""
+
+    def __init__(self, path: Path, captions: list[str], style: ParagraphStyle):
+        super().__init__()
+        self.path = Path(path)
+        self.width, self.height = FRAME_WIDTH, FRAME_HEIGHT - 1
+        self.paragraphs = [Paragraph(html.escape(value), style) for value in captions]
+        self.caption_heights = [p.wrap(self.width, self.height)[1] for p in self.paragraphs]
+        self.caption_gaps = [p.style.spaceAfter for p in self.paragraphs[:-1]]
+        caption_height = sum(self.caption_heights) + sum(self.caption_gaps)
+        self.gap = 9 if self.paragraphs else 0
+        available_height = self.height - caption_height - self.gap
+        if available_height <= 0:
+            raise ValueError(f"Image captions exceed one page: {self.path}")
+        with PILImage.open(self.path) as source:
+            pixel_width, pixel_height = source.size
+        # Preserve proportions and never enlarge past the minimum useful DPI.
+        scale = min(self.width / pixel_width, available_height / pixel_height,
+                    72 / MIN_PLATE_DPI)
+        self.image_width = pixel_width * scale
+        self.image_height = pixel_height * scale
+        self.content_height = self.image_height + self.gap + caption_height
+        self.hAlign = "CENTER"
+
+    def draw(self):
+        y = (self.height + self.content_height) / 2
+        y -= self.image_height
+        self.canv.drawImage(str(self.path), (self.width - self.image_width) / 2, y,
+                           self.image_width, self.image_height)
+        y -= self.gap
+        for index, (paragraph, height) in enumerate(zip(self.paragraphs, self.caption_heights)):
+            y -= height
+            paragraph.drawOn(self.canv, 0, y)
+            if index < len(self.caption_gaps):
+                y -= self.caption_gaps[index]
+
+
 def fit_image(path: Path, max_width: float, max_height: float) -> Image:
     with PILImage.open(path) as source:
         width, height = source.size
@@ -203,9 +242,15 @@ def styles(font: str) -> dict[str, ParagraphStyle]:
     return result
 
 
+def page_break(story: list) -> None:
+    """Never create a blank page between adjacent chapter/plate breaks."""
+    if story and not isinstance(story[-1], PageBreak):
+        story.append(PageBreak())
+
+
 def add_chapter(story: list, chapter: Chapter, chapter_index: int, captions: dict[int, list[str]], style: dict[str, ParagraphStyle]) -> None:
     if chapter_index > 1:
-        story.append(PageBreak())
+        page_break(story)
     heading = Paragraph(html.escape(chapter.title), style["chapter"])
     heading._is_chapter = True
     story.append(heading)
@@ -214,18 +259,13 @@ def add_chapter(story: list, chapter: Chapter, chapter_index: int, captions: dic
             story.append(Paragraph(html.escape(block.value).replace("\n", "<br/>"), style["body"]))
         elif block.kind == "break":
             story.append(Paragraph("★★★", style["break"]))
-        else:
+        elif block.kind == "image":
+            page_break(story)
             page = int(block.value[5:8])
-            page_captions = captions.get(page, [])
-            # Caption text remains searchable; the source plate also retains its
-            # original typography and any captions not reliably transcribed.
-            max_image_height = FRAME_HEIGHT * (0.65 if page_captions else 0.78)
-            figure = [Spacer(1, 15), fit_image(IMAGES / block.value, FRAME_WIDTH, max_image_height)]
-            if page_captions:
-                figure.append(Spacer(1, 7))
-                figure.extend(Paragraph(html.escape(value), style["caption"]) for value in page_captions)
-            figure.append(Spacer(1, 12))
-            story.append(KeepTogether(figure))
+            story.append(ImagePlate(reading_image(block.value), captions.get(page, []), style["caption"]))
+            page_break(story)
+        else:
+            raise ValueError(f"Unsupported book block: {block.kind}")
 
 
 def build_one(script: str) -> Path:
@@ -269,6 +309,8 @@ def build_one(script: str) -> Path:
     story.extend([Paragraph("目录" if script == "simplified" else "目錄", style["toc-title"]), toc, PageBreak()])
     for index, chapter in enumerate(chapters, 1):
         add_chapter(story, chapter, index, captions, style)
+    while story and isinstance(story[-1], PageBreak):
+        story.pop()
     document.multiBuild(story, maxPasses=4)
     return target
 

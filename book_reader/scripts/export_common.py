@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+from functools import lru_cache
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -105,6 +106,15 @@ def load_frontmatter(script: str) -> list[FrontMatter]:
 
 def load_captions(script: str) -> dict[int, list[str]]:
     pages = json.loads((BOOK / "images" / "captions.json").read_text(encoding="utf-8"))["pages"]
+    for source, destinations in reading_layout()["caption_distribution"].items():
+        values = pages.pop(source)
+        indices = [index for selected in destinations.values() for index in selected]
+        if sorted(indices) != list(range(len(values))):
+            raise ValueError(f"Caption allocation loses or duplicates text: {source}")
+        for target, selected in destinations.items():
+            if target in pages:
+                raise ValueError(f"Caption allocation overwrites an existing page: {target}")
+            pages[target] = [values[index] for index in selected]
     if script == "traditional":
         return {int(page): values for page, values in pages.items()}
     if script != "simplified":
@@ -117,6 +127,26 @@ def load_captions(script: str) -> dict[int, list[str]]:
     # silently replace an author's words, including 資料, 文件 and 影片.
     converter = OpenCC("t2s")
     return {int(page): [converter.convert(value) for value in values] for page, values in pages.items()}
+
+
+def reading_layout() -> dict:
+    return json.loads((BOOK / "images" / "reading-layout.json").read_text(encoding="utf-8"))
+
+
+@lru_cache(maxsize=None)
+def reading_image(filename: str) -> Path:
+    source = IMAGES / filename
+    crop = reading_layout()["crops"].get(filename)
+    if crop is None:
+        return source
+    from PIL import Image
+    destination = OUTPUT / "reading-images" / filename
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with Image.open(source) as image:
+        if list(image.size) != crop["source_size"]:
+            raise ValueError(f"Reviewed crop coordinates no longer match: {source}")
+        image.crop(tuple(crop["box"])).save(destination, quality=95, optimize=True)
+    return destination
 
 
 def image_pages(chapters: list[Chapter]) -> set[int]:

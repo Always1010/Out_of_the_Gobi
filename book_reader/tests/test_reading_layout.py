@@ -5,7 +5,7 @@ import re
 import sys
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from export_common import (TEXT, BOOK, Block, load_chapters, load_frontmatter)
+from export_common import (TEXT, BOOK, Block, load_chapters, load_frontmatter, load_captions, reading_layout)
 
 class FrontmatterTests(unittest.TestCase):
     def test_author_is_seven_real_paragraphs_and_dedication_stays_scan(self):
@@ -27,5 +27,21 @@ class PrefaceTests(unittest.TestCase):
             self.assertTrue(any(phrase in b.value for b in preface.blocks))
             paginated = (TEXT / script / '02-preface.md').read_text()
             self.assertLess(paginated.index('page-011.jpg'), paginated.index('<!-- PDF 12 -->'))
+
+class PictureTests(unittest.TestCase):
+    def test_reading_crop_preserves_original_source_and_all_captions(self):
+        data = reading_layout()
+        self.assertEqual(list(data['crops']), ['page-009.jpg'])
+        self.assertEqual(data['crops']['page-009.jpg']['box'], [1004,302,1371,767])
+        raw = json.loads((BOOK/'images/captions.json').read_text())['pages']
+        actual = load_captions('traditional')
+        self.assertEqual(sorted(x for v in raw.values() for x in v), sorted(x for v in actual.values() for x in v))
+        self.assertEqual(len(actual[164]), 1)
+        self.assertEqual(len(actual[165]), 2)
+    def test_twenty_unique_body_plates(self):
+        for script in ('traditional', 'simplified'):
+            plates = [b.value for c in load_chapters(script) for b in c.blocks if b.kind == 'image']
+            self.assertEqual(len(plates), 20)
+            self.assertEqual(len(set(plates)), 20)
 
 if __name__ == '__main__': unittest.main()
