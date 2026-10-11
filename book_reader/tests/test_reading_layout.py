@@ -5,7 +5,8 @@ import re
 import sys
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from export_common import (TEXT, BOOK, Block, load_chapters, load_frontmatter, load_captions, reading_layout, chapter_number, with_lead_ins)
+from export_common import (TEXT, BOOK, Block, apply_verse_layout, chapter_number,
+    load_chapters, load_frontmatter, load_captions, parse_blocks, reading_layout, with_lead_ins)
 
 class FrontmatterTests(unittest.TestCase):
     def test_author_is_seven_real_paragraphs_and_dedication_stays_scan(self):
@@ -57,9 +58,41 @@ class ChapterStylesTests(unittest.TestCase):
         for script in ('traditional','simplified'):
             self.assertEqual(sum(e['scripts'][script]['paragraph_count'] for e in entries),37)
             self.assertFalse(any(e['id'] in {'foreword','preface','afterword'} for e in entries))
-            self.assertEqual(sum(b.role=='lead-in' for c in load_chapters(script) for b in c.blocks),37)
+            self.assertEqual(sum(b.kind=='verse' and b.role=='lead-in' for c in load_chapters(script) for b in c.blocks),1)
     def test_unknown_leadin_does_not_guess_first_paragraph(self):
         blocks=(Block('paragraph','第一段'),Block('break','★★★'),Block('paragraph','正文'))
         self.assertEqual(with_lead_ins(blocks,'foreword','simplified'),blocks)
+
+class VerseTests(unittest.TestCase):
+    def test_all_eleven_blocks_eighty_one_lines_preserve_source_characters(self):
+        manifest=json.loads((TEXT/'chapters.json').read_text())
+        for script in ('traditional','simplified'):
+            chapters=load_chapters(script)
+            verses=[b for c in chapters for b in c.blocks if b.kind=='verse']
+            self.assertEqual(len(verses),11)
+            self.assertEqual(sum(len(b.value.splitlines()) for b in verses),81)
+            self.assertTrue(all(b.alignment=='left' for b in verses))
+            for index,(entry,chapter) in enumerate(zip(manifest,chapters),1):
+                old=parse_blocks((TEXT/f'{script}-continuous/{index:02d}-{chapter.slug}.md').read_text(),chapter.title)
+                compact=lambda bs: re.sub(r'\s+','',''.join(b.value for b in bs))
+                self.assertEqual(compact(old),compact(chapter.blocks))
+    def test_long_song_combines_original_page_break(self):
+        c=next(c for c in load_chapters('simplified') if c.slug=='chapter-09')
+        v=next(b for b in c.blocks if b.kind=='verse')
+        self.assertEqual(len(v.value.splitlines()),26)
+        self.assertNotIn('\n\n',v.value)
+        self.assertEqual(v.value.splitlines()[2],'我的家乡。')
+    def test_exact_range_can_split_a_leadin_and_join_adjacent_paragraphs(self):
+        rule={'id':'test','chapter':'chapter','alignment':'left','lines_simplified':['诗一，','诗二。']}
+        b=(Block('paragraph','前文。诗一，','lead-in'),Block('paragraph','诗二。后文。','lead-in'))
+        actual=apply_verse_layout(b,[rule],'chapter','simplified')
+        self.assertEqual(actual,(Block('paragraph','前文。','lead-in'),Block('verse','诗一，\n诗二。','lead-in'),Block('paragraph','后文。','lead-in')))
+    def test_mismatches_ambiguity_and_semantic_crossings_fail_closed(self):
+        rule={'id':'test','chapter':'chapter','alignment':'left','lines_simplified':['甲乙']}
+        for blocks in [(Block('paragraph','甲丙'),),(Block('paragraph','甲乙甲乙'),),(Block('paragraph','甲'),Block('image','page-001.jpg'),Block('paragraph','乙'))]:
+            with self.assertRaises(ValueError):apply_verse_layout(blocks,[rule],'chapter','simplified')
+    def test_unlisted_ordinary_quotation_is_unchanged(self):
+        blocks=(Block('paragraph','普通引文「诗句」。'),)
+        self.assertEqual(apply_verse_layout(blocks,[],'chapter','simplified'),blocks)
 
 if __name__ == '__main__': unittest.main()

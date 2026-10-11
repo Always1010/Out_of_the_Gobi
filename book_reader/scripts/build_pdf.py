@@ -38,6 +38,7 @@ FRAME_WIDTH = PAGE_WIDTH - LEFT - RIGHT
 FRAME_HEIGHT = PAGE_HEIGHT - TOP - BOTTOM
 MIN_PLATE_DPI = 100
 TOC_NUMBER_WIDTH = 56
+VERSE_INDENT = 21
 
 
 def registered_font(script: str, role: str = "number") -> str:
@@ -115,7 +116,7 @@ class SearchableScan(Flowable):
         text.setLeading(11)
         text.setTextRenderMode(3)
         paragraphs = [self.section.title] + [block.value for block in self.section.blocks
-                                               if block.kind == "paragraph"]
+                                               if block.kind in {"paragraph", "verse"}]
         for paragraph in paragraphs:
             for source_line in paragraph.split("\n"):
                 line = ""
@@ -219,6 +220,14 @@ def styles(font: str, title_font: str | None = None,
     result["front-body"] = ParagraphStyle(
         "front-body", parent=result["body"], fontSize=10.2, firstLineIndent=20.4,
     )
+    for role in ("body", "lead-in"):
+        for alignment, value in (("left", TA_LEFT), ("center", TA_CENTER)):
+            result[f"verse-{role}-{alignment}"] = ParagraphStyle(
+                f"verse-{role}-{alignment}", parent=result[role], alignment=value,
+                firstLineIndent=0, leftIndent=2 * result[role].fontSize,
+                rightIndent=2 * result[role].fontSize,
+                spaceBefore=7, spaceAfter=10,
+            )
     return result
 
 
@@ -226,6 +235,17 @@ def page_break(story: list) -> None:
     """Never create a blank page between adjacent chapter/plate breaks."""
     if story and not isinstance(story[-1], PageBreak):
         story.append(PageBreak())
+
+
+def add_verse(story: list, block, style: dict[str, ParagraphStyle]) -> None:
+    """Preserve authored lines/stanzas without ordinary first-line indents."""
+    role = getattr(block, "role", "body")
+    alignment = getattr(block, "alignment", "left")
+    verse_style = style[f"verse-{role}-{alignment}"]
+    # ReportLab handles a paragraph taller than a page, preserving the same
+    # indentation on continuation pages. Two explicit breaks retain a stanza.
+    markup = html.escape(block.value).replace("\n", "<br/>")
+    story.append(Paragraph(markup, verse_style))
 
 
 def add_chapter(story: list, chapter: Chapter, chapter_index: int,
@@ -248,6 +268,8 @@ def add_chapter(story: list, chapter: Chapter, chapter_index: int,
         if block.kind == "paragraph":
             paragraph_style = style[getattr(block, "role", "body")]
             story.append(Paragraph(html.escape(block.value).replace("\n", "<br/>"), paragraph_style))
+        elif block.kind == "verse":
+            add_verse(story, block, style)
         elif block.kind == "break":
             story.append(Paragraph("★★★", style["break"]))
         elif block.kind == "image":
@@ -269,7 +291,7 @@ def validate_glyphs(frontmatter, chapters, captions, fonts) -> None:
         texts["number"] += getattr(chapter, "number_label", "")
         texts["title"] += chapter.title
         for block in chapter.blocks:
-            if block.kind == "paragraph":
+            if block.kind in {"paragraph", "verse"}:
                 role = "lead-in" if getattr(block, "role", "body") == "lead-in" else "number"
                 texts[role] += block.value
     texts["number"] += "".join(value for values in captions.values() for value in values)

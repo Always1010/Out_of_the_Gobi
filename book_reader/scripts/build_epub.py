@@ -34,6 +34,9 @@ figcaption span { display: block; margin-bottom: .35em; }
 .toc-label { font-size: 1.1em; }
 h1 .chapter-num { display: block; font-family: "GobiChapterNumber", sans-serif; font-size: .62em; font-weight: 400; margin-bottom: .7em; }
 p.lead-in { font-family: "GobiLeadIn", serif; font-size: 95%; font-style: normal; font-weight: 300; }
+p.verse { text-indent: 0; text-align: left; white-space: normal; overflow-wrap: anywhere; }
+p.verse-left { margin-inline-start: 2em; }
+p.verse-center { text-align: center; margin-inline: 0; }
 .front-scan { break-after: page; }
 .front-scan img { max-height: 92vh; }
 .dedication p { text-align: center; text-indent: 0; margin-top: 3em; }
@@ -59,10 +62,12 @@ def chapter_xhtml(chapter: Chapter, language: str, captions: dict[int, list[str]
     number = f'<span class="chapter-num">{escape(chapter.number_label)}</span>' if chapter.number else ""
     body = [f'<h1>{number}<span class="chapter-title">{escape(chapter.title)}</span></h1>']
     for block in chapter.blocks:
-        if block.kind == "paragraph":
+        if block.kind in {"paragraph", "verse"}:
             classes = []
             if block.role == "lead-in":
                 classes.append("lead-in")
+            if block.kind == "verse":
+                classes.extend(("verse", f"verse-{block.alignment}"))
             attributes = f' class="{" ".join(classes)}"' if classes else ""
             body.append(f'<p{attributes}>{escape(block.value).replace(chr(10), "<br/>")}</p>')
         elif block.kind == "break":

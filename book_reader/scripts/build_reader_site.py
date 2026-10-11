@@ -25,14 +25,16 @@ def plain_text(markdown: str) -> str:
 
 
 def blocks_html(blocks, captions: dict[str, list[str]]) -> str:
-    """Render the shared semantic model so every export preserves reviewed lead-in roles."""
+    """Render the shared semantic model so every export preserves verse roles."""
     chunks: list[str] = []
     for block in blocks:
         index = len(chunks)
-        if block.kind == "paragraph":
+        if block.kind in {"paragraph", "verse"}:
             classes = []
             if block.role == "lead-in":
                 classes.append("lead-in")
+            if block.kind == "verse":
+                classes.extend(("verse", f"verse-{block.alignment}"))
             attributes = f' class="{" ".join(classes)}"' if classes else ""
             chunks.append(f'<p{attributes} data-block="{index}">{html.escape(block.value).replace(chr(10), "<br>")}</p>')
         elif block.kind == "break":
@@ -215,6 +217,9 @@ body.toc-collapsed .layout { grid-template-columns:minmax(0,1fr); } body.toc-col
 #chapter h1 { margin:0 0 8px; color:var(--pine); font-size:34px; letter-spacing:.08em; font-family:"GobiChapterTitle",serif; font-weight:400; } .chapter-kicker { font-family:"GobiChapterNumber",sans-serif; color:var(--accent); font-size:14px; letter-spacing:.15em; margin-bottom:18px; } #chapter p { margin:0 0 1em; font-size:var(--body-size); line-height:2.05; text-align:justify; text-indent:2em; letter-spacing:.025em; } .scene-break { color:var(--accent); text-align:center; letter-spacing:.45em; margin:2em 0; font-size:15px; }
 .chapter-heading { break-inside:avoid; }
 #chapter p.lead-in { font-family:"GobiLeadIn",serif; font-size:calc(var(--body-size) * .95); font-style:normal; font-weight:300; }
+#chapter p.verse { text-indent:0; text-align:left; white-space:normal; overflow-wrap:anywhere; }
+#chapter p.verse-left { margin-inline-start:2em; }
+#chapter p.verse-center { text-align:center; margin-inline:0; }
 .front-transcript.dedication p { text-align:center; text-indent:0; margin:3em 0; }
 .plate { margin:2.6em auto; text-align:center; }.plate-button { max-width:100%; padding:0; border:0; background:transparent; cursor:zoom-in; }.plate img { display:block; max-width:100%; max-height:760px; margin:auto; box-shadow:0 7px 26px #0003; }.plate figcaption { max-width:700px; margin:10px auto 0; font-size:13px; color:var(--muted); line-height:1.7; }.plate-source { display:block; text-align:center; }.plate-caption { display:block; margin-top:7px; text-align:left; }.chapter-nav { display:flex; justify-content:space-between; gap:16px; border-top:1px solid var(--edge); padding-top:27px; margin-top:56px; }.chapter-nav button { padding:9px 14px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:15px inherit; cursor:pointer; }.chapter-nav button:hover:not(:disabled) { background:#edf2ed; }.chapter-nav button:disabled { opacity:.35; cursor:default; }
 .page-nav { display:none; align-items:center; justify-content:space-between; gap:5px; border-top:1px solid var(--edge); padding-top:10px; margin-top:10px; }.page-nav button { padding:7px 9px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:14px inherit; cursor:pointer; white-space:nowrap; }.page-nav button:disabled { opacity:.35; cursor:default; }.page-status { min-width:100px; text-align:center; color:var(--muted); white-space:nowrap; } #page-count { display:block; font:14px/1.4 sans-serif; }.key-hint { display:block; font:12px/1.3 sans-serif; }

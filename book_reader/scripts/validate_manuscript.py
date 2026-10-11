@@ -55,7 +55,7 @@ def validate_exports() -> None:
                 document = ET.fromstring(archive.read("OEBPS/" + filename))
                 visible = "".join(document.itertext())
                 for block in section.blocks:
-                    if block.kind == "paragraph":
+                    if block.kind in {"paragraph", "verse"}:
                         assert block.value.replace("\n", "") in visible, f"EPUB stale or missing text: {filename}"
             assert archive.testzip() is None
         with fitz.open(OUTPUT / f"走出戈壁-{label}.pdf") as pdf:
@@ -68,7 +68,7 @@ def validate_exports() -> None:
             ))
             for section in [*front, *chapters]:
                 for block in section.blocks:
-                    if block.kind == "paragraph":
+                    if block.kind in {"paragraph", "verse"}:
                         assert re.sub(r"\s+", "", block.value) in searchable_book, f"PDF stale or missing text: {section.slug}"
             for values in load_captions(script).values():
                 for value in values:
