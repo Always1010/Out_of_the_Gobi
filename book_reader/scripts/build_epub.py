@@ -40,6 +40,7 @@ p.verse-center { text-align: center; margin-inline: 0; }
 .front-scan { break-after: page; }
 .front-scan img { max-height: 92vh; }
 .dedication p { text-align: center; text-indent: 0; margin-top: 3em; }
+p.signature { text-indent: 0; text-align: right; break-inside: avoid; page-break-inside: avoid; }
 """
 
 
@@ -58,18 +59,25 @@ def xhtml(title: str, language: str, body: str) -> str:
     )
 
 
+def paragraph_xhtml(block) -> str:
+    """Preserve semantic styling and every explicitly authored line break."""
+    classes = []
+    if block.role == "lead-in":
+        classes.append("lead-in")
+    if block.kind == "verse":
+        classes.extend(("verse", f"verse-{block.alignment}"))
+    elif block.kind == "signature":
+        classes.append("signature")
+    attributes = f' class="{" ".join(classes)}"' if classes else ""
+    return f'<p{attributes}>{escape(block.value).replace(chr(10), "<br/>")}</p>'
+
+
 def chapter_xhtml(chapter: Chapter, language: str, captions: dict[int, list[str]]) -> str:
     number = f'<span class="chapter-num">{escape(chapter.number_label)}</span>' if chapter.number else ""
     body = [f'<h1>{number}<span class="chapter-title">{escape(chapter.title)}</span></h1>']
     for block in chapter.blocks:
-        if block.kind in {"paragraph", "verse"}:
-            classes = []
-            if block.role == "lead-in":
-                classes.append("lead-in")
-            if block.kind == "verse":
-                classes.extend(("verse", f"verse-{block.alignment}"))
-            attributes = f' class="{" ".join(classes)}"' if classes else ""
-            body.append(f'<p{attributes}>{escape(block.value).replace(chr(10), "<br/>")}</p>')
+        if block.kind in {"paragraph", "verse", "signature"}:
+            body.append(paragraph_xhtml(block))
         elif block.kind == "break":
             body.append('<div class="scene-break" aria-label="段落分隔">★★★</div>')
         elif block.kind == "image":
@@ -87,8 +95,8 @@ def chapter_xhtml(chapter: Chapter, language: str, captions: dict[int, list[str]
 
 def frontmatter_xhtml(section: FrontMatter, language: str) -> str:
     transcription = "".join(
-        f'<p>{escape(block.value).replace(chr(10), "<br/>")}</p>'
-        for block in section.blocks if block.kind == "paragraph"
+        paragraph_xhtml(block) for block in section.blocks
+        if block.kind in {"paragraph", "verse", "signature"}
     )
     scan = (
         f'<figure class="front-scan"><img src="images/{section.image.name}" '

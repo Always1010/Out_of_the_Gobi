@@ -1,0 +1,41 @@
+{
+  "description": "按原扫描页9前言、页13自序核实的实际署名/职衔/日期落款。各行统一右对齐，普通引文、人名与日记日期不自动改为落款。所有字符与已校稿逐字匹配。",
+  "signatures": [
+    {
+      "id": "S001",
+      "chapter": "foreword",
+      "source_pdf_pages": [
+        9
+      ],
+      "alignment": "right",
+      "lines_traditional": [
+        "珍妮特·耶倫（Janet Louise Yellen）",
+        "美國聯邦儲備局主席（2014年至2018年）",
+        "加州大學柏克萊分校企業管理學兼經濟學榮休教授",
+        "2018年10月"
+      ],
+      "lines_simplified": [
+        "珍妮特·耶伦（Janet Louise Yellen）",
+        "美国联邦储备局主席（2014年至2018年）",
+        "加州大学柏克莱分校企业管理学兼经济学荣休教授",
+        "2018年10月"
+      ]
+    },
+    {
+      "id": "S002",
+      "chapter": "preface",
+      "source_pdf_pages": [
+        13
+      ],
+      "alignment": "right",
+      "lines_traditional": [
+        "單偉建",
+        "2020年3月26日於香港"
+      ],
+      "lines_simplified": [
+        "单伟建",
+        "2020年3月26日于香港"
+      ]
+    }
+  ]
+}

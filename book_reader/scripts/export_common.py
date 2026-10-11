@@ -110,10 +110,11 @@ def with_lead_ins(blocks: tuple[Block, ...], slug: str, script: str) -> tuple[Bl
                  for index, block in enumerate(blocks))
 
 
-def apply_verse_layout(blocks: tuple[Block, ...], entries: list[dict], slug: str, script: str) -> tuple[Block, ...]:
-    """Split only scan-reviewed verse ranges; preserve every non-whitespace character.
+def apply_line_layout(blocks: tuple[Block, ...], entries: list[dict], slug: str, script: str,
+                      kind: str) -> tuple[Block, ...]:
+    """Split only scan-reviewed line blocks; preserve every non-whitespace character.
 
-    OCR paragraph and physical-page boundaries are not reliable verse boundaries.
+    OCR paragraph and physical-page boundaries are not reliable semantic boundaries.
     Each exact, unique range may span adjacent paragraphs with the same role,
     but cannot cross an image, scene break, or another semantic block.
     """
@@ -123,8 +124,9 @@ def apply_verse_layout(blocks: tuple[Block, ...], entries: list[dict], slug: str
             continue
         verse = "\n".join(entry[f"lines_{script}"])
         needle = re.sub(r"\s+", "", verse)
-        if not needle or entry["alignment"] not in {"left", "center"}:
-            raise ValueError(f"Invalid verse layout: {entry['id']}")
+        allowed = {"left", "center"} if kind == "verse" else {"right"}
+        if kind not in {"verse", "signature"} or not needle or entry["alignment"] not in allowed:
+            raise ValueError(f"Invalid {kind} layout: {entry['id']}")
         matches = []
         index = 0
         while index < len(blocks):
@@ -143,17 +145,26 @@ def apply_verse_layout(blocks: tuple[Block, ...], entries: list[dict], slug: str
                 start = haystack.find(needle, start + 1)
             index = end
         if len(matches) != 1:
-            raise ValueError(f"Reviewed verse must match exactly once: {script}/{entry['id']} ({len(matches)})")
+            raise ValueError(f"Reviewed {kind} must match exactly once: {script}/{entry['id']} ({len(matches)})")
         (first, start), (last, end) = matches[0]
         role = blocks[first].role
         before, after = blocks[first].value[:start].strip(), blocks[last].value[end + 1:].strip()
         replacement = ([Block("paragraph", before, role)] if before else [])
-        replacement += [Block("verse", verse, role, entry["alignment"])]
+        replacement += [Block(kind, verse, role, entry["alignment"])]
         replacement += [Block("paragraph", after, role)] if after else []
         blocks = blocks[:first] + tuple(replacement) + blocks[last + 1:]
     if original != "".join(re.sub(r"\s+", "", block.value) for block in blocks):
-        raise ValueError(f"Verse layout changed source text: {script}/{slug}")
+        raise ValueError(f"{kind} layout changed source text: {script}/{slug}")
     return blocks
+
+
+def apply_verse_layout(blocks: tuple[Block, ...], entries: list[dict], slug: str, script: str) -> tuple[Block, ...]:
+    return apply_line_layout(blocks, entries, slug, script, "verse")
+
+
+def with_signature_layout(blocks: tuple[Block, ...], slug: str, script: str) -> tuple[Block, ...]:
+    entries = json.loads((TEXT / "signature-layout.json").read_text(encoding="utf-8"))["signatures"]
+    return apply_line_layout(blocks, entries, slug, script, "signature")
 
 
 def with_verse_layout(blocks: tuple[Block, ...], slug: str, script: str) -> tuple[Block, ...]:
@@ -166,10 +177,10 @@ def load_chapters(script: str) -> list[Chapter]:
         raise ValueError(script)
     manifest = json.loads((TEXT / "chapters.json").read_text(encoding="utf-8"))
     return [
-        Chapter(entry["id"], entry[f"title_{script}"], with_verse_layout(with_lead_ins(parse_blocks(
+        Chapter(entry["id"], entry[f"title_{script}"], with_signature_layout(with_verse_layout(with_lead_ins(parse_blocks(
             (TEXT / f"{script}-continuous" / f"{index:02d}-{entry['id']}.md").read_text(encoding="utf-8"),
             entry[f"title_{script}"],
-        ), entry["id"], script), entry["id"], script), entry.get("number"))
+        ), entry["id"], script), entry["id"], script), entry["id"], script), entry.get("number"))
         for index, entry in enumerate(manifest, 1)
     ]
 

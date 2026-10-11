@@ -5,7 +5,7 @@ import re
 import sys
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from export_common import (TEXT, BOOK, Block, apply_verse_layout, chapter_number,
+from export_common import (TEXT, BOOK, Block, apply_verse_layout, apply_line_layout, chapter_number,
     load_chapters, load_frontmatter, load_captions, parse_blocks, reading_layout, with_lead_ins)
 
 class FrontmatterTests(unittest.TestCase):
@@ -94,5 +94,23 @@ class VerseTests(unittest.TestCase):
     def test_unlisted_ordinary_quotation_is_unchanged(self):
         blocks=(Block('paragraph','普通引文「诗句」。'),)
         self.assertEqual(apply_verse_layout(blocks,[],'chapter','simplified'),blocks)
+
+class SignatureTests(unittest.TestCase):
+    def test_only_two_reviewed_closing_blocks_are_right_aligned(self):
+        for script in ('traditional','simplified'):
+            signatures=[(c.slug,b) for c in load_chapters(script) for b in c.blocks if b.kind=='signature']
+            self.assertEqual([slug for slug,b in signatures],['foreword','preface'])
+            self.assertEqual([len(b.value.splitlines()) for slug,b in signatures],[4,2])
+            self.assertTrue(all(b.alignment=='right' for slug,b in signatures))
+    def test_signature_block_cannot_silently_change_original_characters(self):
+        rule={'id':'S','chapter':'c','alignment':'right','lines_simplified':['作者','2020年']}
+        actual=apply_line_layout((Block('paragraph','作者\n2020年'),),[rule],'c','simplified','signature')
+        self.assertEqual(actual,(Block('signature','作者\n2020年','body','right'),))
+        with self.assertRaises(ValueError):
+            apply_line_layout((Block('paragraph','作者\n2021年'),),[rule],'c','simplified','signature')
+    def test_inline_letter_date_diary_dates_and_afterword_are_not_signatures(self):
+        chapters={c.slug:c for c in load_chapters('simplified')}
+        self.assertTrue(any('落款是1973年4月25日' in b.value and b.kind=='paragraph' for b in chapters['chapter-17'].blocks))
+        self.assertFalse(any(b.kind=='signature' for slug in ('chapter-17','chapter-21','afterword') for b in chapters[slug].blocks))
 
 if __name__ == '__main__': unittest.main()

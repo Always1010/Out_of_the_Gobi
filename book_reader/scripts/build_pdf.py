@@ -9,13 +9,13 @@ from pathlib import Path
 from PIL import Image as PILImage
 from reportlab import rl_config
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT, TA_RIGHT
 from reportlab.lib.pagesizes import B5
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
-    BaseDocTemplate, Frame, Flowable, Image, PageBreak, PageTemplate,
+    BaseDocTemplate, Frame, Flowable, Image, KeepTogether, PageBreak, PageTemplate,
     Paragraph,
 )
 from reportlab.platypus.tableofcontents import TableOfContents
@@ -116,7 +116,7 @@ class SearchableScan(Flowable):
         text.setLeading(11)
         text.setTextRenderMode(3)
         paragraphs = [self.section.title] + [block.value for block in self.section.blocks
-                                               if block.kind in {"paragraph", "verse"}]
+                                               if block.kind in {"paragraph", "verse", "signature"}]
         for paragraph in paragraphs:
             for source_line in paragraph.split("\n"):
                 line = ""
@@ -228,6 +228,11 @@ def styles(font: str, title_font: str | None = None,
                 rightIndent=2 * result[role].fontSize,
                 spaceBefore=7, spaceAfter=10,
             )
+    for role in ("body", "lead-in", "front-body"):
+        result[f"signature-{role}"] = ParagraphStyle(
+            f"signature-{role}", parent=result[role], alignment=TA_RIGHT,
+            firstLineIndent=0, leftIndent=0, rightIndent=0,
+        )
     return result
 
 
@@ -246,6 +251,17 @@ def add_verse(story: list, block, style: dict[str, ParagraphStyle]) -> None:
     # indentation on continuation pages. Two explicit breaks retain a stanza.
     markup = html.escape(block.value).replace("\n", "<br/>")
     story.append(Paragraph(markup, verse_style))
+
+
+def add_signature(story: list, block, style: dict[str, ParagraphStyle],
+                  *, frontmatter: bool = False) -> None:
+    """Keep the original closing lines together, flush with the text right edge."""
+    role = getattr(block, "role", "body")
+    if frontmatter and role == "body":
+        role = "front-body"
+    markup = html.escape(block.value).replace("\n", "<br/>")
+    paragraph = Paragraph(markup, style[f"signature-{role}"])
+    story.append(KeepTogether([paragraph]))
 
 
 def add_chapter(story: list, chapter: Chapter, chapter_index: int,
@@ -270,6 +286,8 @@ def add_chapter(story: list, chapter: Chapter, chapter_index: int,
             story.append(Paragraph(html.escape(block.value).replace("\n", "<br/>"), paragraph_style))
         elif block.kind == "verse":
             add_verse(story, block, style)
+        elif block.kind == "signature":
+            add_signature(story, block, style)
         elif block.kind == "break":
             story.append(Paragraph("★★★", style["break"]))
         elif block.kind == "image":
@@ -287,11 +305,16 @@ def validate_glyphs(frontmatter, chapters, captions, fonts) -> None:
     for part in frontmatter:
         texts["number"] += part.title + "".join(b.value for b in part.blocks)
         texts["title"] += part.title
+        if getattr(part, "presentation", "scan") == "text":
+            texts["lead-in"] += "".join(
+                block.value for block in part.blocks
+                if block.kind == "signature" and block.role == "lead-in"
+            )
     for chapter in chapters:
         texts["number"] += getattr(chapter, "number_label", "")
         texts["title"] += chapter.title
         for block in chapter.blocks:
-            if block.kind in {"paragraph", "verse"}:
+            if block.kind in {"paragraph", "verse", "signature"}:
                 role = "lead-in" if getattr(block, "role", "body") == "lead-in" else "number"
                 texts[role] += block.value
     texts["number"] += "".join(value for values in captions.values() for value in values)
@@ -329,6 +352,8 @@ def build_one(script: str) -> Path:
             for block in part.blocks:
                 if block.kind == "paragraph":
                     story.append(Paragraph(html.escape(block.value).replace("\n", "<br/>"), style["front-body"]))
+                elif block.kind == "signature":
+                    add_signature(story, block, style, frontmatter=True)
         else:
             scan = SearchableScan(part, fonts["number"])
             scan._book_entry = entry

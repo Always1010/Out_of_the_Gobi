@@ -54,8 +54,15 @@ def validate_exports() -> None:
                 filename = f"front-{section.slug}.xhtml" if index < 2 else f"chapter-{index - 1:02d}.xhtml"
                 document = ET.fromstring(archive.read("OEBPS/" + filename))
                 visible = "".join(document.itertext())
+                signatures = [node for node in document.iter()
+                              if node.tag.endswith("}p") and "signature" in node.get("class", "").split()]
+                expected_signatures = [block for block in section.blocks if block.kind == "signature"]
+                assert len(signatures) == len(expected_signatures), f"Missing EPUB signature semantics: {filename}"
+                for node, block in zip(signatures, expected_signatures):
+                    assert "".join(node.itertext()) == block.value.replace("\n", "")
+                    assert sum(child.tag.endswith("}br") for child in node) == len(block.value.splitlines()) - 1
                 for block in section.blocks:
-                    if block.kind in {"paragraph", "verse"}:
+                    if block.kind in {"paragraph", "verse", "signature"}:
                         assert block.value.replace("\n", "") in visible, f"EPUB stale or missing text: {filename}"
             assert archive.testzip() is None
         with fitz.open(OUTPUT / f"走出戈壁-{label}.pdf") as pdf:
@@ -68,7 +75,7 @@ def validate_exports() -> None:
             ))
             for section in [*front, *chapters]:
                 for block in section.blocks:
-                    if block.kind in {"paragraph", "verse"}:
+                    if block.kind in {"paragraph", "verse", "signature"}:
                         assert re.sub(r"\s+", "", block.value) in searchable_book, f"PDF stale or missing text: {section.slug}"
             for values in load_captions(script).values():
                 for value in values:
@@ -90,6 +97,28 @@ def validate_exports() -> None:
                 actual = re.sub(r"\s+", "", page.get_text(clip=fitz.Rect(0, 0, page.rect.width, page.rect.height - 39)))
                 expected = re.sub(r"\s+", "", "".join(captions.get(int(block.value[5:8]), [])))
                 assert actual == expected, f"Prose shares image page or caption misplaced: {block.value}"
+            # Every reviewed closing line must use the actual frame's right edge,
+            # and a short name/title/date block must remain on one page.
+            from build_pdf import RIGHT
+            pdf_lines = []
+            for number, page in enumerate(pdf):
+                for block in page.get_text("dict", flags=fitz.TEXTFLAGS_DICT & ~fitz.TEXT_PRESERVE_IMAGES)["blocks"]:
+                    if block["type"] == 0:
+                        for line in block["lines"]:
+                            value = re.sub(r"\s+", "", "".join(span["text"] for span in line["spans"]))
+                            pdf_lines.append((number, value, line["bbox"][2], page.rect.width - RIGHT))
+            for chapter in chapters:
+                for block in chapter.blocks:
+                    if block.kind != "signature":
+                        continue
+                    pages = set()
+                    for value in block.value.splitlines():
+                        matches = [line for line in pdf_lines if line[1] == re.sub(r"\s+", "", value)]
+                        assert len(matches) == 1, f"Missing or duplicated signature line: {value}"
+                        number, _, right, expected = matches[0]
+                        assert abs(right - expected) < .1, f"Signature is not flush-right: {value}"
+                        pages.add(number)
+                    assert len(pages) == 1, f"Name and date split across pages: {chapter.slug}"
     site = BOOK / "site" / "dist"
     payload = (site / "data.js").read_text(encoding="utf-8").split("=", 1)[1].strip().removesuffix(";")
     sections = json.loads(payload)["chapters"]
