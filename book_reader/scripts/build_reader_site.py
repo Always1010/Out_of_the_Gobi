@@ -102,7 +102,7 @@ def main() -> None:
             f'data-image="{image}" data-caption="{html.escape(caption, quote=True)}">'
             f'<img src="{image}" alt="{html.escape(caption, quote=True)}" loading="lazy"></button>'
             f'<figcaption>{html.escape(caption)} · 点击放大</figcaption></figure>'
-        )
+        ) if part.presentation == "scan" else ""
         entries.append({
             "id": f"front-{part.slug}", "number": "", "title": part.title,
             "label": "卷首", "pdfPage": part.source_page, "frontmatter": True,
@@ -133,7 +133,8 @@ def main() -> None:
         source = IMAGE_SOURCE / Path(entry["asset"]).name
         shutil.copy2(source, target_images / source.name)
     for part in frontmatter:
-        shutil.copy2(part.image, target_images / part.image.name)
+        if part.presentation == "scan":
+            shutil.copy2(part.image, target_images / part.image.name)
     payload = json.dumps({"title": "走出戈壁", "chapters": entries}, ensure_ascii=False).replace("</", "<\\/")
     data_source = f"window.BOOK = {payload};\n"
     write_text(DIST / "data.js", data_source)
@@ -151,7 +152,7 @@ def main() -> None:
         for obsolete in DIST.glob(pattern):
             if obsolete.name not in current_assets:
                 obsolete.unlink()
-    print(f"Built {len(chapters)} chapters, {len(frontmatter)} front-matter sections and {len(image_entries) + len(frontmatter)} image pages in {DIST}")
+    print(f"Built {len(chapters)} chapters, {len(frontmatter)} front-matter sections and {len(image_entries) + sum(part.presentation == "scan" for part in frontmatter)} image pages in {DIST}")
 
 
 INDEX = '''<!doctype html>

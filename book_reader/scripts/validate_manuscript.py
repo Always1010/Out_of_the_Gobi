@@ -24,6 +24,7 @@ def validate_frontmatter() -> None:
         assert [part.slug for part in front] == ["author-biography", "dedication"]
         assert [part.source_page for part in front] == [4, 5], "Copyright/version page must remain omitted"
         assert len(front[0].blocks) == 7, "The author biography has seven paragraphs"
+        assert [part.presentation for part in front] == ["text", "scan"]
         assert all(block.kind == "paragraph" for part in front for block in part.blocks)
         expected = ("獻給患難與共的戰友\n和我們充滿希望的後代" if script == "traditional"
                     else "献给患难与共的战友\n和我们充满希望的后代")
@@ -79,7 +80,7 @@ def validate_exports() -> None:
                 searchable = re.sub(r"\s+", "", pdf[offset].get_text())
                 for block in section.blocks:
                     assert re.sub(r"\s+", "", block.value) in searchable, f"Missing PDF front-matter text: {section.slug}"
-                assert pdf[offset].get_images(), "Front matter must preserve its original page image"
+                assert bool(pdf[offset].get_images()) == (section.presentation == "scan"), "Only scan-presented front matter embeds its page image"
     site = BOOK / "site" / "dist"
     payload = (site / "data.js").read_text(encoding="utf-8").split("=", 1)[1].strip().removesuffix(";")
     sections = json.loads(payload)["chapters"]
@@ -88,8 +89,8 @@ def validate_exports() -> None:
     for section in sections:
         for asset in re.findall(r'<img[^>]+src="([^"]+)"', section["html"]):
             assert (site / asset).is_file(), f"Missing offline asset: {asset}"
-    for section in sections[:2]:
-        assert section["searchText"] and '<img ' in section["html"]
+    assert sections[0]["searchText"] and '<img ' not in sections[0]["html"]
+    assert sections[1]["searchText"] and '<img ' in sections[1]["html"]
     print("Validated both EPUB/PDF exports, consecutive PDF numbering and offline front matter.")
 
 

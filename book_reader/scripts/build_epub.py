@@ -70,11 +70,11 @@ def frontmatter_xhtml(section: FrontMatter, language: str) -> str:
         f'<p>{escape(block.value).replace(chr(10), "<br/>")}</p>'
         for block in section.blocks if block.kind == "paragraph"
     )
-    body = (
+    scan = (
         f'<figure class="front-scan"><img src="images/{section.image.name}" '
         f'alt="{escape(section.title)}原页，PDF 第 {section.source_page} 页"/></figure>'
-        f'<section class="{section.layout}"><h1>{escape(section.title)}</h1>{transcription}</section>'
-    )
+    ) if section.presentation == "scan" else ""
+    body = scan + f'<section class="{section.layout}"><h1>{escape(section.title)}</h1>{transcription}</section>'
     return xhtml(section.title, language, body)
 
 
@@ -125,7 +125,7 @@ def build_one(script: str) -> Path:
     )
     manifest.extend(
         f'<item id="front-image-{part.slug}" href="images/{part.image.name}" media-type="image/png"/>'
-        for part in frontmatter
+        for part in frontmatter if part.presentation == "scan"
     )
     manifest.extend(
         f'<item id="chapter-{i:02d}" href="chapter-{i:02d}.xhtml" media-type="application/xhtml+xml"/>'
@@ -170,7 +170,8 @@ def build_one(script: str) -> Path:
         book.writestr("OEBPS/title.xhtml", xhtml("题字", language, f'<div class="cover"><img src="images/{title_image}" alt="原书题字页"/></div>'))
         for part in frontmatter:
             book.writestr(f"OEBPS/front-{part.slug}.xhtml", frontmatter_xhtml(part, language))
-            book.write(part.image, f"OEBPS/images/{part.image.name}", compress_type=zipfile.ZIP_STORED)
+            if part.presentation == "scan":
+                book.write(part.image, f"OEBPS/images/{part.image.name}", compress_type=zipfile.ZIP_STORED)
         for i, chapter in enumerate(chapters, 1):
             book.writestr(f"OEBPS/chapter-{i:02d}.xhtml", chapter_xhtml(chapter, language, captions))
         for name in picture_names:

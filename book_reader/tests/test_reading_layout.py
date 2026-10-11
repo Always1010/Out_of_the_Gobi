@@ -7,6 +7,15 @@ import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from export_common import (TEXT, BOOK, Block, load_chapters, load_frontmatter)
 
+class FrontmatterTests(unittest.TestCase):
+    def test_author_is_seven_real_paragraphs_and_dedication_stays_scan(self):
+        for script in ('traditional', 'simplified'):
+            front = load_frontmatter(script)
+            self.assertEqual([f.presentation for f in front], ['text', 'scan'])
+            self.assertEqual(len(front[0].blocks), 7)
+            self.assertTrue(all(b.kind == 'paragraph' for b in front[0].blocks))
+            self.assertEqual([f.source_page for f in front], [4,5])
+
 class PrefaceTests(unittest.TestCase):
     def test_portrait_follows_complete_preface_in_both_scripts(self):
         for script in ('traditional', 'simplified'):

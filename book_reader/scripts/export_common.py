@@ -35,6 +35,7 @@ class FrontMatter:
     source_page: int
     image: Path
     layout: str
+    presentation: str
     blocks: tuple[Block, ...]
 
 
@@ -94,8 +95,11 @@ def load_frontmatter(script: str) -> list[FrontMatter]:
         picture = BOOK / "images" / entry["asset"]
         if not picture.is_file():
             raise FileNotFoundError(picture)
+        presentation = entry["presentation"]
+        if presentation not in {"text", "scan"}:
+            raise ValueError(f"Unknown front-matter presentation: {presentation}")
         result.append(FrontMatter(entry["id"], title, int(entry["pdf_page"]), picture,
-                                  entry["layout"], parse_blocks(source.read_text(encoding="utf-8"), title)))
+                                  entry["layout"], presentation, parse_blocks(source.read_text(encoding="utf-8"), title)))
     return result
 
 

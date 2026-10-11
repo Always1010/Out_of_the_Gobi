@@ -103,9 +103,10 @@ class BookDocument(BaseDocTemplate):
         canvas.restoreState()
 
     def afterFlowable(self, flowable):
-        if isinstance(flowable, SearchableScan):
-            key = f"front-{flowable.section.slug}"
-            title = flowable.section.title
+        if isinstance(flowable, SearchableScan) or hasattr(flowable, "_front_section"):
+            section = getattr(flowable, "_front_section", None) or flowable.section
+            key = f"front-{section.slug}"
+            title = section.title
             self.canv.bookmarkPage(key)
             self.canv.addOutlineEntry(title, key, level=0)
             self.notify("TOCEntry", (0, title, self.page, key))
@@ -166,7 +167,7 @@ def fit_image(path: Path, max_width: float, max_height: float) -> Image:
 
 
 def styles(font: str) -> dict[str, ParagraphStyle]:
-    return {
+    result = {
         "chapter": ParagraphStyle(
             "chapter", fontName=font, fontSize=17, leading=26, alignment=TA_CENTER,
             spaceBefore=48, spaceAfter=32, wordWrap="CJK", textColor=colors.HexColor("#25211d"),
@@ -193,6 +194,13 @@ def styles(font: str) -> dict[str, ParagraphStyle]:
             leftIndent=12, firstLineIndent=0, rightIndent=15,
         ),
     }
+    result["front-title"] = ParagraphStyle(
+        "front-title", parent=result["chapter"], fontName=font, spaceBefore=0, spaceAfter=22,
+    )
+    result["front-body"] = ParagraphStyle(
+        "front-body", parent=result["body"], fontSize=10.2, firstLineIndent=20.4,
+    )
+    return result
 
 
 def add_chapter(story: list, chapter: Chapter, chapter_index: int, captions: dict[int, list[str]], style: dict[str, ParagraphStyle]) -> None:
@@ -248,7 +256,16 @@ def build_one(script: str) -> Path:
         PageBreak(),
     ]
     for part in frontmatter:
-        story.extend([SearchableScan(part, font), PageBreak()])
+        if part.presentation == "text":
+            heading = Paragraph(html.escape(part.title), style["front-title"])
+            heading._front_section = part
+            story.append(heading)
+            for block in part.blocks:
+                if block.kind == "paragraph":
+                    story.append(Paragraph(html.escape(block.value).replace("\n", "<br/>"), style["front-body"]))
+        else:
+            story.append(SearchableScan(part, font))
+        story.append(PageBreak())
     story.extend([Paragraph("目录" if script == "simplified" else "目錄", style["toc-title"]), toc, PageBreak()])
     for index, chapter in enumerate(chapters, 1):
         add_chapter(story, chapter, index, captions, style)

@@ -5,7 +5,8 @@
     "title_simplified": "作者简介",
     "pdf_page": 4,
     "asset": "frontmatter/page-004.png",
-    "layout": "prose"
+    "layout": "prose",
+    "presentation": "text"
   },
   {
     "id": "dedication",
@@ -13,6 +14,7 @@
     "title_simplified": "献辞",
     "pdf_page": 5,
     "asset": "frontmatter/page-005.png",
-    "layout": "dedication"
+    "layout": "dedication",
+    "presentation": "scan"
   }
 ]
