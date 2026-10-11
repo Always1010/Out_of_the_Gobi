@@ -28,8 +28,11 @@ def is_chapter_heading(value: str, title: str) -> bool:
 
 def render_chapter(source: str, title: str, join_rules: list[dict]) -> str:
     forced_joins = {entry["page"] for entry in join_rules}
-    deferred_markers = {entry["defer_image"]: entry["page"] for entry in join_rules if "defer_image" in entry}
+    end_markers = {entry["defer_image"] for entry in join_rules if entry.get("image_placement") == "chapter_end"}
+    deferred_markers = {entry["defer_image"]: entry["page"] for entry in join_rules
+                        if "defer_image" in entry and entry["defer_image"] not in end_markers}
     pending_images: list[str] = []
+    end_images: list[str] = []
     blocks = [f"# {title}"]
     previous_text_index: int | None = None
     previous_page_had_image = False
@@ -42,6 +45,9 @@ def render_chapter(source: str, title: str, join_rules: list[dict]) -> str:
         had_image = False
         for paragraph_index, value in enumerate(paragraphs):
             if is_chapter_heading(value, title):
+                continue
+            if value in end_markers:
+                end_images.append(value)
                 continue
             if value in deferred_markers:
                 pending_images.append(value)
@@ -67,6 +73,8 @@ def render_chapter(source: str, title: str, join_rules: list[dict]) -> str:
                 previous_text_index = None
         previous_page_had_image = had_image
     assert not pending_images, "A relocated image did not find its reviewed paragraph join"
+    assert set(end_images) == end_markers and len(end_images) == len(end_markers), "A chapter-end plate is missing or duplicated"
+    blocks.extend(end_images)
     return "\n\n".join(blocks).rstrip() + "\n"
 
 

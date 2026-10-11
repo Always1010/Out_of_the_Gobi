@@ -7482,6 +7482,14 @@
       "id": "R530",
       "file": "32-chapter-29.md",
       "page": 408
+    },
+    {
+      "id": "L001",
+      "file": "02-preface.md",
+      "page": 12,
+      "defer_image": "<!-- Image plate: images/pages/page-011.jpg -->",
+      "image_placement": "chapter_end",
+      "reason": "按读者要求，作者肖像移到自序全文及署名日期之后；接回被原扫描图版打断的句子。分页校核源稿保留原物理页锚点。"
     }
   ],
   "dispositions": [
