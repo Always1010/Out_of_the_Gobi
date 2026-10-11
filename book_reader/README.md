@@ -89,5 +89,11 @@ python book_reader/scripts/validate_proofreading.py
 - `text/lead-ins.json`、`text/verse-layout.json` 和 `images/reading-layout.json` 是可审计的版式边界清单；分页源稿继续保留原扫描页码与校改哈希，不因排版重写原文。三类导出共用同一语义数据。
 - EPUB 的图版分页声明由阅读器执行，重排字号、屏幕和阅读器可影响分页；PDF 的独立图版页固定。离线网页按阅读模式显示图版，不承诺与PDF同页数。
 
+完整高清PDF之外，可生成文字、字体、链接、书签与版式不变的较小审阅副本：
 
-版式复核见 [阅读版版式验收](qa/reading-layout-review.md)。本次新稿不覆盖已发布 `book-v1.0`；发布新版需另行使用新版本Tag。
+```sh
+python book_reader/scripts/build_review_pdf.py --script simplified
+python -m unittest discover -s book_reader/tests -v
+```
+
+审阅副本仅对有效分辨率较高的图片按220dpi/JPEG91生成，原图与高清母版保留。逐页文本和位置、字体程序、书签、链接自动比对结果写入同名 `.review.json`。版式复核见 [阅读版版式验收](qa/reading-layout-review.md)。本次新稿不覆盖已发布 `book-v1.0`；发布新版需另行使用新版本Tag。
