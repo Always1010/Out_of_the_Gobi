@@ -48,7 +48,7 @@ def validate_exports() -> None:
             package = ET.fromstring(archive.read("OEBPS/content.opf"))
             manifest = {item.attrib["id"]: item.attrib["href"] for item in package.findall("o:manifest/o:item", opf_ns)}
             spine = [item.attrib["idref"] for item in package.findall("o:spine/o:itemref", opf_ns)]
-            assert spine == ["cover-page", "title-page", "front-author-biography", "front-dedication"] + [f"chapter-{i:02d}" for i in range(1, 34)]
+            assert spine == ["cover-page", "title-page", "front-author-biography", "front-dedication", "nav"] + [f"chapter-{i:02d}" for i in range(1, 34)]
             assert all("OEBPS/" + href in archive.namelist() for href in manifest.values())
             for index, section in enumerate([*front, *chapters]):
                 filename = f"front-{section.slug}.xhtml" if index < 2 else f"chapter-{index - 1:02d}.xhtml"
@@ -81,6 +81,7 @@ def validate_exports() -> None:
                 for block in section.blocks:
                     assert re.sub(r"\s+", "", block.value) in searchable, f"Missing PDF front-matter text: {section.slug}"
                 assert bool(pdf[offset].get_images()) == (section.presentation == "scan"), "Only scan-presented front matter embeds its page image"
+            assert [item[1] for item in pdf.get_toc()] == [part.title for part in front] + [chapter.label for chapter in chapters]
             picture_pages = [page for page in list(pdf)[4:] if page.get_images()]
             plates = [block for chapter in chapters for block in chapter.blocks if block.kind == "image"]
             assert len(picture_pages) == len(plates) == 20, "Each body plate must occupy its own page"

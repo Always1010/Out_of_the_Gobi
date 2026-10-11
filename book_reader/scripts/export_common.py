@@ -20,6 +20,7 @@ CHAPTER_NUMBER_RE = re.compile(r"第[一二三四五六七八九十百]+章")
 class Block:
     kind: str
     value: str
+    role: str = "body"
 
 
 @dataclass(frozen=True)
@@ -27,6 +28,25 @@ class Chapter:
     slug: str
     title: str
     blocks: tuple[Block, ...]
+    number: int | None = None
+
+    @property
+    def number_label(self) -> str:
+        return chapter_number(self.number)
+
+    @property
+    def label(self) -> str:
+        return f"{self.number_label}　{self.title}" if self.number else self.title
+
+
+def chapter_number(number: int | None) -> str:
+    if number is None:
+        return ""
+    if not 1 <= number <= 29:
+        raise ValueError(f"Unknown chapter number: {number}")
+    digits = "零一二三四五六七八九"
+    value = digits[number] if number < 10 else ("十" if number < 20 else "二十") + (digits[number % 10] if number % 10 else "")
+    return f"第{value}章"
 
 
 @dataclass(frozen=True)
@@ -52,7 +72,7 @@ def parse_blocks(markdown: str, title: str) -> tuple[Block, ...]:
     def flush() -> None:
         value = paragraph_text(paragraph)
         paragraph.clear()
-        if value and value != title and not CHAPTER_NUMBER_RE.fullmatch(value):
+        if value and value.replace("爲", "為") != title.replace("爲", "為") and not CHAPTER_NUMBER_RE.fullmatch(value):
             blocks.append(Block("break" if value == "★★★" else "paragraph", value))
 
     for raw in markdown.splitlines():
@@ -71,15 +91,33 @@ def parse_blocks(markdown: str, title: str) -> tuple[Block, ...]:
     return tuple(blocks)
 
 
+def with_lead_ins(blocks: tuple[Block, ...], slug: str, script: str) -> tuple[Block, ...]:
+    entries = json.loads((TEXT / "lead-ins.json").read_text(encoding="utf-8"))["sections"]
+    entry = next((entry for entry in entries if entry["id"] == slug), None)
+    if entry is None:
+        return blocks
+    evidence = entry["scripts"][script]
+    count = evidence["paragraph_count"]
+    lead = blocks[:count]
+    if not (all(block.kind == "paragraph" for block in lead)
+            and blocks[count].kind == "break"
+            and lead[0].value.startswith(evidence["start"])
+            and lead[-1].value.endswith(evidence["end"])
+            and blocks[count + 1].value.startswith(evidence["following"])):
+        raise ValueError(f"Reviewed lead-in boundaries changed: {script}/{slug}")
+    return tuple(Block(block.kind, block.value, "lead-in" if index < count else "body")
+                 for index, block in enumerate(blocks))
+
+
 def load_chapters(script: str) -> list[Chapter]:
     if script not in {"simplified", "traditional"}:
         raise ValueError(script)
     manifest = json.loads((TEXT / "chapters.json").read_text(encoding="utf-8"))
     return [
-        Chapter(entry["id"], entry[f"title_{script}"], parse_blocks(
+        Chapter(entry["id"], entry[f"title_{script}"], with_lead_ins(parse_blocks(
             (TEXT / f"{script}-continuous" / f"{index:02d}-{entry['id']}.md").read_text(encoding="utf-8"),
             entry[f"title_{script}"],
-        ))
+        ), entry["id"], script), entry.get("number"))
         for index, entry in enumerate(manifest, 1)
     ]
 

@@ -9,7 +9,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-from export_common import IMAGES, OUTPUT, Chapter, FrontMatter, expected_body_image_pages, image_pages, load_captions, load_chapters, load_frontmatter, reading_image
+from book_fonts import font_assets, font_css
+from export_common import OUTPUT, Chapter, FrontMatter, expected_body_image_pages, image_pages, load_captions, load_chapters, load_frontmatter, reading_image
 
 
 TITLE = "走出戈壁：我的中美故事"
@@ -25,7 +26,14 @@ figcaption span { display: block; margin-bottom: .35em; }
 .scene-break { text-align: center; margin: 1.5em 0; letter-spacing: .5em; }
 .cover { margin: 0; text-align: center; }
 .cover img { display: block; width: 100%; max-height: 100vh; object-fit: contain; }
-.nav-list { line-height: 2; }
+.nav-list { line-height: 1.6; list-style: none; padding: 0; }
+.nav-list li { margin: .7em 0; }
+.nav-list a { text-decoration: none; }
+.toc-num { font-family: "GobiChapterNumber", sans-serif; font-size: .78em; font-weight: 400; margin-right: 1em; white-space: nowrap; }
+.toc-label, h1 { font-family: "GobiChapterTitle", serif; font-weight: 400; }
+.toc-label { font-size: 1.1em; }
+h1 .chapter-num { display: block; font-family: "GobiChapterNumber", sans-serif; font-size: .62em; font-weight: 400; margin-bottom: .7em; }
+p.lead-in { font-family: "GobiLeadIn", serif; font-size: 95%; font-style: normal; font-weight: 300; }
 .front-scan { break-after: page; }
 .front-scan img { max-height: 92vh; }
 .dedication p { text-align: center; text-indent: 0; margin-top: 3em; }
@@ -48,13 +56,18 @@ def xhtml(title: str, language: str, body: str) -> str:
 
 
 def chapter_xhtml(chapter: Chapter, language: str, captions: dict[int, list[str]]) -> str:
-    body = [f'<h1>{escape(chapter.title)}</h1>']
+    number = f'<span class="chapter-num">{escape(chapter.number_label)}</span>' if chapter.number else ""
+    body = [f'<h1>{number}<span class="chapter-title">{escape(chapter.title)}</span></h1>']
     for block in chapter.blocks:
         if block.kind == "paragraph":
-            body.append(f'<p>{escape(block.value).replace(chr(10), "<br/>")}</p>')
+            classes = []
+            if block.role == "lead-in":
+                classes.append("lead-in")
+            attributes = f' class="{" ".join(classes)}"' if classes else ""
+            body.append(f'<p{attributes}>{escape(block.value).replace(chr(10), "<br/>")}</p>')
         elif block.kind == "break":
             body.append('<div class="scene-break" aria-label="段落分隔">★★★</div>')
-        else:
+        elif block.kind == "image":
             page = int(block.value[5:8])
             captions_html = "".join(f'<span>{escape(value)}</span>' for value in captions.get(page, []))
             caption = f'<figcaption>{captions_html}</figcaption>' if captions_html else ""
@@ -62,7 +75,9 @@ def chapter_xhtml(chapter: Chapter, language: str, captions: dict[int, list[str]
                 f'<figure><img src="images/{block.value}" alt="原书第 {page} 页图片"/>'
                 f'{caption}</figure>'
             )
-    return xhtml(chapter.title, language, "\n".join(body))
+        else:
+            raise ValueError(f"Unsupported block kind: {block.kind}")
+    return xhtml(chapter.label, language, "\n".join(body))
 
 
 def frontmatter_xhtml(section: FrontMatter, language: str) -> str:
@@ -82,6 +97,7 @@ def build_one(script: str) -> Path:
     chapters = load_chapters(script)
     frontmatter = load_frontmatter(script)
     captions = load_captions(script)
+    fonts = font_assets(script, chapters, frontmatter)
     assert len(chapters) == 33
     assert image_pages(chapters) == expected_body_image_pages(), "Chapter image plates do not match the image manifest"
     language = "zh-CN" if script == "simplified" else "zh-TW"
@@ -96,15 +112,18 @@ def build_one(script: str) -> Path:
         if not reading_image(name).is_file():
             raise FileNotFoundError(reading_image(name))
 
-    nav_entries = [(f"front-{part.slug}.xhtml", part.title) for part in frontmatter]
-    nav_entries += [(f"chapter-{i:02d}.xhtml", chapter.title) for i, chapter in enumerate(chapters, 1)]
+    nav_entries = [(f"front-{part.slug}.xhtml", "", part.title, part.title) for part in frontmatter]
+    nav_entries += [(f"chapter-{i:02d}.xhtml", chapter.number_label, chapter.title, chapter.label) for i, chapter in enumerate(chapters, 1)]
     nav_links = "".join(
-        f'<li><a href="{href}">{escape(title)}</a></li>' for href, title in nav_entries
+        f'<li><a href="{href}">'
+        + (f'<span class="toc-num">{escape(number)}</span>' if number else "")
+        + f'<span class="toc-label">{escape(title)}</span></a></li>'
+        for href, number, title, label in nav_entries
     )
     nav = xhtml("目录", language, f'<nav epub:type="toc" id="toc" xmlns:epub="http://www.idpf.org/2007/ops"><h1>目录</h1><ol class="nav-list">{nav_links}</ol></nav>')
     ncx_items = "".join(
-        f'<navPoint id="entry-{i:02d}" playOrder="{i}"><navLabel><text>{escape(title)}</text></navLabel><content src="{href}"/></navPoint>'
-        for i, (href, title) in enumerate(nav_entries, 1)
+        f'<navPoint id="entry-{i:02d}" playOrder="{i}"><navLabel><text>{escape(label)}</text></navLabel><content src="{href}"/></navPoint>'
+        for i, (href, number, title, label) in enumerate(nav_entries, 1)
     )
     ncx = (
         '<?xml version="1.0" encoding="utf-8"?>'
@@ -136,8 +155,13 @@ def build_one(script: str) -> Path:
         + (' properties="cover-image"' if name == cover else '') + '/>'
         for i, name in enumerate(picture_names, 1)
     )
+    manifest.extend(
+        f'<item id="font-asset-{i}" href="fonts/{name}" media-type="{("font/ttf" if name.endswith(".ttf") else "text/plain")}"/>'
+        for i, name in enumerate(fonts, 1)
+    )
     spine = '<itemref idref="cover-page"/><itemref idref="title-page"/>'
     spine += "".join(f'<itemref idref="front-{part.slug}"/>' for part in frontmatter)
+    spine += '<itemref idref="nav"/>'
     spine += "".join(
         f'<itemref idref="chapter-{i:02d}"/>' for i in range(1, len(chapters) + 1)
     )
@@ -162,7 +186,9 @@ def build_one(script: str) -> Path:
     with zipfile.ZipFile(target, "w") as book:
         book.writestr("mimetype", "application/epub+zip", compress_type=zipfile.ZIP_STORED)
         book.writestr("META-INF/container.xml", container)
-        book.writestr("OEBPS/styles.css", CSS)
+        book.writestr("OEBPS/styles.css", CSS.replace('@charset "utf-8";', '@charset "utf-8";\n' + font_css()))
+        for name, data in fonts.items():
+            book.writestr(f"OEBPS/fonts/{name}", data, compress_type=zipfile.ZIP_DEFLATED)
         book.writestr("OEBPS/nav.xhtml", nav)
         book.writestr("OEBPS/toc.ncx", ncx)
         book.writestr("OEBPS/content.opf", opf)

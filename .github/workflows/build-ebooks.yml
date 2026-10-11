@@ -79,26 +79,38 @@ jobs:
       - name: Prepare verified Simplified and Traditional Chinese fonts
         env:
           FONT_DIR: ${{ runner.temp }}/gobi-fonts
-          GOBI_FONT_SC: ${{ runner.temp }}/gobi-fonts/NotoSansSC-Regular.ttf
-          GOBI_FONT_TC: ${{ runner.temp }}/gobi-fonts/NotoSansTC-Regular.ttf
         run: |
           mkdir -p "$FONT_DIR"
-          # Full CJK fonts retain mixed-script source characters; verify before parsing.
-          base='https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/Variable/TTF'
+          # Pin upstream sources and verify all bytes before fontTools parses them.
+          base='https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c'
+          for family in Sans Serif; do
+            for script in sc tc; do
+              suffix="${script^^}"
+              curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+                "$base/$family/Variable/TTF/Noto${family}CJK${script}-VF.ttf" \
+                -o "$FONT_DIR/Noto${family}${suffix}-VF.ttf"
+            done
+          done
           curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
-            "$base/NotoSansCJKsc-VF.ttf" -o "$FONT_DIR/NotoSansSC-VF.ttf"
-          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
-            "$base/NotoSansCJKtc-VF.ttf" -o "$FONT_DIR/NotoSansTC-VF.ttf"
+            'https://github.com/lxgw/LxgwWenKai/releases/download/v1.522/LXGWWenKai-Light.ttf' \
+            -o "$FONT_DIR/LXGWWenKai-Light.ttf"
           (
             cd "$FONT_DIR"
             printf '%s\n' \
               '990c807e79c25662a5a9ecf7f971baeb2bf2eab9a559e5ecf15cdfdb8561d21f  NotoSansSC-VF.ttf' \
               '6b40dd16cf1b73b5a7a0ed2472d641b60e3e85e87211abd20009f67d841425da  NotoSansTC-VF.ttf' \
+              'dbf8ac0523dc19fa6294c52ce127a81c1b5b43ddc2e0915942bfd50aa58f4c53  NotoSerifSC-VF.ttf' \
+              '9e63b78b1ece809121ff29eb880c55e196294ded9d54c0ec4ece9e4fb4daf728  NotoSerifTC-VF.ttf' \
+              '526ec70cbb0118e871d481f8179e03ff045f0e4d72d080dcca87950c4ab27cca  LXGWWenKai-Light.ttf' \
               | sha256sum --check --strict
           )
-          # ReportLab embeds TrueType outlines; freeze variable fonts at Regular.
-          fonttools varLib.instancer "$FONT_DIR/NotoSansSC-VF.ttf" wght=400 --output "$GOBI_FONT_SC"
-          fonttools varLib.instancer "$FONT_DIR/NotoSansTC-VF.ttf" wght=400 --output "$GOBI_FONT_TC"
+          # ReportLab requires static TrueType outlines; retain true 300 Light WenKai.
+          for family in Sans Serif; do
+            for suffix in SC TC; do
+              fonttools varLib.instancer "$FONT_DIR/Noto${family}${suffix}-VF.ttf" wght=400 \
+                --output "$FONT_DIR/Noto${family}${suffix}-Regular.ttf"
+            done
+          done
 
       - name: Rebuild from reviewed manuscripts and validate all four ebooks
         env:
@@ -113,6 +125,7 @@ jobs:
           python book_reader/scripts/build_pdf.py
           python book_reader/scripts/build_reader_site.py
           python book_reader/scripts/validate_manuscript.py --exports
+          python -m unittest discover -s book_reader/tests -v
           python book_reader/scripts/validate_proofreading.py
           git diff --exit-code -- book_reader/text book_reader/images book_reader/ocr book_reader/qa
 

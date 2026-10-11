@@ -9,13 +9,13 @@ import re
 import shutil
 from pathlib import Path
 
-from export_common import load_captions, load_frontmatter, paragraph_text, reading_image
+from book_fonts import font_assets, font_css
+from export_common import load_captions, load_chapters, load_frontmatter, parse_blocks, reading_image
 
 
 ROOT = Path(__file__).resolve().parents[1]
 TEXT = ROOT / "text"
 DIST = ROOT / "site" / "dist"
-IMAGE_SOURCE = ROOT / "images" / "pages"
 
 
 def plain_text(markdown: str) -> str:
@@ -24,29 +24,22 @@ def plain_text(markdown: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def content_html(markdown: str, title: str, captions: dict[str, list[str]]) -> str:
+def blocks_html(blocks, captions: dict[str, list[str]]) -> str:
+    """Render the shared semantic model so every export preserves reviewed lead-in roles."""
     chunks: list[str] = []
-    paragraph: list[str] = []
-
-    def flush() -> None:
-        nonlocal paragraph
-        value = paragraph_text(paragraph)
-        paragraph = []
-        # The scanned chapter-opening page usually repeats the title after its H1.
-        if not value or value == title or re.fullmatch(r"第[一二三四五六七八九十百]+章", value):
-            return
-        if value == "★★★":
-            chunks.append(f'<div class="scene-break" data-block="{len(chunks)}" aria-label="段落分隔">★★★</div>')
-        else:
-            chunks.append(f'<p data-block="{len(chunks)}">{html.escape(value).replace(chr(10), "<br>")}</p>')
-
-    for raw in markdown.splitlines():
-        line = raw.strip()
-        image = re.fullmatch(r"<!-- Image plate: .*?page-(\d{3})\.jpg -->", line)
-        if image:
-            flush()
-            pdf_page = int(image.group(1))
-            image_name = f"page-{image.group(1)}.jpg"
+    for block in blocks:
+        index = len(chunks)
+        if block.kind == "paragraph":
+            classes = []
+            if block.role == "lead-in":
+                classes.append("lead-in")
+            attributes = f' class="{" ".join(classes)}"' if classes else ""
+            chunks.append(f'<p{attributes} data-block="{index}">{html.escape(block.value).replace(chr(10), "<br>")}</p>')
+        elif block.kind == "break":
+            chunks.append(f'<div class="scene-break" data-block="{index}" aria-label="段落分隔">★★★</div>')
+        elif block.kind == "image":
+            image_name = block.value
+            pdf_page = int(image_name[5:8])
             page_captions = captions.get(str(pdf_page), [])
             caption_text = f"原书图片 · PDF 第 {pdf_page} 页"
             if page_captions:
@@ -56,21 +49,21 @@ def content_html(markdown: str, title: str, captions: dict[str, list[str]]) -> s
                 for value in page_captions
             )
             chunks.append(
-                f'<figure class="plate" data-block="{len(chunks)}">'
+                f'<figure class="plate" data-block="{index}">'
                 f'<button class="plate-button" type="button" data-image="images/{image_name}" '
                 f'data-caption="{html.escape(caption_text, quote=True)}">'
                 f'<img src="images/{image_name}" alt="原书图片，PDF 第 {pdf_page} 页" loading="lazy"></button>'
                 f'<figcaption><span class="plate-source">原书图片 · PDF 第 {pdf_page} 页 · 点击放大</span>'
                 f'{caption_html}</figcaption></figure>'
             )
-        elif not line or line == "---":
-            flush()
-        elif line.startswith("# "):
-            flush()
         else:
-            paragraph.append(raw)
-    flush()
+            raise ValueError(f"Unsupported block kind: {block.kind}")
     return "\n".join(chunks)
+
+
+def content_html(markdown: str, title: str, captions: dict[str, list[str]]) -> str:
+    """Compatibility entry point for standalone manuscripts and regression tests."""
+    return blocks_html(parse_blocks(markdown, title), captions)
 
 
 def write_text(path: Path, value: str) -> None:
@@ -92,6 +85,8 @@ def main() -> None:
         raise ValueError("A caption points to a page that is not in the image manifest")
     captions = {str(page): values for page, values in load_captions("simplified").items()}
     frontmatter = load_frontmatter("simplified")
+    reading_chapters = load_chapters("simplified")
+    fonts = font_assets("simplified", reading_chapters, frontmatter)
     entries = []
     for part in frontmatter:
         markdown = (TEXT / "frontmatter" / "simplified" / f"{part.slug}.md").read_text(encoding="utf-8")
@@ -104,23 +99,24 @@ def main() -> None:
             f'<figcaption>{html.escape(caption)} · 点击放大</figcaption></figure>'
         ) if part.presentation == "scan" else ""
         entries.append({
-            "id": f"front-{part.slug}", "number": "", "title": part.title,
+            "id": f"front-{part.slug}", "number": None, "numberLabel": "", "title": part.title,
             "label": "卷首", "pdfPage": part.source_page, "frontmatter": True,
-            "html": scan + f'<div class="front-transcript {part.layout}">' + content_html(markdown, part.title, {}) + '</div>',
+            "html": scan + f'<div class="front-transcript {part.layout}">' + blocks_html(part.blocks, {}) + '</div>',
             "searchText": plain_text(markdown),
         })
-    for index, chapter in enumerate(chapters, start=1):
+    for index, (chapter, reading) in enumerate(zip(chapters, reading_chapters, strict=True), start=1):
         source = TEXT / "simplified-continuous" / f"{index:02d}-{chapter['id']}.md"
         markdown = source.read_text(encoding="utf-8")
         image_pages = re.findall(r"<!-- Image plate: .*?page-(\d{3})\.jpg -->", markdown)
         caption_search = " ".join(value for page in image_pages for value in captions.get(str(int(page)), []))
         entries.append({
             "id": f"section-{index:02d}",
-            "number": index,
+            "number": reading.number,
+            "numberLabel": reading.number_label,
             "title": chapter["title_simplified"],
-            "label": f"第 {chapter['number']} 章" if "number" in chapter else ("后记" if chapter["id"] == "afterword" else "卷首"),
+            "label": reading.label,
             "pdfPage": chapter["pdf_page_start"],
-            "html": content_html(markdown, chapter["title_simplified"], captions),
+            "html": blocks_html(reading.blocks, captions),
             "searchText": f"{plain_text(markdown)} {caption_search}".strip(),
         })
 
@@ -135,16 +131,21 @@ def main() -> None:
     for part in frontmatter:
         if part.presentation == "scan":
             shutil.copy2(part.image, target_images / part.image.name)
+    target_fonts = DIST / "fonts"
+    target_fonts.mkdir(exist_ok=True)
+    for name, data in fonts.items():
+        (target_fonts / name).write_bytes(data)
+    styles = font_css() + STYLES
     payload = json.dumps({"title": "走出戈壁", "chapters": entries}, ensure_ascii=False).replace("</", "<\\/")
     data_source = f"window.BOOK = {payload};\n"
     write_text(DIST / "data.js", data_source)
-    write_text(DIST / "styles.css", STYLES)
+    write_text(DIST / "styles.css", styles)
     write_text(DIST / "app.js", APP)
     data_name = versioned_name("data", "js", data_source)
-    style_name = versioned_name("styles", "css", STYLES)
+    style_name = versioned_name("styles", "css", styles)
     app_name = versioned_name("app", "js", APP)
     write_text(DIST / data_name, data_source)
-    write_text(DIST / style_name, STYLES)
+    write_text(DIST / style_name, styles)
     write_text(DIST / app_name, APP)
     write_text(DIST / "index.html", INDEX.replace("styles.css", style_name).replace("data.js", data_name).replace("app.js", app_name))
     current_assets = {data_name, style_name, app_name}
@@ -209,10 +210,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
 .tools { display:flex; align-items:center; gap:7px; }.tools button { border:1px solid var(--edge); background:transparent; color:var(--ink); border-radius:5px; height:31px; cursor:pointer; }.tools button:hover { background:var(--edge); } #reading-mode { height:31px; border:1px solid var(--edge); border-radius:5px; background:var(--paper); color:var(--ink); padding:3px 6px; font:14px inherit; cursor:pointer; } #reading-mode option { background:var(--paper); color:var(--ink); }.search input { width:180px; height:31px; padding:4px 10px; border:1px solid var(--edge); border-radius:5px; background:var(--paper); color:var(--ink); font:14px inherit; }
 .layout { max-width:1360px; margin:auto; display:grid; grid-template-columns:265px minmax(0, 1fr); }.toc-panel { border-right:1px solid var(--edge); min-height:calc(100vh - 64px); padding:34px 23px; position:sticky; top:64px; height:calc(100vh - 64px); overflow:auto; }.toc-head { color:var(--pine); font-weight:bold; letter-spacing:.13em; padding-bottom:13px; border-bottom:1px solid var(--edge); }.toc-head span { float:right; color:var(--muted); font-size:12px; letter-spacing:0; }
 body.toc-collapsed .layout { grid-template-columns:minmax(0,1fr); } body.toc-collapsed .toc-panel { display:none; }
-#toc { padding-top:12px; } .toc-item { width:100%; display:block; padding:8px 7px; text-align:left; border:0; background:none; color:var(--ink); font:15px/1.35 inherit; cursor:pointer; border-radius:4px; }.toc-item:hover,.toc-item.active { background:#e9efe9; color:var(--pine); }.toc-item .toc-num { display:inline-block; width:31px; color:var(--muted); font-size:12px; }
+#toc { padding-top:12px; } .toc-item { width:100%; display:flex; align-items:baseline; padding:8px 7px; text-align:left; border:0; background:none; color:var(--ink); font:15px/1.35 inherit; cursor:pointer; border-radius:4px; }.toc-item:hover,.toc-item.active { background:#e9efe9; color:var(--pine); }.toc-item .toc-num { flex:none; display:inline-block; min-width:5.3em; margin-right:.7em; color:var(--muted); font-family:"GobiChapterNumber",sans-serif; font-size:12px; font-weight:400; white-space:nowrap; } .toc-item .toc-label { min-width:0; font-family:"GobiChapterTitle",serif; font-size:16px; font-weight:400; }
 #reader { max-width:820px; width:100%; margin:0 auto; padding:41px 54px 88px; }.reader-meta { display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:13px; margin-bottom:25px; }.reader-meta a { color:var(--pine); text-decoration:none; }.reader-meta a:hover { text-decoration:underline; }
-#chapter h1 { margin:0 0 8px; color:var(--pine); font-size:34px; letter-spacing:.08em; font-weight:600; } .chapter-kicker { color:var(--accent); font-size:14px; letter-spacing:.15em; margin-bottom:18px; } #chapter p { margin:0 0 1em; font-size:var(--body-size); line-height:2.05; text-align:justify; text-indent:2em; letter-spacing:.025em; } .scene-break { color:var(--accent); text-align:center; letter-spacing:.45em; margin:2em 0; font-size:15px; }
+#chapter h1 { margin:0 0 8px; color:var(--pine); font-size:34px; letter-spacing:.08em; font-family:"GobiChapterTitle",serif; font-weight:400; } .chapter-kicker { font-family:"GobiChapterNumber",sans-serif; color:var(--accent); font-size:14px; letter-spacing:.15em; margin-bottom:18px; } #chapter p { margin:0 0 1em; font-size:var(--body-size); line-height:2.05; text-align:justify; text-indent:2em; letter-spacing:.025em; } .scene-break { color:var(--accent); text-align:center; letter-spacing:.45em; margin:2em 0; font-size:15px; }
 .chapter-heading { break-inside:avoid; }
+#chapter p.lead-in { font-family:"GobiLeadIn",serif; font-size:calc(var(--body-size) * .95); font-style:normal; font-weight:300; }
 .front-transcript.dedication p { text-align:center; text-indent:0; margin:3em 0; }
 .plate { margin:2.6em auto; text-align:center; }.plate-button { max-width:100%; padding:0; border:0; background:transparent; cursor:zoom-in; }.plate img { display:block; max-width:100%; max-height:760px; margin:auto; box-shadow:0 7px 26px #0003; }.plate figcaption { max-width:700px; margin:10px auto 0; font-size:13px; color:var(--muted); line-height:1.7; }.plate-source { display:block; text-align:center; }.plate-caption { display:block; margin-top:7px; text-align:left; }.chapter-nav { display:flex; justify-content:space-between; gap:16px; border-top:1px solid var(--edge); padding-top:27px; margin-top:56px; }.chapter-nav button { padding:9px 14px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:15px inherit; cursor:pointer; }.chapter-nav button:hover:not(:disabled) { background:#edf2ed; }.chapter-nav button:disabled { opacity:.35; cursor:default; }
 .page-nav { display:none; align-items:center; justify-content:space-between; gap:5px; border-top:1px solid var(--edge); padding-top:10px; margin-top:10px; }.page-nav button { padding:7px 9px; border:1px solid var(--edge); color:var(--pine); background:transparent; border-radius:4px; font:14px inherit; cursor:pointer; white-space:nowrap; }.page-nav button:disabled { opacity:.35; cursor:default; }.page-status { min-width:100px; text-align:center; color:var(--muted); white-space:nowrap; } #page-count { display:block; font:14px/1.4 sans-serif; }.key-hint { display:block; font:12px/1.3 sans-serif; }
@@ -220,7 +222,7 @@ body.page-mode { height:100dvh; overflow:hidden; } body.page-mode .layout { heig
 .search-results { position:fixed; z-index:10; top:57px; right:96px; width:min(490px,calc(100vw - 30px)); max-height:55vh; overflow:auto; padding:8px; border:1px solid var(--edge); border-radius:0 0 8px 8px; background:var(--paper); box-shadow:0 10px 26px #0003; }.result { width:100%; display:block; text-align:left; padding:11px; border:0; background:transparent; border-bottom:1px solid var(--edge); font:14px/1.55 inherit; cursor:pointer; }.result strong { color:var(--pine); display:block; margin-bottom:3px; }.result:hover { background:#edf2ed; }.visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
 dialog { width:min(1000px,94vw); max-height:94vh; padding:18px; border:0; background:var(--paper); color:var(--ink); box-shadow:0 15px 50px #0008; } dialog::backdrop { background:#000b; } dialog img { display:block; max-width:100%; max-height:80vh; margin:auto; } dialog p { text-align:center; color:var(--muted); } #close-image { float:right; border:0; background:transparent; font-size:29px; cursor:pointer; color:var(--ink); }
 body.dark { --ink:#e5e4dc; --muted:#a7aaa1; --paper:#1c211e; --edge:#3e4740; --pine:#9bc4b6; --accent:#d9a06d; color-scheme:dark; } body.dark .toc-item:hover,body.dark .toc-item.active,body.dark .chapter-nav button:hover:not(:disabled),body.dark .result:hover { background:#2c3830; }
-@media (max-width:850px) { .topbar { height:auto; min-height:58px; padding:10px 15px; }.tools { flex-wrap:wrap; justify-content:flex-end; }.search input { width:132px; }.layout { display:block; }.toc-panel { position:fixed; top:var(--header-height,58px); left:0; right:0; height:auto; max-height:min(70vh,620px); min-height:0; overflow:auto; z-index:4; border-right:0; border-bottom:1px solid var(--edge); padding:16px 20px; background:var(--paper); box-shadow:0 10px 25px #0002; }.toc-head { display:block; } #toc { padding-top:8px; }.toc-item { width:100%; padding:9px 7px; }.toc-num { width:31px; }.toc-item .toc-label { display:inline; } #reader { padding:30px 20px 68px; }.reader-meta { margin-bottom:21px; }.reader-meta a { white-space:nowrap; } #chapter h1 { font-size:28px; } #chapter p { font-size:var(--body-size); line-height:1.92; }.search-results { top:var(--header-height,58px); right:15px; } }
+@media (max-width:850px) { .topbar { height:auto; min-height:58px; padding:10px 15px; }.tools { flex-wrap:wrap; justify-content:flex-end; }.search input { width:132px; }.layout { display:block; }.toc-panel { position:fixed; top:var(--header-height,58px); left:0; right:0; height:auto; max-height:min(70vh,620px); min-height:0; overflow:auto; z-index:4; border-right:0; border-bottom:1px solid var(--edge); padding:16px 20px; background:var(--paper); box-shadow:0 10px 25px #0002; }.toc-head { display:block; } #toc { padding-top:8px; }.toc-item { width:100%; padding:9px 7px; }.toc-item .toc-num { min-width:5.3em; }.toc-item .toc-label { display:inline; } #reader { padding:30px 20px 68px; }.reader-meta { margin-bottom:21px; }.reader-meta a { white-space:nowrap; } #chapter h1 { font-size:28px; } #chapter p { font-size:var(--body-size); line-height:1.92; }.search-results { top:var(--header-height,58px); right:15px; } }
 @media (max-width:850px) { body.page-mode .toc-panel { height:auto; max-height:min(70vh,620px); } body.page-mode #reader { padding:14px 20px 11px; } body.page-mode .reader-meta { margin-bottom:9px; } }
 @media (max-width:540px) { .topbar { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; }.book-controls { justify-content:space-between; }.brand { font-size:18px; }.brand span { display:none; }.tools { width:100%; } #reading-mode { max-width:100px; }.search { flex:1; min-width:55px; }.search input { width:100%; }.page-nav .nav-label,.key-hint { display:none; }.page-status { min-width:70px; }.page-nav button { min-width:32px; font-size:20px; padding:3px 5px; } }
 '''
@@ -256,8 +258,11 @@ APP = '''
     updateHeaderHeight();
     if (settings.mode === 'pages') scheduleLayout({ block: lastBlock });
   });
+  document.fonts?.addEventListener('loadingdone', () => {
+    if (settings.mode === 'pages') scheduleLayout({ block: lastBlock, last: keepLastPage });
+  });
   $('#chapter-count').textContent = book.chapters.filter(c => !c.frontmatter).length + ' 节＋卷首';
-  toc.innerHTML = book.chapters.map(c => `<button class="toc-item" data-id="${c.id}"><span class="toc-num">${c.frontmatter ? '序' : String(c.number).padStart(2,'0')}</span><span class="toc-label">${c.title}</span></button>`).join('');
+  toc.innerHTML = book.chapters.map(c => `<button class="toc-item" data-id="${c.id}">${c.numberLabel ? `<span class="toc-num">${escapeHtml(c.numberLabel)}</span>` : ''}<span class="toc-label">${escapeHtml(c.title)}</span></button>`).join('');
   function getChapter(id) { return book.chapters.find(c => c.id === id) || book.chapters[0]; }
   function blocks() { return [...chapterEl.querySelectorAll('[data-block]')]; }
   function visibleBlock() {
@@ -330,7 +335,7 @@ APP = '''
     const c = getChapter(id);
     currentSection = c; pageIndex = 0; pageCount = 1; keepLastPage = !!target.last; lastBlock = target.block ?? null;
     chapterEl.scrollLeft = 0;
-    chapterEl.innerHTML = `${c.id === book.chapters[0].id ? bookOpening : ''}<div class="chapter-heading" data-block="-1"><div class="chapter-kicker">${c.label} · PDF 第 ${c.pdfPage} 页起</div><h1>${c.title}</h1></div>${c.html}`;
+    chapterEl.innerHTML = `${c.id === book.chapters[0].id ? bookOpening : ''}<div class="chapter-heading" data-block="-1"><div class="chapter-kicker">${c.numberLabel || (c.frontmatter ? '卷首' : '')} ${c.numberLabel || c.frontmatter ? '· ' : ''}PDF 第 ${c.pdfPage} 页起</div><h1>${c.title}</h1></div>${c.html}`;
     $('#location').textContent = `${c.title} · PDF 第 ${c.pdfPage} 页起`;
     $('#source-link').href = `../../../走出戈壁-单伟健.pdf#page=${c.pdfPage}`;
     document.querySelectorAll('.toc-item').forEach(el => {

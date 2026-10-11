@@ -59,7 +59,7 @@
 
 ## 文字重排 PDF
 
-运行 `python scripts\build_pdf.py`，可生成简体和繁体两套 B5 版式 PDF，同样保存到 `output/`。运行环境需有 ReportLab、Pillow 和 OpenCC。字体优先采用 Noto Sans SC/TC，亦可用 `GOBI_FONT_SC`／`GOBI_FONT_TC` 指定中文 TrueType 字体；无本机字体时使用 PyMuPDF 内置的可嵌入中文字体。简体图注仅作字形转换，避免地区词库替换原词。PDF 有可搜索的正文、目录页、章节书签和页码。原始 420 页扫描 PDF 仍单独保留，不会被覆盖。
+运行 `python scripts\build_pdf.py`，可生成简体和繁体两套 B5 版式 PDF，同样保存到 `output/`。运行环境需有 ReportLab、Pillow 和 OpenCC。正文与章号使用 Noto Sans SC/TC，章标题使用 Noto Serif SC/TC，章首引言使用 LXGW WenKai Light；三类字体均实际嵌入，缺少字体或字形即停止，不静默替换。可通过 `GOBI_FONT_SC/TC`、`GOBI_SERIF_SC/TC`、`GOBI_LEADIN_SC/TC` 指定字体；官方固定版本、SHA-256 和静态字重实例化见 `.github/workflows/build-ebooks.yml`。简体图注仅作字形转换，避免地区词库替换原词。PDF 有可搜索的正文、目录页、章节书签和页码。原始 420 页扫描 PDF 仍单独保留，不会被覆盖。
 
 ## 本次原扫描回改
 
@@ -79,3 +79,11 @@ python book_reader/scripts/validate_proofreading.py
 ```
 
 以上命令从仓库根目录执行，成品留在被 Git 忽略的 `book_reader/output/`。历史本地复制工具 `publish_ebooks.py` 仍保留，但 Release 发布和日常重建不需要运行它。需要重新从 OCR 组稿时先运行 `assemble_transcript.py`；脚本会自动重放 `qa/proofreading-corrections.json` 中的逐页精确修正，再按上述顺序重建。原始 OCR 不改写；位置与预期不符会停止，避免静默丢失校改。
+
+## 阅读版版式
+
+- 作者简介的七段转写已存在，原导出却以扫描图为可见主体。现改为真正可见、可检索的正文；献辞继续保留原图。
+- 20处正文图版各占一页，电子图注随对应图版；跨页拼版图注显式分配，自序肖像移至全部自序和日期之后。前言图片仅提取肖像阅读区域，扫描证据原图不动。
+- 29章目录补齐中文章号，章号用无衬线字体、标题用衬线字体；开场白与29章的37段引言依原扫描边界以较细、略小的楷体呈现。
+- `text/lead-ins.json` 和 `images/reading-layout.json` 是可审计的版式边界清单；分页源稿继续保留原扫描页码与校改哈希，不因排版重写原文。三类导出共用同一语义数据。
+- EPUB 的图版分页声明由阅读器执行，重排字号、屏幕和阅读器可影响分页；PDF 的独立图版页固定。离线网页按阅读模式显示图版，不承诺与PDF同页数。

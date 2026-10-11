@@ -23,6 +23,7 @@ def ends_sentence(value: str) -> bool:
 
 
 def is_chapter_heading(value: str, title: str) -> bool:
+    value, title = value.replace("爲", "為"), title.replace("爲", "為")
     return normalized(value) in {normalized(title), normalized(title.split("：")[-1])} or bool(re.fullmatch(r"第[一二三四五六七八九十百零]+章", value))
 
 

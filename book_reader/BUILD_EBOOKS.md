@@ -64,7 +64,7 @@ Actions 仍保留 `gobi-ebooks-运行编号-尝试编号` 作为备份，内含�
 ## 构建和校验
 
 - GitHub 托管 `ubuntu-24.04`，Python `3.12.14`；Python 包固定于 [requirements-build.txt](requirements-build.txt)，官方 Actions 固定到完整 commit SHA。
-- 固定 Noto CJK 官方字体提交，下载完整 SC／TC TrueType 字体，校验 SHA-256 并固定 400 字重；覆盖原书混用字形，无须 Windows 字体。字体许可：[SIL OFL 1.1](https://github.com/notofonts/noto-cjk/blob/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/LICENSE)。
+- 固定 Noto CJK 官方字体提交，下载 Sans 与 Serif 两套 SC／TC TrueType 字体，校验 SHA-256 并固定 400 字重；另固定 LXGW WenKai Light v1.522（300字重）及校验值用于引言；覆盖原书混用字形，无须 Windows 字体。字体许可：[SIL OFL 1.1](https://github.com/notofonts/noto-cjk/blob/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/LICENSE)。
 - 仅使用仓库校订稿、校改清单、核验 OCR 数据和图片，不运行 OCR，不需要原扫描 PDF，不重新执行 `tw2sp`，不使用根目录旧 EPUB／PDF。
 - 校验 378 项已确认修正、238 项原文保留断言、源稿哈希、全书汇编、章节、卷首、版权页排除、图片、EPUB 内容及 PDF 全文和连续页码。重建导致源稿变化会失败。
 - 同时重建离线阅读器供综合检查，但发布内容仅为四份电子书。这些检查不替代全书逐字人工校勘。
@@ -83,3 +83,4 @@ python -m unittest discover -s book_reader/tests -p 'test_publish_release.py' -v
 ```
 
 按工作流准备字体，将 `FONT_DIR`、`GOBI_FONT_SC`、`GOBI_FONT_TC` 设为本地路径，再执行构建和校验步骤。生成文件在被 Git 忽略的 `book_reader/output/`，不要提交字体、下载缓存或虚拟环境。发布测试不会联网或创建真实 Release。
+

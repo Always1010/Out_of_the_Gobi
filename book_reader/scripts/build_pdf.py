@@ -4,11 +4,10 @@ from __future__ import annotations
 
 import argparse
 import html
-import os
-from io import BytesIO
 from pathlib import Path
 
 from PIL import Image as PILImage
+from reportlab import rl_config
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT
 from reportlab.lib.pagesizes import B5
@@ -16,80 +15,64 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
-    BaseDocTemplate,
-    Frame,
-    Flowable,
-    Image,
-    KeepTogether,
-    PageBreak,
-    PageTemplate,
+    BaseDocTemplate, Frame, Flowable, Image, PageBreak, PageTemplate,
     Paragraph,
-    Spacer,
 )
 from reportlab.platypus.tableofcontents import TableOfContents
 
-from export_common import IMAGES, OUTPUT, Chapter, FrontMatter, expected_body_image_pages, image_pages, load_captions, load_chapters, load_frontmatter, reading_image
+from book_fonts import font_path
+from export_common import (
+    IMAGES, OUTPUT, Chapter, FrontMatter, expected_body_image_pages,
+    image_pages, load_captions, load_chapters, load_frontmatter, reading_image,
+)
 
+# ASCII85 is only a transport encoding. Omitting it preserves the original
+# image bytes and avoids inflating this image-heavy archival master.
+rl_config.useA85 = 0
 
 TITLE = "走出戈壁：我的中美故事"
 PAGE_WIDTH, PAGE_HEIGHT = B5
 LEFT = RIGHT = 44
-TOP = 48
-BOTTOM = 48
+TOP = BOTTOM = 48
 FRAME_WIDTH = PAGE_WIDTH - LEFT - RIGHT
 FRAME_HEIGHT = PAGE_HEIGHT - TOP - BOTTOM
 MIN_PLATE_DPI = 100
+TOC_NUMBER_WIDTH = 56
 
 
-def registered_font(script: str) -> str:
-    name = "NotoSC" if script == "simplified" else "NotoTC"
-    filename = "NotoSansSC-VF.ttf" if script == "simplified" else "NotoSansTC-VF.ttf"
-    override = os.environ.get("GOBI_FONT_SC" if script == "simplified" else "GOBI_FONT_TC")
-    candidates = [Path(override)] if override else [
-        Path("C:/Windows/Fonts") / filename,
-        Path("/usr/share/fonts/truetype/noto") / filename,
-        Path.home() / ".local/share/fonts" / filename,
-        Path("/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc"),
-    ]
-    for path in candidates:
-        if path.is_file():
-            pdfmetrics.registerFont(TTFont(name, str(path)))
-            return name
-    if override:
-        raise FileNotFoundError(f"Configured Chinese TrueType font not found: {override}")
-    # PyMuPDF ships a portable Chinese TrueType font. ReportLab cannot embed
-    # the CFF outlines used by typical Linux Noto CJK .ttc installations.
-    try:
-        import fitz
-    except ModuleNotFoundError:
-        raise RuntimeError(
-            "Install PyMuPDF for an embedded Chinese font, or set GOBI_FONT_SC/GOBI_FONT_TC "
-            "to a Chinese TrueType font."
-        ) from None
-    pdfmetrics.registerFont(TTFont(name, BytesIO(fitz.Font("cjk").buffer)))
+def registered_font(script: str, role: str = "number") -> str:
+    """Embed the explicit body/number, title, and lead-in font families."""
+    name = f"Gobi-{script}-{role}"
+    if name not in pdfmetrics.getRegisteredFontNames():
+        pdfmetrics.registerFont(TTFont(name, str(font_path(script, role))))
     return name
+
+
+def toc_label(title: str, number_label: str, fonts: dict[str, str]) -> str:
+    """Keep number/title families distinct and align the title column."""
+    title_markup = f'<font name="{fonts["title"]}">{html.escape(title)}</font>'
+    if not number_label:
+        return title_markup
+    size = 8.4
+    remaining = TOC_NUMBER_WIDTH - pdfmetrics.stringWidth(number_label, fonts["number"], size)
+    nbsp_width = pdfmetrics.stringWidth("\u00a0", fonts["number"], size)
+    # Ordinary spaces are collapsed by Paragraph's parser; NBSP preserves
+    # this measured padding. The residual error is at most half a space.
+    padding = "&#160;" * max(0, round(remaining / nbsp_width))
+    return f'<font name="{fonts["number"]}" size="{size}">{html.escape(number_label)}{padding}</font>{title_markup}'
 
 
 class BookDocument(BaseDocTemplate):
     def __init__(self, filename: str, *, font: str, author: str):
         super().__init__(
-            filename,
-            pagesize=B5,
-            leftMargin=LEFT,
-            rightMargin=RIGHT,
-            topMargin=TOP,
-            bottomMargin=BOTTOM,
-            title=TITLE,
-            author=author,
+            filename, pagesize=B5, leftMargin=LEFT, rightMargin=RIGHT,
+            topMargin=TOP, bottomMargin=BOTTOM, title=TITLE, author=author,
             pageCompression=1,
         )
         self.body_font = font
-        frame = Frame(LEFT, BOTTOM, FRAME_WIDTH, FRAME_HEIGHT, leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
+        frame = Frame(LEFT, BOTTOM, FRAME_WIDTH, FRAME_HEIGHT,
+                      leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
         self.addPageTemplates(PageTemplate(id="book", frames=[frame], onPage=self.draw_page))
-        self.chapter_number = 0
-
-    def beforeDocument(self):
-        self.chapter_number = 0
 
     def draw_page(self, canvas, doc):
         canvas.saveState()
@@ -98,30 +81,21 @@ class BookDocument(BaseDocTemplate):
         canvas.line(LEFT, 33, PAGE_WIDTH - RIGHT, 33)
         canvas.setFont(self.body_font, 8)
         canvas.setFillColor(colors.HexColor("#6b6258"))
-        # Number the reading PDF consecutively; scan/printed page jumps are
-        # source locators and must never create gaps in the reflowed book.
+        # These are consecutive reading pages, independent of scan locators.
         canvas.drawCentredString(PAGE_WIDTH / 2, 21, str(doc.page))
         canvas.restoreState()
 
     def afterFlowable(self, flowable):
-        if isinstance(flowable, SearchableScan) or hasattr(flowable, "_front_section"):
-            section = getattr(flowable, "_front_section", None) or flowable.section
-            key = f"front-{section.slug}"
-            title = section.title
+        entry = getattr(flowable, "_book_entry", None)
+        if entry:
+            key, label, markup = entry
             self.canv.bookmarkPage(key)
-            self.canv.addOutlineEntry(title, key, level=0)
-            self.notify("TOCEntry", (0, title, self.page, key))
-        if isinstance(flowable, Paragraph) and getattr(flowable, "_is_chapter", False):
-            self.chapter_number += 1
-            title = flowable.getPlainText()
-            key = f"chapter-{self.chapter_number:02d}"
-            self.canv.bookmarkPage(key)
-            self.canv.addOutlineEntry(title, key, level=0)
-            self.notify("TOCEntry", (0, title, self.page, key))
+            self.canv.addOutlineEntry(label, key, level=0)
+            self.notify("TOCEntry", (0, markup, self.page, key))
 
 
 class SearchableScan(Flowable):
-    """Preserve the full original page, with a same-page searchable text layer."""
+    """Preserve the original dedication with a searchable invisible layer."""
 
     def __init__(self, section: FrontMatter, font: str):
         super().__init__()
@@ -135,14 +109,13 @@ class SearchableScan(Flowable):
     def draw(self):
         self.canv.saveState()
         self.canv.drawImage(str(self.section.image), 0, 0, self.width, self.height)
-        # These transparent lines enable text selection/search without adding
-        # a second visible transcription to the dedication or its whitespace.
         text = self.canv.beginText()
         text.setTextOrigin(18, self.height - 24)
         text.setFont(self.font, 8)
         text.setLeading(11)
         text.setTextRenderMode(3)
-        paragraphs = [self.section.title] + [block.value for block in self.section.blocks if block.kind == "paragraph"]
+        paragraphs = [self.section.title] + [block.value for block in self.section.blocks
+                                               if block.kind == "paragraph"]
         for paragraph in paragraphs:
             for source_line in paragraph.split("\n"):
                 line = ""
@@ -205,10 +178,13 @@ def fit_image(path: Path, max_width: float, max_height: float) -> Image:
     return result
 
 
-def styles(font: str) -> dict[str, ParagraphStyle]:
+def styles(font: str, title_font: str | None = None,
+           leadin_font: str | None = None) -> dict[str, ParagraphStyle]:
+    title_font = title_font or font
+    leadin_font = leadin_font or font
     result = {
         "chapter": ParagraphStyle(
-            "chapter", fontName=font, fontSize=17, leading=26, alignment=TA_CENTER,
+            "chapter", fontName=title_font, fontSize=17, leading=26, alignment=TA_CENTER,
             spaceBefore=48, spaceAfter=32, wordWrap="CJK", textColor=colors.HexColor("#25211d"),
         ),
         "body": ParagraphStyle(
@@ -233,6 +209,10 @@ def styles(font: str) -> dict[str, ParagraphStyle]:
             leftIndent=12, firstLineIndent=0, rightIndent=15,
         ),
     }
+    result["lead-in"] = ParagraphStyle(
+        "lead-in", parent=result["body"], fontName=leadin_font,
+        fontSize=10, leading=17, firstLineIndent=20,
+    )
     result["front-title"] = ParagraphStyle(
         "front-title", parent=result["chapter"], fontName=font, spaceBefore=0, spaceAfter=22,
     )
@@ -248,15 +228,26 @@ def page_break(story: list) -> None:
         story.append(PageBreak())
 
 
-def add_chapter(story: list, chapter: Chapter, chapter_index: int, captions: dict[int, list[str]], style: dict[str, ParagraphStyle]) -> None:
+def add_chapter(story: list, chapter: Chapter, chapter_index: int,
+                captions: dict[int, list[str]], style: dict[str, ParagraphStyle],
+                fonts: dict[str, str] | None = None) -> None:
     if chapter_index > 1:
         page_break(story)
-    heading = Paragraph(html.escape(chapter.title), style["chapter"])
+    fonts = fonts or {"number": style["body"].fontName, "title": style["chapter"].fontName}
+    number_label = getattr(chapter, "number_label", "")
+    label = getattr(chapter, "label", chapter.title)
+    markup = html.escape(chapter.title)
+    if number_label:
+        markup = f'<font name="{fonts["number"]}" size="12">{html.escape(number_label)}</font><br/>{markup}'
+    heading = Paragraph(markup, style["chapter"])
     heading._is_chapter = True
+    heading._book_entry = (f"chapter-{chapter_index:02d}", label,
+                           toc_label(chapter.title, number_label, fonts))
     story.append(heading)
     for block in chapter.blocks:
         if block.kind == "paragraph":
-            story.append(Paragraph(html.escape(block.value).replace("\n", "<br/>"), style["body"]))
+            paragraph_style = style[getattr(block, "role", "body")]
+            story.append(Paragraph(html.escape(block.value).replace("\n", "<br/>"), paragraph_style))
         elif block.kind == "break":
             story.append(Paragraph("★★★", style["break"]))
         elif block.kind == "image":
@@ -268,47 +259,62 @@ def add_chapter(story: list, chapter: Chapter, chapter_index: int, captions: dic
             raise ValueError(f"Unsupported book block: {block.kind}")
 
 
+def validate_glyphs(frontmatter, chapters, captions, fonts) -> None:
+    """Check each character against the actual font assigned to its role."""
+    texts = {"number": TITLE + "目录目錄★★★0123456789", "title": "", "lead-in": ""}
+    for part in frontmatter:
+        texts["number"] += part.title + "".join(b.value for b in part.blocks)
+        texts["title"] += part.title
+    for chapter in chapters:
+        texts["number"] += getattr(chapter, "number_label", "")
+        texts["title"] += chapter.title
+        for block in chapter.blocks:
+            if block.kind == "paragraph":
+                role = "lead-in" if getattr(block, "role", "body") == "lead-in" else "number"
+                texts[role] += block.value
+    texts["number"] += "".join(value for values in captions.values() for value in values)
+    for role, text in texts.items():
+        glyphs = pdfmetrics.getFont(fonts[role]).face.charToGlyph
+        missing = sorted({char for char in text if not char.isspace() and ord(char) not in glyphs})
+        if missing:
+            raise ValueError(f"The {role} PDF font is missing glyphs: {''.join(missing)}")
+
+
 def build_one(script: str) -> Path:
     chapters = load_chapters(script)
     frontmatter = load_frontmatter(script)
     captions = load_captions(script)
     assert len(chapters) == 33
     assert image_pages(chapters) == expected_body_image_pages(), "Chapter image plates do not match the image manifest"
-    font = registered_font(script)
-    contents = TITLE + "".join(part.title + "".join(block.value for block in part.blocks) for part in [*frontmatter, *chapters])
-    contents += "".join(value for values in captions.values() for value in values)
-    glyphs = pdfmetrics.getFont(font).face.charToGlyph
-    missing = sorted({char for char in contents if not char.isspace() and ord(char) not in glyphs})
-    if missing:
-        raise ValueError(f"The PDF font is missing glyphs: {''.join(missing)}; configure GOBI_FONT_SC/GOBI_FONT_TC")
-    style = styles(font)
+    fonts = {role: registered_font(script, role) for role in ("number", "title", "lead-in")}
+    validate_glyphs(frontmatter, chapters, captions, fonts)
+    style = styles(fonts["number"], fonts["title"], fonts["lead-in"])
     author = "单伟建" if script == "simplified" else "單偉建"
     OUTPUT.mkdir(parents=True, exist_ok=True)
     target = OUTPUT / f"走出戈壁-{'简体' if script == 'simplified' else '繁体'}.pdf"
-    document = BookDocument(str(target), font=font, author=author)
+    document = BookDocument(str(target), font=fonts["number"], author=author)
     toc = TableOfContents()
     toc.levelStyles = [style["toc-entry"]]
     toc.dotsMinLevel = 0
-    story = [
-        fit_image(IMAGES / "page-001.jpg", FRAME_WIDTH, FRAME_HEIGHT),
-        PageBreak(),
-        fit_image(IMAGES / "page-002.jpg", FRAME_WIDTH, FRAME_HEIGHT),
-        PageBreak(),
-    ]
+    story = [fit_image(IMAGES / "page-001.jpg", FRAME_WIDTH, FRAME_HEIGHT), PageBreak(),
+             fit_image(IMAGES / "page-002.jpg", FRAME_WIDTH, FRAME_HEIGHT), PageBreak()]
     for part in frontmatter:
-        if part.presentation == "text":
+        entry = (f"front-{part.slug}", part.title, toc_label(part.title, "", fonts))
+        if getattr(part, "presentation", "scan") == "text":
             heading = Paragraph(html.escape(part.title), style["front-title"])
-            heading._front_section = part
+            heading._book_entry = entry
             story.append(heading)
             for block in part.blocks:
                 if block.kind == "paragraph":
                     story.append(Paragraph(html.escape(block.value).replace("\n", "<br/>"), style["front-body"]))
         else:
-            story.append(SearchableScan(part, font))
-        story.append(PageBreak())
+            scan = SearchableScan(part, fonts["number"])
+            scan._book_entry = entry
+            story.append(scan)
+        page_break(story)
     story.extend([Paragraph("目录" if script == "simplified" else "目錄", style["toc-title"]), toc, PageBreak()])
     for index, chapter in enumerate(chapters, 1):
-        add_chapter(story, chapter, index, captions, style)
+        add_chapter(story, chapter, index, captions, style, fonts)
     while story and isinstance(story[-1], PageBreak):
         story.pop()
     document.multiBuild(story, maxPasses=4)

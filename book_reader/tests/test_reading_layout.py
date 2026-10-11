@@ -5,7 +5,7 @@ import re
 import sys
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from export_common import (TEXT, BOOK, Block, load_chapters, load_frontmatter, load_captions, reading_layout)
+from export_common import (TEXT, BOOK, Block, load_chapters, load_frontmatter, load_captions, reading_layout, chapter_number, with_lead_ins)
 
 class FrontmatterTests(unittest.TestCase):
     def test_author_is_seven_real_paragraphs_and_dedication_stays_scan(self):
@@ -43,5 +43,23 @@ class PictureTests(unittest.TestCase):
             plates = [b.value for c in load_chapters(script) for b in c.blocks if b.kind == 'image']
             self.assertEqual(len(plates), 20)
             self.assertEqual(len(set(plates)), 20)
+
+class ChapterStylesTests(unittest.TestCase):
+    def test_chapter_numbers_do_not_number_prefaces(self):
+        self.assertEqual([chapter_number(i) for i in (1,10,11,20,29)], ['第一章','第十章','第十一章','第二十章','第二十九章'])
+        for script in ('traditional', 'simplified'):
+            chapters=load_chapters(script)
+            self.assertEqual([c.number for c in chapters if c.number], list(range(1,30)))
+            self.assertTrue(all(c.label == c.title for c in chapters if not c.number))
+    def test_leadins_are_explicit_thirty_sections_thirty_seven_source_paragraphs(self):
+        entries=json.loads((TEXT/'lead-ins.json').read_text())['sections']
+        self.assertEqual(len(entries),30)
+        for script in ('traditional','simplified'):
+            self.assertEqual(sum(e['scripts'][script]['paragraph_count'] for e in entries),37)
+            self.assertFalse(any(e['id'] in {'foreword','preface','afterword'} for e in entries))
+            self.assertEqual(sum(b.role=='lead-in' for c in load_chapters(script) for b in c.blocks),37)
+    def test_unknown_leadin_does_not_guess_first_paragraph(self):
+        blocks=(Block('paragraph','第一段'),Block('break','★★★'),Block('paragraph','正文'))
+        self.assertEqual(with_lead_ins(blocks,'foreword','simplified'),blocks)
 
 if __name__ == '__main__': unittest.main()
