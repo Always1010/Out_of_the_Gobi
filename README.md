@@ -6,6 +6,12 @@
 
 ## 阅读与下载
 
+### 项目网站与在线阅读
+
+GitHub Pages 部署配置已提供，首次成功部署后可访问：[项目首页](https://always1010.github.io/Out_of_the_Gobi/) · [简体在线阅读器](https://always1010.github.io/Out_of_the_Gobi/read/)。首页提供简繁体 PDF / EPUB 下载和整理说明，在线阅读器支持目录、全文搜索、翻页、阅读进度及图片放大。
+
+首次启用、自动更新与 Google Search Console 验证见 [网站部署说明](web/DEPLOYMENT.md)。
+
 ### 电子书
 
 提供四种阅读文件：简体 EPUB、简体 PDF、繁体 EPUB、繁体 PDF。
@@ -43,6 +49,7 @@
 | `book_reader/scripts/` | 文字稿整理、电子书及阅读器构建、校验脚本 |
 | `book_reader/qa/` | 修改说明、疑点记录、校改清单与核验记录 |
 | `book_reader/output/` | 本地生成的 EPUB/PDF，不纳入 Git |
+| `web/` | GitHub Pages 介绍首页与部署说明 |
 
 处理流程见 [book_reader/README.md](book_reader/README.md)，构建与发布见 [BUILD_EBOOKS.md](book_reader/BUILD_EBOOKS.md)，原 OCR 环境记录见 [OCR环境.md](book_reader/OCR环境.md)。
 

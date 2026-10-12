@@ -13,3 +13,5 @@
 在仓库根目录运行 `python book_reader/scripts/build_reader_site.py --online --output-dir tmp/reader-online`，可以生成适合放在项目网站 `read/` 子目录中的版本。在线版的“项目首页与下载”返回上一级首页，不再跳转本机扫描 PDF；默认构建仍保留原始 PDF 页跳转。
 
 两种模式都需要准备构建依赖和字体，见 [电子书构建说明](../BUILD_EBOOKS.md)。正文、图片、字体、目录、搜索和翻页使用同一套生成逻辑；发布时必须包含完整输出目录。
+
+项目首页与在线阅读器的组合构建、GitHub Pages 自动发布及 Search Console 验证，见 [网站部署说明](../../web/DEPLOYMENT.md)。

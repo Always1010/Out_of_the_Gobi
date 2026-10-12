@@ -1,0 +1,4 @@
+# Minimal dependencies for the static reader and GitHub Pages build.
+fonttools==4.61.1
+pillow==12.3.0
+opencc-python-reimplemented==0.1.7

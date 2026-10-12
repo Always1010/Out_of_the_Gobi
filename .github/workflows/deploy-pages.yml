@@ -1,0 +1,82 @@
+name: Deploy reading site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'web/**'
+      - 'book_reader/text/**'
+      - 'book_reader/images/**'
+      - 'book_reader/fonts/**'
+      - 'book_reader/scripts/**'
+      - 'book_reader/requirements-reader.txt'
+      - '.github/workflows/deploy-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: read
+    env:
+      PYTHONUTF8: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12.14'
+          cache: pip
+          cache-dependency-path: book_reader/requirements-reader.txt
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Install reader build dependencies
+        run: |
+          python -m pip install --disable-pip-version-check -r book_reader/requirements-reader.txt
+          python -m pip check
+      - name: Prepare verified reader fonts
+        run: python book_reader/scripts/prepare_reader_fonts.py "${{ runner.temp }}/gobi-pages-fonts"
+      - name: Build and validate introduction and reader
+        env:
+          GOBI_FONT_SC: ${{ runner.temp }}/gobi-pages-fonts/NotoSansSC-Regular.ttf
+          GOBI_SERIF_SC: ${{ runner.temp }}/gobi-pages-fonts/NotoSerifSC-Regular.ttf
+          GOBI_LEADIN_SC: ${{ runner.temp }}/gobi-pages-fonts/LXGWWenKai-Light.ttf
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+          GOOGLE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+        run: |
+          python book_reader/scripts/build_pages_site.py --site-url "$SITE_URL" --google-verification "$GOOGLE_VERIFICATION"
+          git diff --exit-code -- book_reader/text book_reader/images
+      - name: Upload only the generated website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
