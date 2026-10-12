@@ -68,7 +68,7 @@ class OCRArchiveTests(unittest.TestCase):
             root = Path(temp)
             pdf = root / "scan.pdf"
             pdf.touch()
-            payload = {"res": {"input_path": "/private/temp/page-001.png", "rec_texts": ["文字"], "rec_scores": [0.9]}}
+            payload = {"res": {"input_path": str(root / "page-001.png"), "rec_texts": ["文字"], "rec_scores": [0.9]}}
             factory = Mock(return_value=SimpleNamespace(predict=lambda image: [SimpleNamespace(json=payload)]))
             def render(command, **kwargs):
                 Path(command[-1]).with_suffix(".png").touch()

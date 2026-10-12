@@ -41,6 +41,11 @@ jobs:
           python-version: '3.12.14'
           cache: pip
           cache-dependency-path: book_reader/requirements-reader.txt
+      - name: Validate portable repository paths
+        run: |
+          python book_reader/scripts/validate_paths.py
+          python -m unittest discover -s book_reader/tests -p test_path_policy.py -v
+
       - name: Configure GitHub Pages
         id: pages
         uses: actions/configure-pages@v5

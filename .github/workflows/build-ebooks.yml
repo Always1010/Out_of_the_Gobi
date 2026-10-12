@@ -71,6 +71,11 @@ jobs:
           cache: pip
           cache-dependency-path: book_reader/requirements-build.txt
 
+      - name: Validate portable repository paths
+        run: |
+          python book_reader/scripts/validate_paths.py
+          python -m unittest discover -s book_reader/tests -p test_path_policy.py -v
+
       - name: Install pinned build dependencies
         run: |
           python -m pip install --disable-pip-version-check -r book_reader/requirements-build.txt
