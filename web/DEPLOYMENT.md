@@ -28,7 +28,7 @@
 - 字体准备：`book_reader/scripts/prepare_reader_fonts.py`，沿用电子书工作流固定的官方来源与 SHA-256，生成静态字重；只写入构建缓存，不安装系统字体。
 - 部署工作流：`.github/workflows/deploy-pages.yml`，在远端 Ubuntu runner 安装三项阅读器构建依赖，构建并检查文件引用后发布 `_site/`。不构建 PDF / EPUB，不重新执行 OCR，也不改写书稿。
 
-更新首页、书稿、图片或构建脚本并推送到 `main`，会自动部署。只改 README 或部署说明不会触发构建；需要时手动运行工作流。更新电子书版本后，要同步调整首页中展示的版本与四份 Release 下载链接。
+更新首页、书稿、图片或构建脚本并推送到 `main`，会自动部署。只改 README 或部署说明不会触发构建；需要时手动运行工作流。首页四份电子书使用 `releases/latest/download/` 链接，自动跟随 GitHub 标记的最新正式 Release，无需逐版修改首页。后续 Release 须继续提供 `out-of-the-gobi-zh-Hans.pdf`、`out-of-the-gobi-zh-Hans.epub`、`out-of-the-gobi-zh-Hant.pdf`、`out-of-the-gobi-zh-Hant.epub` 四个同名附件，并保持为最新正式发布。
 
 `_site/`、阅读器 `dist/`、字体缓存和本地成品不纳入 Git。首页和在线阅读器使用白底、黑灰文字；首页不放图片，在线产物不包含书籍封面。发布产物仅含网站所需文件，构建校验会检查 HTML / CSS 引用、章节图片、字体及站点地图；缺少文件时停止发布。原扫描 PDF 不上传，在线版“项目首页与下载”回到首页；默认离线版继续保留原扫描页跳转及封面。
 
