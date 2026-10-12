@@ -159,7 +159,7 @@ def build_review_one(source: Path, target: Path | None = None, *,
             temporary.unlink()
         raise
     manifest = {
-        "source": str(source), "target": str(target), "source_sha256": source_hash,
+        "source": source.name, "target": target.name, "source_sha256": source_hash,
         "target_sha256": hashlib.sha256(target.read_bytes()).hexdigest(),
         "source_bytes": source.stat().st_size, "target_bytes": target.stat().st_size,
         "target_dpi": dpi, "jpeg_quality": quality, "changed_images": changed,

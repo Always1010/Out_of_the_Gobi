@@ -43,23 +43,21 @@ def font_path(script: str, role: str = "number") -> Path:
         "lead-in": "LXGWWenKai-Light.ttf",
     }[role]
     directories = []
-    main_font = os.environ.get(f"GOBI_FONT_{suffix}")
-    if main_font:
-        directories.append(Path(main_font).expanduser().parent)
-    directories.extend([
-        FONT_LICENSES,
-        Path("C:/Windows/Fonts"),
-        Path("/usr/share/fonts/truetype/noto"),
-        Path("/usr/share/fonts/truetype/lxgw"),
-        Path.home() / ".local/share/fonts",
-    ])
+    configured_directory = os.environ.get("GOBI_FONT_DIR")
+    if configured_directory:
+        directories.append(Path(configured_directory).expanduser())
+    for key in ("GOBI_FONT", "GOBI_SERIF", "GOBI_LEADIN"):
+        configured_font = os.environ.get(f"{key}_{suffix}")
+        if configured_font:
+            directories.append(Path(configured_font).expanduser().parent)
+    directories.append(FONT_LICENSES)
     for directory in directories:
         candidate = directory / filename
         if candidate.is_file():
             return candidate
     raise FileNotFoundError(
         f"Missing {filename} for {script} {role}; prepare the verified book fonts "
-        f"beside GOBI_FONT_{suffix}, or set {override_key}."
+        f"in GOBI_FONT_DIR, beside a configured font, or set {override_key}."
     )
 
 

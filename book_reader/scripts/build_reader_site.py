@@ -6,9 +6,11 @@ import argparse
 import hashlib
 import html
 import json
+import os
 import re
 import shutil
 from pathlib import Path
+from urllib.parse import quote
 
 from book_fonts import font_assets, font_css
 from export_common import load_captions, load_chapters, load_frontmatter, parse_blocks, reading_image
@@ -81,9 +83,27 @@ def versioned_name(stem: str, suffix: str, value: str) -> str:
     return f"{stem}-{digest}.{suffix}"
 
 
-def main(*, online: bool = False, output_dir: Path = DIST) -> None:
+def source_pdf_url(source_pdf: Path | None, output_dir: Path) -> str | None:
+    """Return an optional URL relative to the reader, never a machine-local URI."""
+    configured = source_pdf if source_pdf is not None else os.environ.get("GOBI_SOURCE_PDF")
+    if not configured:
+        return None
+    source = Path(configured).expanduser().resolve()
+    if not source.is_file():
+        return None
+    try:
+        relative = Path(os.path.relpath(source, Path(output_dir).expanduser().resolve()))
+    except ValueError as error:
+        raise ValueError("Source PDF and reader output must allow a relative path") from error
+    # Prefix even same-directory filenames so a colon cannot become a URL scheme.
+    return quote("./" + relative.as_posix(), safe="/")
+
+
+def main(*, online: bool = False, output_dir: Path = DIST,
+         source_pdf: Path | None = None) -> None:
     # A separate output keeps the portable offline reader intact when publishing.
-    dist = output_dir
+    dist = Path(output_dir).expanduser()
+    pdf_url = None if online else source_pdf_url(source_pdf, dist)
     chapters = json.loads((TEXT / "chapters.json").read_text(encoding="utf-8"))
     image_entries = json.loads((ROOT / "images" / "images.json").read_text(encoding="utf-8"))["pages"]
     image_pages = {str(entry["pdf_page"]) for entry in image_entries}
@@ -146,7 +166,7 @@ def main(*, online: bool = False, output_dir: Path = DIST) -> None:
         (target_fonts / name).write_bytes(data)
     styles = font_css() + STYLES + (ONLINE_STYLES if online else "")
     app = APP.replace("__BOOK_COVER__", "" if online else BOOK_COVER_HTML)
-    payload = json.dumps({"title": "走出戈壁", "chapters": entries}, ensure_ascii=False).replace("</", "<\\/")
+    payload = json.dumps({"title": "走出戈壁", "chapters": entries, "sourcePdf": pdf_url}, ensure_ascii=False).replace("</", "<\\/")
     data_source = f"window.BOOK = {payload};\n"
     write_text(dist / "data.js", data_source)
     write_text(dist / "styles.css", styles)
@@ -165,6 +185,8 @@ def main(*, online: bool = False, output_dir: Path = DIST) -> None:
             '<a id="source-link" target="_blank" rel="noopener">查看原始 PDF 页</a>',
             '<a id="source-link" href="../">项目首页与下载</a>'
         )
+    elif not pdf_url:
+        index = index.replace('<a id="source-link"', '<a id="source-link" hidden')
     write_text(dist / "index.html", index.replace("styles.css", style_name).replace("data.js", data_name).replace("app.js", app_name))
     current_assets = {data_name, style_name, app_name}
     for pattern in ("data-*.js", "styles-*.css", "app-*.js"):
@@ -371,8 +393,8 @@ APP = '''
     chapterEl.scrollLeft = 0;
     chapterEl.innerHTML = `${c.id === book.chapters[0].id ? bookOpening : ''}<div class="chapter-heading" data-block="-1"><div class="chapter-kicker">${c.numberLabel || (c.frontmatter ? '卷首' : '')} ${c.numberLabel || c.frontmatter ? '· ' : ''}PDF 第 ${c.pdfPage} 页起</div><h1>${c.title}</h1></div>${c.html}`;
     $('#location').textContent = `${c.title} · PDF 第 ${c.pdfPage} 页起`;
-    if (document.body.dataset.online !== 'true') {
-      $('#source-link').href = `../../../走出戈壁-单伟健.pdf#page=${c.pdfPage}`;
+    if (document.body.dataset.online !== 'true' && book.sourcePdf) {
+      $('#source-link').href = `${book.sourcePdf}#page=${c.pdfPage}`;
     }
     document.querySelectorAll('.toc-item').forEach(el => {
       const active = el.dataset.id === c.id;
@@ -494,5 +516,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--online", action="store_true", help="Use project-home navigation instead of local scan links")
     parser.add_argument("--output-dir", type=Path, default=DIST, help="Reader output directory")
+    parser.add_argument("--source-pdf", type=Path, help="Optional local original PDF (or GOBI_SOURCE_PDF)")
     args = parser.parse_args()
-    main(online=args.online, output_dir=args.output_dir)
+    main(online=args.online, output_dir=args.output_dir, source_pdf=args.source_pdf)
