@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import html
 import json
@@ -80,7 +81,9 @@ def versioned_name(stem: str, suffix: str, value: str) -> str:
     return f"{stem}-{digest}.{suffix}"
 
 
-def main() -> None:
+def main(*, online: bool = False, output_dir: Path = DIST) -> None:
+    # A separate output keeps the portable offline reader intact when publishing.
+    dist = output_dir
     chapters = json.loads((TEXT / "chapters.json").read_text(encoding="utf-8"))
     image_entries = json.loads((ROOT / "images" / "images.json").read_text(encoding="utf-8"))["pages"]
     image_pages = {str(entry["pdf_page"]) for entry in image_entries}
@@ -124,8 +127,8 @@ def main() -> None:
             "searchText": f"{plain_text(markdown)} {caption_search}".strip(),
         })
 
-    DIST.mkdir(parents=True, exist_ok=True)
-    target_images = DIST / "images"
+    dist.mkdir(parents=True, exist_ok=True)
+    target_images = dist / "images"
     if target_images.exists():
         shutil.rmtree(target_images)
     target_images.mkdir()
@@ -135,29 +138,38 @@ def main() -> None:
     for part in frontmatter:
         if part.presentation == "scan":
             shutil.copy2(part.image, target_images / part.image.name)
-    target_fonts = DIST / "fonts"
+    target_fonts = dist / "fonts"
     target_fonts.mkdir(exist_ok=True)
     for name, data in fonts.items():
         (target_fonts / name).write_bytes(data)
     styles = font_css() + STYLES
     payload = json.dumps({"title": "走出戈壁", "chapters": entries}, ensure_ascii=False).replace("</", "<\\/")
     data_source = f"window.BOOK = {payload};\n"
-    write_text(DIST / "data.js", data_source)
-    write_text(DIST / "styles.css", styles)
-    write_text(DIST / "app.js", APP)
+    write_text(dist / "data.js", data_source)
+    write_text(dist / "styles.css", styles)
+    write_text(dist / "app.js", APP)
     data_name = versioned_name("data", "js", data_source)
     style_name = versioned_name("styles", "css", styles)
     app_name = versioned_name("app", "js", APP)
-    write_text(DIST / data_name, data_source)
-    write_text(DIST / style_name, styles)
-    write_text(DIST / app_name, APP)
-    write_text(DIST / "index.html", INDEX.replace("styles.css", style_name).replace("data.js", data_name).replace("app.js", app_name))
+    write_text(dist / data_name, data_source)
+    write_text(dist / style_name, styles)
+    write_text(dist / app_name, APP)
+    index = INDEX
+    if online:
+        index = index.replace('<body>', '<body data-online="true">').replace(
+            '走出戈壁 · 离线阅读', '《走出戈壁》在线阅读｜单伟健'
+        ).replace(
+            '<a id="source-link" target="_blank" rel="noopener">查看原始 PDF 页</a>',
+            '<a id="source-link" href="../">项目首页与下载</a>'
+        )
+    write_text(dist / "index.html", index.replace("styles.css", style_name).replace("data.js", data_name).replace("app.js", app_name))
     current_assets = {data_name, style_name, app_name}
     for pattern in ("data-*.js", "styles-*.css", "app-*.js"):
-        for obsolete in DIST.glob(pattern):
+        for obsolete in dist.glob(pattern):
             if obsolete.name not in current_assets:
                 obsolete.unlink()
-    print(f"Built {len(chapters)} chapters, {len(frontmatter)} front-matter sections and {len(image_entries) + sum(part.presentation == "scan" for part in frontmatter)} image pages in {DIST}")
+    image_count = len(image_entries) + sum(part.presentation == "scan" for part in frontmatter)
+    print(f"Built {len(chapters)} chapters, {len(frontmatter)} front-matter sections and {image_count} image pages in {dist}")
 
 
 INDEX = '''<!doctype html>
@@ -166,6 +178,7 @@ INDEX = '''<!doctype html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
+  <meta name="description" content="单伟健《走出戈壁》简体校订文字稿阅读器，支持章节目录、全文搜索、滚动与翻页阅读、原书图片放大。">
   <title>走出戈壁 · 离线阅读</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -200,6 +213,7 @@ INDEX = '''<!doctype html>
     </main>
   </div>
   <dialog id="image-dialog"><button id="close-image" type="button" aria-label="关闭图片">×</button><img id="dialog-image" alt=""><p id="dialog-caption"></p></dialog>
+  <noscript><p>阅读器需要启用 JavaScript。你也可以从<a href="https://github.com/Always1010/Out_of_the_Gobi">项目仓库</a>阅读文字稿或下载 PDF / EPUB。</p></noscript>
   <script src="data.js"></script><script src="app.js"></script>
 </body></html>'''
 
@@ -345,7 +359,9 @@ APP = '''
     chapterEl.scrollLeft = 0;
     chapterEl.innerHTML = `${c.id === book.chapters[0].id ? bookOpening : ''}<div class="chapter-heading" data-block="-1"><div class="chapter-kicker">${c.numberLabel || (c.frontmatter ? '卷首' : '')} ${c.numberLabel || c.frontmatter ? '· ' : ''}PDF 第 ${c.pdfPage} 页起</div><h1>${c.title}</h1></div>${c.html}`;
     $('#location').textContent = `${c.title} · PDF 第 ${c.pdfPage} 页起`;
-    $('#source-link').href = `../../../走出戈壁-单伟健.pdf#page=${c.pdfPage}`;
+    if (document.body.dataset.online !== 'true') {
+      $('#source-link').href = `../../../走出戈壁-单伟健.pdf#page=${c.pdfPage}`;
+    }
     document.querySelectorAll('.toc-item').forEach(el => {
       const active = el.dataset.id === c.id;
       el.classList.toggle('active', active);
@@ -463,4 +479,8 @@ APP = '''
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--online", action="store_true", help="Use project-home navigation instead of local scan links")
+    parser.add_argument("--output-dir", type=Path, default=DIST, help="Reader output directory")
+    args = parser.parse_args()
+    main(online=args.online, output_dir=args.output_dir)
