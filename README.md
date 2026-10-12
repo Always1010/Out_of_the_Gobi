@@ -1,6 +1,6 @@
 # 《走出戈壁》文字整理与阅读资源
 
-本项目基于单伟健《走出戈壁》扫描本整理，提供简繁体文字稿、EPUB 与文字重排 PDF、原书图片和离线阅读器，另收录一份实验性人物传记地图。
+本项目基于单伟健《走出戈壁》扫描本整理，提供简繁体文字稿、EPUB 与文字重排 PDF、原书图片和离线阅读器。
 
 **本项目仅供学习与参考，所提供的整理版为非正式出版物。**
 
@@ -43,7 +43,6 @@
 | `book_reader/scripts/` | 文字稿整理、电子书及阅读器构建、校验脚本 |
 | `book_reader/qa/` | 修改说明、疑点记录、校改清单与核验记录 |
 | `book_reader/output/` | 本地生成的 EPUB/PDF，不纳入 Git |
-| `biography/` | 实验性人物传记地图及相关资料 |
 
 处理流程见 [book_reader/README.md](book_reader/README.md)，构建与发布见 [BUILD_EBOOKS.md](book_reader/BUILD_EBOOKS.md)，原 OCR 环境记录见 [OCR环境.md](book_reader/OCR环境.md)。
 
@@ -59,9 +58,3 @@ python book_reader/scripts/build_reader_site.py
 随后打开 `book_reader/site/dist/index.html`。电子书的依赖、字体准备及完整构建校验步骤见[构建说明](book_reader/BUILD_EBOOKS.md#本地复现)。
 
 原扫描文件 `走出戈壁-单伟健.pdf` 不随 Git 提交；仅从现有校订稿重建电子书和阅读器不需要该文件，阅读器跳转原扫描页时需在本地保留它。依赖、模型、下载缓存和临时文件由 `.gitignore` 排除。
-
-## 人物传记地图（实验性）
-
-人物传记地图由 GPT-6.Astra 尝试制作，效果尚不理想，仅供参考。下载项目后，可在本地打开 [biography/dist/index.html](biography/dist/index.html)，浏览原书经历及相关人物、地图和场景。
-
-使用、重建与校验方式见 [biography/README.md](biography/README.md)，当前设计见 [biography/NODE_MAP.md](biography/NODE_MAP.md)。

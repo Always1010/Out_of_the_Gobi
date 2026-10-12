@@ -12,4 +12,4 @@
 | Tesseract 语言文件 | `D:\WRK\走出戈壁-单伟建\models\tesseract\chi_tra.traineddata`、`eng.traineddata` |
 | pip 缓存 | `D:\WRK\走出戈壁-单伟建\cache\pip\` |
 
-Paddle 在本机读取含中文的模型路径时曾发生解析错误，因此推理用临时目录中的 ASCII 路径副本。若该副本被系统清理，应从模型原件恢复。全书 OCR 入口为 `scripts/run_ocr.py`，按页断点续跑；文字稿和阅读器不依赖旧试点目录。当前传记地图直接使用现有的分章文字稿，不需要重新 OCR。
+Paddle 在本机读取含中文的模型路径时曾发生解析错误，因此推理用临时目录中的 ASCII 路径副本。若该副本被系统清理，应从模型原件恢复。全书 OCR 入口为 `scripts/run_ocr.py`，按页断点续跑；文字稿和阅读器不依赖旧试点目录。
