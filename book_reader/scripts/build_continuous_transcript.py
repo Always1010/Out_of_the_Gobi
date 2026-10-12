@@ -10,7 +10,7 @@ import json
 import re
 from pathlib import Path
 
-from assemble_transcript import normalized
+from ocr_common import normalized
 from proofreading import PAGE_RE, frontmatter_texts, read_manifest, rebuild_paginated_books
 
 BOOK = Path(__file__).resolve().parents[1]

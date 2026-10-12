@@ -1,6 +1,6 @@
 {
   "res": {
-    "input_path": "C:\\Users\\ALWAYS~1\\AppData\\Local\\Temp\\gobi-ocr-e5guf2zo\\page-031.png",
+    "input_path": "page-031.png",
     "page_index": null,
     "model_settings": {
       "use_doc_preprocessor": false,

@@ -9,7 +9,7 @@ import zipfile
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-from assemble_transcript import chinese_number, load_page, normalized, page_paragraphs, reading_paragraphs
+from ocr_common import chinese_number, load_page, normalized, page_paragraphs, reading_paragraphs
 from export_common import OUTPUT, expected_body_image_pages, image_pages, load_captions, load_chapters, load_frontmatter, parse_blocks
 
 
