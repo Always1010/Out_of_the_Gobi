@@ -72,9 +72,18 @@ jobs:
           cache-dependency-path: book_reader/requirements-build.txt
 
       - name: Validate portable repository paths
+        env:
+          REQUESTED_TAG: ${{ inputs.release_tag }}
         run: |
-          python book_reader/scripts/validate_paths.py
-          python -m unittest discover -s book_reader/tests -p test_path_policy.py -v
+          if [[ -f book_reader/scripts/validate_paths.py ]]; then
+            python book_reader/scripts/validate_paths.py
+            python -m unittest discover -s book_reader/tests -p test_path_policy.py -v
+          elif [[ "$GITHUB_EVENT_NAME" == 'workflow_dispatch' && -n "$REQUESTED_TAG" ]]; then
+            echo '::warning::Explicit legacy tag rebuild predates the path guard; historical source is unchanged.'
+          else
+            echo '::error::Required path guard is missing from this source.'
+            exit 1
+          fi
 
       - name: Install pinned build dependencies
         run: |
