@@ -157,7 +157,7 @@ def main(*, online: bool = False, output_dir: Path = DIST) -> None:
     index = INDEX
     if online:
         index = index.replace('<body>', '<body data-online="true">').replace(
-            '走出戈壁 · 离线阅读', '《走出戈壁》在线阅读｜单伟健'
+            '走出戈壁 · 离线阅读', '《走出戈壁》在线阅读｜单伟建'
         ).replace(
             '<a id="source-link" target="_blank" rel="noopener">查看原始 PDF 页</a>',
             '<a id="source-link" href="../">项目首页与下载</a>'
@@ -178,7 +178,7 @@ INDEX = '''<!doctype html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="单伟健《走出戈壁》简体校订文字稿阅读器，支持章节目录、全文搜索、滚动与翻页阅读、原书图片放大。">
+  <meta name="description" content="单伟建《走出戈壁》简体校订文字稿阅读器，支持章节目录、全文搜索、滚动与翻页阅读、原书图片放大。">
   <title>走出戈壁 · 离线阅读</title>
   <link rel="stylesheet" href="styles.css">
 </head>
