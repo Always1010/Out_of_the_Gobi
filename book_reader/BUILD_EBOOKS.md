@@ -82,7 +82,7 @@ python -m pip check
 python -m unittest discover -s book_reader/tests -p 'test_publish_release.py' -v
 ```
 
-按工作流准备字体，将 `FONT_DIR`、`GOBI_FONT_SC`、`GOBI_FONT_TC` 设为本地路径，再执行构建和校验步骤。生成文件在被 Git 忽略的 `book_reader/output/`，不要提交字体、下载缓存或虚拟环境。发布测试不会联网或创建真实 Release。
+按工作流准备字体，可用 `GOBI_FONT_DIR=cache/build-fonts` 指定统一字体目录，或设置 `GOBI_FONT_SC/TC`、`GOBI_SERIF_SC/TC`、`GOBI_LEADIN_SC/TC` 分别指定文件；工作流的 `FONT_DIR` 是准备步骤使用的目录变量，再执行构建和校验步骤。生成文件在被 Git 忽略的 `book_reader/output/`，不要提交字体、下载缓存或虚拟环境。发布测试不会联网或创建真实 Release。
 
 ## 新版版式构建
 

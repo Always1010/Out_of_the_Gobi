@@ -32,3 +32,7 @@ Thumbs.db
 /book_reader/site/dist/
 /book_reader/output/
 /_site/
+
+# OCR纯文本和索引是可选派生副本，不再入库
+/book_reader/ocr/pages/
+/book_reader/ocr/pages.json

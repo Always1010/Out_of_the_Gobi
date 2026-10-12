@@ -44,14 +44,14 @@ GitHub Pages 部署配置已提供，首次成功部署后可访问：[项目首
 | 路径 | 内容 |
 | --- | --- |
 | `book_reader/text/` | 简繁体分页稿、连续稿、全书汇编及卷首内容 |
-| `book_reader/ocr/` | 420 个 PDF 物理页的原始 OCR 结果、逐页文本和索引 |
+| `book_reader/ocr/` | 420 个 PDF 物理页的原始 OCR JSON；纯文本/索引可按需再生 |
 | `book_reader/images/` | 原书图片、卷首原图、图注与图片清单 |
 | `book_reader/scripts/` | 文字稿整理、电子书及阅读器构建、校验脚本 |
 | `book_reader/qa/` | 修改说明、疑点记录、校改清单与核验记录 |
 | `book_reader/output/` | 本地生成的 EPUB/PDF，不纳入 Git |
 | `web/` | GitHub Pages 介绍首页与部署说明 |
 
-处理流程见 [book_reader/README.md](book_reader/README.md)，构建与发布见 [BUILD_EBOOKS.md](book_reader/BUILD_EBOOKS.md)，原 OCR 环境记录见 [OCR环境.md](book_reader/OCR环境.md)。
+处理流程见 [book_reader/README.md](book_reader/README.md)，构建与发布见 [BUILD_EBOOKS.md](book_reader/BUILD_EBOOKS.md)，工具分类见 [脚本说明](book_reader/SCRIPTS.md)，历史采集与环境记录见 [归档说明](book_reader/archive/README.md)。
 
 ## 本地重建
 
@@ -64,4 +64,4 @@ python book_reader/scripts/build_reader_site.py
 
 随后打开 `book_reader/site/dist/index.html`。电子书的依赖、字体准备及完整构建校验步骤见[构建说明](book_reader/BUILD_EBOOKS.md#本地复现)。
 
-原扫描文件 `走出戈壁-单伟健.pdf` 不随 Git 提交；仅从现有校订稿重建电子书和阅读器不需要该文件，阅读器跳转原扫描页时需在本地保留它。依赖、模型、下载缓存和临时文件由 `.gitignore` 排除。
+原扫描文件 `走出戈壁-单伟健.pdf` 不随 Git 提交；仅从现有校订稿重建电子书和阅读器不需要该文件，阅读器仅在通过 `--source-pdf` 或 `GOBI_SOURCE_PDF` 提供原扫描时显示原页跳转。依赖、模型、下载缓存和临时文件由 `.gitignore` 排除。

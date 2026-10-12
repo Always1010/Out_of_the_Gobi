@@ -22,5 +22,5 @@
 在项目根目录运行：
 
 ```powershell
-.\.venv-ocr\Scripts\python.exe book_reader\scripts\build_continuous_transcript.py
+python book_reader/scripts/build_continuous_transcript.py
 ```

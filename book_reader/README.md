@@ -1,6 +1,6 @@
 # 《走出戈壁》简体文字稿与离线阅读网页
 
-本目录用于全书 OCR、简体文字稿、原书图片及阅读网页。原始 PDF 保留在上级目录 `../走出戈壁-单伟健.pdf`，不在此复制。逐页 OCR 已独立保存在本目录中；本机工具路径见 [OCR 环境记录](OCR环境.md)。
+本目录用于全书 OCR、简体文字稿、原书图片及阅读网页。原扫描 PDF 不随 Git 提交，只有重处理扫描或可选原页回查时才通过参数提供。420份逐页 OCR JSON 保留为校订证据；[脚本用途与路径约定](SCRIPTS.md)、[归档工具](archive/README.md) 和 [历史 OCR 环境](archive/docs/OCR环境.md) 分开说明。
 
 ## 目标与交付
 
@@ -14,8 +14,9 @@
 
 | 目录 | 用途 |
 | --- | --- |
-| `scripts/` | 可重复运行的 OCR、整理、简繁转换及网页生成脚本 |
-| `ocr/` | 逐页原始识别文本、坐标和置信度，以及页索引 |
+| `scripts/` | 日常构建、校订维护、验证及发布工具 |
+| `archive/` | 历史采集/组稿工具、联系表和旧复核快照 |
+| `ocr/` | 420份原始识别 JSON（文本、坐标和置信度）；索引/纯文本按需导出 |
 | `text/` | 按章整理的繁体和简体 Markdown、章节索引、全书纯文本 |
 | `images/` | 从扫描页裁出的网页图片及图片清单 |
 | `site/` | 本地离线阅读网页 |
@@ -23,7 +24,7 @@
 
 所有生成物应可通过脚本从原 PDF、OCR 输出和经校对的文字稿重建。临时逐页渲染图不作为最终交付，避免额外保存 420 张高清扫描图。
 
-## 执行顺序
+## 历史采集顺序（不是日常构建前置）
 
 1. **页索引**：核对目录、前后内容和页码映射，检查已保存的逐页 OCR 结果。
 2. **全书 OCR**：使用本机 PaddleOCR 分批识别，逐页落盘并支持断点续跑；记录空白、图片页和失败页。
@@ -32,7 +33,7 @@
 5. **网页生成**：以简体稿和图片清单生成静态阅读站；首屏进入正文阅读，图片按原位置出现，并提供 PDF 原页链接。
 6. **验收**：逐页检查覆盖状态，核对每张已登记图片的位置，检查搜索、阅读进度、离线使用和手机排版。
 
-## 模型分工与用量控制
+## 历史模型分工与用量控制（采集时记录）
 
 **推荐主任务：GPT-5.6 Terra，中等推理。**章节结构整理、转换规则、阅读网页实现和常规校验需要持续判断，但无需全程使用 Sol 高推理。OCR 主计算由本机 PaddleOCR 完成，不让语言模型逐页重做 OCR。
 
@@ -46,20 +47,20 @@
 
 ## 当前状态
 
-- 420 个物理页的 OCR 结果和逐页索引已生成，文字稿已完成校对与修订。
+- 420 个物理页的 OCR JSON 已保存；索引与逐页 TXT 改为按需再生，文字稿已完成校对与修订。
 - 已整理 33 个章节或前后附录，补回作者简介与献辞两节卷首；繁简分页版、连续版及全书汇编同步。网页使用简体连续版，既有章节 ID 保持不变。
 - 已登记、保存 22 个封面／题字／正文图片页，并在 `images/captions.json` 整理 16 页可辨图注；新增两张卷首原图单列于 `images/frontmatter/`。扫描第350页照片及三条图注已恢复；第352页仍为第二十六章正文。
 - 离线阅读网页位于 `site/dist/index.html`，可由 `scripts/build_reader_site.py` 重建。最新修改与保留疑点见[本次修改说明](qa/本次修改说明.md)和[原文疑点说明](qa/原文疑点说明.md)。
 
 ## EPUB 阅读版
 
-运行 `..\.venv-ocr\Scripts\python.exe scripts\build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。该目录是被 Git 忽略的生成目录；正式下载文件发布到 [GitHub Releases](https://github.com/Always1010/Out_of_the_Gobi/releases)，不再将成品书提交到仓库根目录。电子书包含 33 节正文及前后附录、作者简介与献辞、原书封面和题字页、20 处正文图片以及已核对的图注，并提供可跳转目录。
+在仓库根目录运行 `python book_reader/scripts/build_epub.py`，可从简繁连续稿生成两套 EPUB 3 文件，保存到 `output/`。该目录是被 Git 忽略的生成目录；正式下载文件发布到 [GitHub Releases](https://github.com/Always1010/Out_of_the_Gobi/releases)，不再将成品书提交到仓库根目录。电子书包含 33 节正文及前后附录、作者简介与献辞、原书封面和题字页、20 处正文图片以及已核对的图注，并提供可跳转目录。
 
 文字稿已完成校对与修订，整理版仍可能存在错字、漏字、标点、排版或图片标注偏差。发现问题时，请在项目 Issues 中注明文件名、章节、问题片段和建议更正。
 
 ## 文字重排 PDF
 
-运行 `python scripts\build_pdf.py`，可生成简体和繁体两套 B5 版式 PDF，同样保存到 `output/`。运行环境需有 ReportLab、Pillow 和 OpenCC。正文与章号使用 Noto Sans SC/TC，章标题使用 Noto Serif SC/TC，章首引言使用 LXGW WenKai Light；三类字体均实际嵌入，缺少字体或字形即停止，不静默替换。可通过 `GOBI_FONT_SC/TC`、`GOBI_SERIF_SC/TC`、`GOBI_LEADIN_SC/TC` 指定字体；官方固定版本、SHA-256 和静态字重实例化见 `.github/workflows/build-ebooks.yml`。简体图注仅作字形转换，避免地区词库替换原词。PDF 有可搜索的正文、目录页、章节书签和页码。原始 420 页扫描 PDF 仍单独保留，不会被覆盖。
+在仓库根目录运行 `python book_reader/scripts/build_pdf.py`，可生成简体和繁体两套 B5 版式 PDF，同样保存到 `output/`。运行环境需有 ReportLab、Pillow 和 OpenCC。正文与章号使用 Noto Sans SC/TC，章标题使用 Noto Serif SC/TC，章首引言使用 LXGW WenKai Light；三类字体均实际嵌入，缺少字体或字形即停止，不静默替换。可通过 `GOBI_FONT_SC/TC`、`GOBI_SERIF_SC/TC`、`GOBI_LEADIN_SC/TC` 指定字体；官方固定版本、SHA-256 和静态字重实例化见 `.github/workflows/build-ebooks.yml`。简体图注仅作字形转换，避免地区词库替换原词。PDF 有可搜索的正文、目录页、章节书签和页码。原始 420 页扫描 PDF 仍单独保留，不会被覆盖。
 
 ## 本次原扫描回改
 
@@ -78,7 +79,7 @@ python book_reader/scripts/validate_manuscript.py --exports
 python book_reader/scripts/validate_proofreading.py
 ```
 
-以上命令从仓库根目录执行，成品留在被 Git 忽略的 `book_reader/output/`。历史本地复制工具 `publish_ebooks.py` 仍保留，但 Release 发布和日常重建不需要运行它。需要重新从 OCR 组稿时先运行 `assemble_transcript.py`；脚本会自动重放 `qa/proofreading-corrections.json` 中的逐页精确修正，再按上述顺序重建。原始 OCR 不改写；位置与预期不符会停止，避免静默丢失校改。
+以上命令从仓库根目录执行，成品留在被 Git 忽略的 `book_reader/output/`。已移除旧根目录复制工具；正式分发使用 Release 工作流。归档组稿入口会删除重建分页目录并重放已记录补丁，不能保证保留清单之外的人工修改；仅在明确要从 OCR 重建时使用，见 [归档工具说明](archive/README.md)。原始 OCR 只归一化输入文件标识，不改识别文本、分数和坐标。
 
 ## 阅读版版式与诗歌
 

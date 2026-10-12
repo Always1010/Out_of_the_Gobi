@@ -1,6 +1,6 @@
 # 本地离线阅读器
 
-运行 `..\\scripts\\build_reader_site.py` 后，直接用浏览器打开 `dist\\index.html`。
+在仓库根目录运行 `python book_reader/scripts/build_reader_site.py`，然后打开 `book_reader/site/dist/index.html`。
 
 页面按目录一次显示一节，正文取自 `text/simplified-continuous/`，没有扫描 PDF 的分页空行；原书图片保留在相应章节，点击可放大。顶栏的“收起目录／展开目录”可切换沉浸阅读与选章，状态会保存在本机；手机上展开的是不挤动正文的弹出目录，选章后自动收起。它不需要联网或启动服务。
 
@@ -10,7 +10,7 @@
 
 ## 在线发布模式
 
-在仓库根目录运行 `python book_reader/scripts/build_reader_site.py --online --output-dir tmp/reader-online`，可以生成适合放在项目网站 `read/` 子目录中的版本。在线版的“项目首页与下载”返回上一级首页，不再跳转本机扫描 PDF；默认构建仍保留原始 PDF 页跳转。
+在仓库根目录运行 `python book_reader/scripts/build_reader_site.py --online --output-dir tmp/reader-online`，可以生成适合放在项目网站 `read/` 子目录中的版本。在线版的“项目首页与下载”返回上一级首页，不再跳转本机扫描 PDF；离线版仅在提供 `--source-pdf <源PDF>` 或 `GOBI_SOURCE_PDF` 时显示原页跳转；原扫描是可选外部输入，自定义输出目录按实际位置生成相对链接。
 
 两种模式都需要准备构建依赖和字体，见 [电子书构建说明](../BUILD_EBOOKS.md)。正文、图片、字体、目录、搜索和翻页使用同一套生成逻辑；发布时必须包含完整输出目录。
 

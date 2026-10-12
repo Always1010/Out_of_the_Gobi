@@ -1,6 +1,6 @@
 # 《走出戈壁》书稿与阅读网页复核记录
 
-更新日期：2026-09-22。本文件只列**当前状态**；过去的 OCR 疑点和修复建议可从 Git 历史查看，不再作为待办清单重复呈现。
+更新日期：2026-09-22。本文件为当时复核快照，图片/图注计数可能早于后续修订；当前状态见 [项目说明](../../README.md)。历史核验范围及限制保留。
 
 ## 已处理
 
@@ -29,13 +29,6 @@
 2. 图片中未录入的字仍可从网页原图阅读；只有 `images/captions.json` 中已确认的图注可通过网页文字搜索。
 3. 网页是本地静态文件，位于 `site/dist/index.html`；这轮通过生成器、稿件校验和脚本语法检查，尚未进行逐章浏览器人工验收。
 
-## 重新生成与核验
+## 当前重建入口
 
-在项目根目录运行：
-
-```powershell
-.\.venv-ocr\Scripts\python.exe book_reader\scripts\assemble_transcript.py
-.\.venv-ocr\Scripts\python.exe book_reader\scripts\build_continuous_transcript.py
-.\.venv-ocr\Scripts\python.exe book_reader\scripts\validate_manuscript.py
-.\.venv-ocr\Scripts\python.exe book_reader\scripts\build_reader_site.py
-```
+旧复核曾从 OCR 重组初稿；该操作会覆盖分页稿，不作为日常步骤。日常从已校订稿重建请见 [项目说明](../../README.md)，有意重做 OCR/组稿才使用 [归档工具](../README.md)。
