@@ -133,6 +133,8 @@ def main(*, online: bool = False, output_dir: Path = DIST) -> None:
         shutil.rmtree(target_images)
     target_images.mkdir()
     for entry in image_entries:
+        if online and Path(entry["asset"]).name == "page-001.jpg":
+            continue
         source = reading_image(Path(entry["asset"]).name)
         shutil.copy2(source, target_images / source.name)
     for part in frontmatter:
@@ -142,18 +144,19 @@ def main(*, online: bool = False, output_dir: Path = DIST) -> None:
     target_fonts.mkdir(exist_ok=True)
     for name, data in fonts.items():
         (target_fonts / name).write_bytes(data)
-    styles = font_css() + STYLES
+    styles = font_css() + STYLES + (ONLINE_STYLES if online else "")
+    app = APP.replace("__BOOK_COVER__", "" if online else BOOK_COVER_HTML)
     payload = json.dumps({"title": "走出戈壁", "chapters": entries}, ensure_ascii=False).replace("</", "<\\/")
     data_source = f"window.BOOK = {payload};\n"
     write_text(dist / "data.js", data_source)
     write_text(dist / "styles.css", styles)
-    write_text(dist / "app.js", APP)
+    write_text(dist / "app.js", app)
     data_name = versioned_name("data", "js", data_source)
     style_name = versioned_name("styles", "css", styles)
-    app_name = versioned_name("app", "js", APP)
+    app_name = versioned_name("app", "js", app)
     write_text(dist / data_name, data_source)
     write_text(dist / style_name, styles)
-    write_text(dist / app_name, APP)
+    write_text(dist / app_name, app)
     index = INDEX
     if online:
         index = index.replace('<body>', '<body data-online="true">').replace(
@@ -168,7 +171,7 @@ def main(*, online: bool = False, output_dir: Path = DIST) -> None:
         for obsolete in dist.glob(pattern):
             if obsolete.name not in current_assets:
                 obsolete.unlink()
-    image_count = len(image_entries) + sum(part.presentation == "scan" for part in frontmatter)
+    image_count = len(list(target_images.iterdir()))
     print(f"Built {len(chapters)} chapters, {len(frontmatter)} front-matter sections and {image_count} image pages in {dist}")
 
 
@@ -250,10 +253,19 @@ body.dark { --ink:#e5e4dc; --muted:#a7aaa1; --paper:#1c211e; --edge:#3e4740; --p
 '''
 
 
+ONLINE_STYLES = '''
+body[data-online="true"] { --paper:#fff; --ink:#222; --muted:#666; --pine:#222; --accent:#444; --edge:#ddd; }
+body[data-online="true"] .toc-item:hover,body[data-online="true"] .toc-item.active,body[data-online="true"] .chapter-nav button:hover:not(:disabled),body[data-online="true"] .result:hover { background:#f2f2f2; color:var(--ink); }
+body[data-online="true"].dark { --paper:#181818; --ink:#eee; --muted:#aaa; --pine:#eee; --accent:#ccc; --edge:#444; }
+body[data-online="true"].dark .toc-item:hover,body[data-online="true"].dark .toc-item.active,body[data-online="true"].dark .chapter-nav button:hover:not(:disabled),body[data-online="true"].dark .result:hover { background:#303030; }
+'''
+
+BOOK_COVER_HTML = '<figure class="plate" data-block="-3"><button class="plate-button" type="button" data-image="images/page-001.jpg" data-caption="原书封面 · PDF 第 1 页"><img src="images/page-001.jpg" alt="《走出戈壁》原书封面" loading="eager"></button><figcaption>原书封面 · 点击放大</figcaption></figure>'
+
 APP = '''
 (() => {
   const book = window.BOOK;
-  const bookOpening = '<section class="book-opening"><figure class="plate" data-block="-3"><button class="plate-button" type="button" data-image="images/page-001.jpg" data-caption="原书封面 · PDF 第 1 页"><img src="images/page-001.jpg" alt="《走出戈壁》原书封面" loading="eager"></button><figcaption>原书封面 · 点击放大</figcaption></figure><figure class="plate" data-block="-2"><button class="plate-button" type="button" data-image="images/page-002.jpg" data-caption="原书题字页 · PDF 第 2 页"><img src="images/page-002.jpg" alt="原书题字页" loading="lazy"></button><figcaption>原书题字页 · 点击放大</figcaption></figure></section>';
+  const bookOpening = '<section class="book-opening">__BOOK_COVER__<figure class="plate" data-block="-2"><button class="plate-button" type="button" data-image="images/page-002.jpg" data-caption="原书题字页 · PDF 第 2 页"><img src="images/page-002.jpg" alt="原书题字页" loading="lazy"></button><figcaption>原书题字页 · 点击放大</figcaption></figure></section>';
   const $ = (selector) => document.querySelector(selector);
   const escapeHtml = (value) => String(value).replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[char]);
   const toc = $('#toc'), chapterEl = $('#chapter'), reader = $('#reader');
